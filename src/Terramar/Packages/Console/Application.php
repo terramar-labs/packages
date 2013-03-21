@@ -1,18 +1,18 @@
 <?php
 
-namespace Terramar\Satis\Console;
+namespace Terramar\Packages\Console;
 
 use Symfony\Component\Console\Application as BaseApplication;
 use Composer\Satis\Command\BuildCommand;
 use Symfony\Component\Yaml\Yaml;
-use Terramar\Satis\Command\UpdateCommand;
+use Terramar\Packages\Command\UpdateCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Composer\Satis\Command;
 use Composer\IO\ConsoleIO;
 use Composer\Factory;
 use Composer\Util\ErrorHandler;
-use Terramar\Satis\Version;
+use Terramar\Packages\Version;
 
 /**
  * @author Jordi Boggiano <j.boggiano@seld.be>
@@ -25,7 +25,7 @@ class Application extends BaseApplication
 
     public function __construct()
     {
-        parent::__construct('Terramar Labs Satis', Version::VERSION);
+        parent::__construct('Satis Packages', Version::VERSION);
         ErrorHandler::register();
         $this->config = Yaml::parse('config.yml');
         $this->config = $this->config['satis'];
