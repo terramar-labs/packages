@@ -3,7 +3,7 @@
 
 require __DIR__.'/../src/bootstrap.php';
 
-use Composer\Satis\Console\Application;
+use Terramar\Satis\Console\Application;
 
 $application = new Application();
 $application->run();

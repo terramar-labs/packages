@@ -6,11 +6,15 @@
         "php": ">=5.3.2",
         "composer/composer": "1.0.*@dev",
         "twig/twig": "~1.7",
-        "symfony/console": "~2.1@dev",
-        "symfony/process": "~2.1@dev"
+        "symfony/console": "~2.1",
+        "symfony/process": "~2.1",
+        "symfony/yaml": "~2.2"
     },
     "autoload": {
-        "psr-0": { "Composer\\Satis": "src/" }
+        "psr-0": {
+          "Composer\\Satis": "src/",
+          "Terramar\\Satis": "src/"
+        }
     },
     "minimum-stability": "beta"
 }

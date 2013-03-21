@@ -1,5 +1,5 @@
 {
-    "hash": "ae354e337a20874438d6a91ac1267fd9",
+    "hash": "054710635becd6198ad4b0f1bcbb2bbd",
     "packages": [
         {
             "name": "composer/composer",
@@ -7,12 +7,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "98ada572ec52875dfa70e0cb9851dd5f8a34f006"
+                "reference": "d929a0813ae473272d151d9ebb2af7ebae451e48"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/98ada572ec52875dfa70e0cb9851dd5f8a34f006",
-                "reference": "98ada572ec52875dfa70e0cb9851dd5f8a34f006",
+                "url": "https://api.github.com/repos/composer/composer/zipball/d929a0813ae473272d151d9ebb2af7ebae451e48",
+                "reference": "d929a0813ae473272d151d9ebb2af7ebae451e48",
                 "shasum": ""
             },
             "require": {
@@ -68,7 +68,7 @@
                 "dependency",
                 "package"
             ],
-            "time": "2013-02-28 19:28:07"
+            "time": "2013-03-16 15:14:55"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -144,17 +144,17 @@
         },
         {
             "name": "symfony/console",
-            "version": "dev-master",
+            "version": "v2.2.0",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "fae82dad073a491b91a2ad6cda2ef5d8b19a5152"
+                "reference": "v2.2.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/fae82dad073a491b91a2ad6cda2ef5d8b19a5152",
-                "reference": "fae82dad073a491b91a2ad6cda2ef5d8b19a5152",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/v2.2.0",
+                "reference": "v2.2.0",
                 "shasum": ""
             },
             "require": {
@@ -163,7 +163,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "2.2-dev"
                 }
             },
             "autoload": {
@@ -187,7 +187,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2013-03-01 06:43:27"
+            "time": "2013-03-01 06:43:14"
         },
         {
             "name": "symfony/finder",
@@ -238,17 +238,17 @@
         },
         {
             "name": "symfony/process",
-            "version": "dev-master",
+            "version": "v2.2.0",
             "target-dir": "Symfony/Component/Process",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Process.git",
-                "reference": "6ebe4ba544cfc0dd25bfe49402da4d5267ee1b43"
+                "reference": "v2.2.0-RC3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Process/zipball/6ebe4ba544cfc0dd25bfe49402da4d5267ee1b43",
-                "reference": "6ebe4ba544cfc0dd25bfe49402da4d5267ee1b43",
+                "url": "https://api.github.com/repos/symfony/Process/zipball/v2.2.0-RC3",
+                "reference": "v2.2.0-RC3",
                 "shasum": ""
             },
             "require": {
@@ -257,7 +257,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "2.2-dev"
                 }
             },
             "autoload": {
@@ -281,7 +281,54 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "http://symfony.com",
-            "time": "2013-02-18 21:28:20"
+            "time": "2013-02-18 21:28:10"
+        },
+        {
+            "name": "symfony/yaml",
+            "version": "v2.2.0",
+            "target-dir": "Symfony/Component/Yaml",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Yaml.git",
+                "reference": "v2.2.0-RC3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/v2.2.0-RC3",
+                "reference": "v2.2.0-RC3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Yaml\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Yaml Component",
+            "homepage": "http://symfony.com",
+            "time": "2013-01-27 16:49:19"
         },
         {
             "name": "twig/twig",
@@ -341,8 +388,12 @@
     ],
     "minimum-stability": "beta",
     "stability-flags": {
-        "composer/composer": 20,
-        "symfony/console": 20,
-        "symfony/process": 20
-    }
+        "composer/composer": 20
+    },
+    "platform": {
+        "php": ">=5.3.2"
+    },
+    "platform-dev": [
+
+    ]
 }
