@@ -1,6 +1,6 @@
 {
-    "name": "terramar/satis",
-    "description": "Terramar Labs Repository. 'Fork' of composer/satis",
+    "name": "terramar/packages",
+    "description": "Terramar Labs Repository. 'Fork' of composer/satis with some added functionality",
     "bin": ["bin/satis"],
     "require": {
         "php": ">=5.3.2",
@@ -13,7 +13,7 @@
     "autoload": {
         "psr-0": {
           "Composer\\Satis": "src/",
-          "Terramar\\Satis": "src/"
+          "Terramar\\Packages": "src/"
         }
     },
     "minimum-stability": "beta"

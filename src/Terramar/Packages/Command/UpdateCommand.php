@@ -1,6 +1,6 @@
 <?php
 
-namespace Terramar\Satis\Command;
+namespace Terramar\Packages\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
