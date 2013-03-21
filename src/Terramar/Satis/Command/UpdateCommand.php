@@ -53,7 +53,7 @@ class UpdateCommand extends Command
                 && file_exists($path . '/HEAD')
                 && !in_array((string) $file, $config['exclude'] ?: array())
             ) {
-                echo "File " . $file . "\n";
+                $output->writeln(sprintf('Found repository: <comment>%s</comment>', $file));
                 $data['repositories'][] = array(
                     'type' => 'vcs',
                     'url' => (string) 'git@terramarlabs.com:' . $file
@@ -67,8 +67,9 @@ class UpdateCommand extends Command
         fwrite($fp, json_encode($data));
 
         $output->writeln(array(
-            'satis.json updated successfully.',
-            sprintf('Found %s repositories.', count($data['repositories'])),
+            '',
+            '<info>satis.json updated successfully.</info>',
+            sprintf('<info>Found </info>%s<info> repositories.</info>', count($data['repositories'])),
         ));
     }
 }
