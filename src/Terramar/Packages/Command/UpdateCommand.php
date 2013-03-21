@@ -56,19 +56,27 @@ class UpdateCommand extends Command
                 $output->writeln(sprintf('Found repository: <comment>%s</comment>', $file));
                 $data['repositories'][] = array(
                     'type' => 'vcs',
-                    'url' => (string) 'git@terramarlabs.com:' . $file
+                    'url' => $config['url_prefix'] . $file
                 );
             }
         }
 
         $data['output-dir'] = $config['output_dir'];
 
-        $fp = fopen('satis.json', 'w+');
-        fwrite($fp, json_encode($data));
+        if (count($data['repositories']) > 0) {
+            $fp = fopen('satis.json', 'w+');
+            if (!$fp) {
+                throw new \RuntimeException('Unable to open "satis.json" for writing.');
+            }
+
+            fwrite($fp, json_encode($data));
+
+            $output->writeln(array(
+                '<info>satis.json updated successfully.</info>',
+            ));
+        }
 
         $output->writeln(array(
-            '',
-            '<info>satis.json updated successfully.</info>',
             sprintf('<info>Found </info>%s<info> repositories.</info>', count($data['repositories'])),
         ));
     }
