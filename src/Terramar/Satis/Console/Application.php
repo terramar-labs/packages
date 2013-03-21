@@ -4,6 +4,7 @@ namespace Terramar\Satis\Console;
 
 use Symfony\Component\Console\Application as BaseApplication;
 use Composer\Satis\Command\BuildCommand;
+use Symfony\Component\Yaml\Yaml;
 use Terramar\Satis\Command\UpdateCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -20,11 +21,14 @@ class Application extends BaseApplication
 {
     protected $io;
     protected $composer;
+    protected $config;
 
     public function __construct()
     {
         parent::__construct('Terramar Labs Satis', Version::VERSION);
         ErrorHandler::register();
+        $this->config = Yaml::parse('config.yml');
+        $this->config = $this->config['satis'];
     }
 
     /**
@@ -62,5 +66,13 @@ class Application extends BaseApplication
     {
         $this->add(new BuildCommand());
         $this->add(new UpdateCommand());
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfiguration()
+    {
+        return $this->config;
     }
 }

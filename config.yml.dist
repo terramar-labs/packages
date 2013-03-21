@@ -1,0 +1,4 @@
+satis:
+  output_dir: web
+  scan_dir: /git
+  exclude:  ~

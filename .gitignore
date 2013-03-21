@@ -4,3 +4,6 @@
 /satis.phar
 /vendor
 /satis.json
+/web/*
+!/web/robots.txt
+/config.yml

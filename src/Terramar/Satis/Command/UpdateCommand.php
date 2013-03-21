@@ -18,7 +18,8 @@ class UpdateCommand extends Command
         'name' => 'Terramar Labs',
         'homepage' => 'http://packages.terramarlabs.com',
         'repositories' => array(),
-        'require-all' => true
+        'require-all' => true,
+        'output-dir' => null,
     );
 
     protected function configure()
@@ -37,7 +38,8 @@ class UpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $scanDir = realpath($input->getArgument('scan-dir'));
+        $config = $this->getApplication()->getConfiguration();
+        $scanDir = realpath($input->getArgument('scan-dir') ?: $config['scan_dir']);
 
         if (!is_dir($scanDir)) {
             throw new \RuntimeException(sprintf('The directory "%s" does not exist.', $scanDir));
@@ -47,7 +49,11 @@ class UpdateCommand extends Command
         $iterator = new \DirectoryIterator($scanDir);
         foreach ($iterator as $file) {
             $path = $scanDir . '/' . $file;
-            if (is_dir($path) && file_exists($path . '/HEAD')) {
+            if (is_dir($path)
+                && file_exists($path . '/HEAD')
+                && !in_array((string) $file, $config['exclude'] ?: array())
+            ) {
+                echo "File " . $file . "\n";
                 $data['repositories'][] = array(
                     'type' => 'vcs',
                     'url' => (string) 'git@terramarlabs.com:' . $file
@@ -55,12 +61,14 @@ class UpdateCommand extends Command
             }
         }
 
+        $data['output-dir'] = $config['output_dir'];
+
         $fp = fopen('satis.json', 'w+');
         fwrite($fp, json_encode($data));
 
         $output->writeln(array(
-            sprintf('satis.json updated successfully. Found %s repositories.', count($data['repositories'])),
-            ''
+            'satis.json updated successfully.',
+            sprintf('Found %s repositories.', count($data['repositories'])),
         ));
     }
 }
