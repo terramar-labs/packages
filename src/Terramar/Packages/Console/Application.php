@@ -25,7 +25,7 @@ class Application extends BaseApplication
 
     public function __construct()
     {
-        parent::__construct('Satis Packages', Version::VERSION);
+        parent::__construct('Terramar Labs Packages', Version::VERSION);
         ErrorHandler::register();
         $this->config = Yaml::parse('config.yml');
         $this->config = $this->config['satis'];
