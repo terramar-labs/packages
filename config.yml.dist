@@ -1,7 +1,26 @@
 satis:
+  # The name of this repository
+  name: Terramar Packages
+
+  # The public URL for this repository
+  homepage: http://packages.terramarlabs.com/
+
+  # Web root, relative to the directory this file lives in
   output_dir: web
+
+
   remote:
+    # Type of remote: file, gitlab, ssh
     type: file
-    path: /var/www/git
-  url_prefix: git@terramarlabs.com:
-  exclude:    ~
+
+    # Path for file, user@host for ssh, gitlab api url for gitlab
+    path: /git
+
+    # API key, if necessary
+    key:  ~
+
+    # Prefix for repository names to create the full, valid URI
+    prefix: git@terramarlabs.com:
+
+    # An array of repositories to exclude.
+    exclude:  ~

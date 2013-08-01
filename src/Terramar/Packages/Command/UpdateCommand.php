@@ -10,6 +10,7 @@ use Symfony\Component\Console\Command\Command;
 use Composer\Json\JsonFile;
 use Symfony\Component\Yaml\Exception\RuntimeException;
 use Terramar\Packages\Adapter\FileAdapter;
+use Terramar\Packages\Adapter\GitLabAdapter;
 use Terramar\Packages\Adapter\SshAdapter;
 
 /**
@@ -42,25 +43,31 @@ class UpdateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $config = $this->getApplication()->getConfiguration();
-        $remoteConfig = $config['remote'];
-        $type = isset($remoteConfig['type']) ? $remoteConfig['type'] : 'file';
-        $path = $remoteConfig['path'];
+        $data = array(
+            'name'          => $config['name'],
+            'homepage'      => $config['homepage'],
+            'output-dir'    => $config['output_dir'],
+            'repositories'  => array(),
+        );
 
-        $adapter = $this->getAdapter($type, $path);
+        $remote = $config['remote'];
+
+        $adapter = $this->getAdapter(
+            isset($remote['type']) ? $remote['type'] : 'file',
+            $config
+        );
 
         $repositories = $adapter->getRepositories();
 
         foreach ($repositories as $repository) {
-            if (!in_array((string) $repository, $config['exclude'] ?: array())) {
+            if (!in_array((string) $repository, $remote['exclude'] ?: array())) {
                 $output->writeln(sprintf('Found repository: <comment>%s</comment>', $repository));
                 $data['repositories'][] = array(
                     'type' => 'vcs',
-                    'url' => $config['url_prefix'] . $repository
+                    'url' => $remote['prefix'] . $repository
                 );
             }
         }
-
-        $data['output-dir'] = $config['output_dir'];
 
         if (count($data['repositories']) > 0) {
             $fp = fopen('satis.json', 'w+');
@@ -80,14 +87,21 @@ class UpdateCommand extends Command
         ));
     }
 
-    private function getAdapter($type, $path)
+    private function getAdapter($type, array $config)
     {
+        $path = $config['remote']['path'];
+
         switch ($type) {
             case 'file':
                 return new FileAdapter($path);
 
             case 'ssh':
                 return new SshAdapter($path);
+
+            case 'gitlab':
+                $key = $config['remote']['key'];
+
+                return new GitLabAdapter($key, $path);
 
             default:
                 throw new RuntimeException(sprintf('Unable to locate adapter for type "%s"', $type));
