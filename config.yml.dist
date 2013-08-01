@@ -1,6 +1,6 @@
 satis:
   # The name of this repository
-  name: Terramar Packages
+  name: Terramar Labs
 
   # The public URL for this repository
   homepage: http://packages.terramarlabs.com/
