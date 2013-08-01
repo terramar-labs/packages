@@ -1,5 +1,7 @@
 satis:
   output_dir: web
-  scan_dir:   /git
+  remote:
+    type: file
+    path: /var/www/git
   url_prefix: git@terramarlabs.com:
   exclude:    ~
