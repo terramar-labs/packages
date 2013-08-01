@@ -2,10 +2,21 @@
 
 namespace Terramar\Packages\Adapter;
 
+/**
+ * Provides an adapter to the local filessytem
+ */
 class FileAdapter implements AdapterInterface
 {
+    /**
+     * @var string
+     */
     private $path;
 
+    /**
+     * Constructor
+     *
+     * @param string $path
+     */
     public function __construct($path)
     {
         $this->path = realpath($path);
@@ -15,6 +26,11 @@ class FileAdapter implements AdapterInterface
         }
     }
 
+    /**
+     * Gets a list of repositories
+     *
+     * @return array
+     */
     public function getRepositories()
     {
         $repositories = array();

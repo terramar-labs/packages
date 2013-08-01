@@ -9,13 +9,26 @@ namespace Terramar\Packages\Adapter;
  */
 class SshAdapter implements AdapterInterface
 {
-    private $path;
+    /**
+     * @var string
+     */
+    private $uri;
 
-    public function __construct($path)
+    /**
+     * Constructor
+     *
+     * @param $uri
+     */
+    public function __construct($uri)
     {
-        $this->path = $path;
+        $this->path = $uri;
     }
 
+    /**
+     * Returns a list of files in the given remote directory
+     *
+     * @return array
+     */
     private function listFiles()
     {
         $res = popen('ssh ' . $this->path . ' ls', 'r');
@@ -25,6 +38,13 @@ class SshAdapter implements AdapterInterface
         return $files;
     }
 
+    /**
+     * Returns true if the file is a bare git repository on the remote server
+     *
+     * @param string $file
+     *
+     * @return bool
+     */
     private function isRepo($file)
     {
         $res = popen('ssh ' . $this->path . ' \'if [ -f "' . $file . '/HEAD" ]; then echo "yes"; else echo "no"; fi;\'', 'r');
@@ -34,6 +54,11 @@ class SshAdapter implements AdapterInterface
         return 'yes' === trim($result);
     }
 
+    /**
+     * Gets a list of repositories
+     *
+     * @return array
+     */
     public function getRepositories()
     {
         $repositories = array();
