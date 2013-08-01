@@ -1,20 +1,22 @@
 {
-    "name": "terramar/packages",
-    "description": "Terramar Labs Repository. 'Fork' of composer/satis with some added functionality",
-    "bin": ["bin/satis"],
-    "require": {
-        "php": ">=5.3.2",
-        "composer/composer": "1.0.*@dev",
-        "twig/twig": "~1.7",
-        "symfony/console": "~2.1",
-        "symfony/process": "~2.1",
-        "symfony/yaml": "~2.2"
-    },
-    "autoload": {
-        "psr-0": {
-          "Composer\\Satis": "src/",
-          "Terramar\\Packages": "src/"
-        }
-    },
-    "minimum-stability": "beta"
+  "name": "terramar/packages",
+  "description": "Terramar Labs Repository. 'Fork' of composer/satis with some added functionality",
+  "bin": ["bin/satis"],
+  "require": {
+    "php": ">=5.3.2",
+    "composer/composer": "1.0.*@dev",
+    "twig/twig": "~1.7",
+    "symfony/console": "~2.3",
+    "symfony/process": "~2.3",
+    "symfony/yaml": "~2.3",
+    "m4tthumphrey/php-gitlab-api": "dev-master"
+  },
+  "autoload": {
+    "psr-0": {
+      "Composer\\Satis": "src/",
+      "Terramar\\Packages": "src/"
+    }
+  },
+  "minimum-stability": "beta",
+  "prefer-stable": true
 }
