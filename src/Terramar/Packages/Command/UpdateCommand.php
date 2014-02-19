@@ -47,6 +47,7 @@ class UpdateCommand extends Command
             'name'          => $config['name'],
             'homepage'      => $config['homepage'],
             'output-dir'    => $config['output_dir'],
+            'twig-template' => 'views/index.html.twig',
             'repositories'  => array(),
         );
 
