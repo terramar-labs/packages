@@ -14,7 +14,7 @@ other machines and deployments.
 ### Updating satis.json
 
 ```
-bin/satis update
+bin/console update
 ```
 
 This command parses the project `config.yml` file and generates an updated satis.json with
@@ -28,7 +28,7 @@ all valid composer packages it is able to locate.
 and their branches, tags, etc. Once `satis.json` is updated, run the build command to update `packages.json`.
 
 ```
-bin/satis build
+bin/console build
 ```
 
 
