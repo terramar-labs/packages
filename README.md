@@ -24,11 +24,11 @@ all valid composer packages it is able to locate.
 
 ### Updating the exposed packages.json
 
-`packages.json` is publically accessible, exposing information about the available repositories
+`packages.json` is publicly accessible, exposing information about the available repositories
 and their branches, tags, etc. Once `satis.json` is updated, run the build command to update `packages.json`.
 
 ```
-bin/console build
+bin/console build --no-html-output
 ```
 
 

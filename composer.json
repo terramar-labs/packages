@@ -5,11 +5,16 @@
     "php": ">=5.3.2",
     "composer/satis": "dev-master",
     "composer/composer": "1.0.*@dev",
-    "twig/twig": "~1.7",
-    "symfony/console": "~2.3",
-    "symfony/process": "~2.3",
-    "symfony/yaml": "~2.3",
-    "m4tthumphrey/php-gitlab-api": "dev-master"
+    "twig/twig": "~1.15",
+    "symfony/debug": "~2.4",
+    "symfony/http-foundation": "~2.4",
+    "symfony/http-kernel": "~2.4",
+    "symfony/console": "~2.4",
+    "symfony/process": "~2.4",
+    "symfony/yaml": "~2.4",
+    "m4tthumphrey/php-gitlab-api": "dev-master",
+    "nikic/fast-route": "dev-master",
+    "tyler-sommer/nice": "1.0.x-dev"
   },
   "autoload": {
     "psr-0": {

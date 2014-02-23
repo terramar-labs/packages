@@ -26,8 +26,8 @@
             </div>
         </div>
         <div id="ft">
-            <p><small>Proudly powered by <a href="https://github.com/composer/satis">Satis</a> {{ constant('Composer\\Satis\\Satis::VERSION') }} and Terramar Labs Packages {{ constant('Terramar\\Packages\\Version::VERSION') }} - Last updated:  {{ "now"|date('Y-m-d H:i:s') }}</small></p>
-            <p id="copy">&copy; 2013 Terramar Labs.</p>
+            <p><small>Proudly powered by <a href="https://github.com/composer/satis">Satis</a> {{ constant('Composer\\Satis\\Satis::VERSION') }} and Terramar Labs Packages {{ constant('Terramar\\Packages\\Version::VERSION') }} - Last updated:  {{ updatedAt|date('Y-m-d H:i:s') }}</small></p>
+            <p id="copy">&copy; {{ "now"|date('Y') }} Terramar Labs.</p>
         </div>
     </div>
 
