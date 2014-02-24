@@ -1,6 +1,7 @@
 {
   "name": "terramar/packages",
   "description": "Terramar Labs Repository. Adds additional functionality on top of Composer Satis",
+  "license": "MIT",
   "require": {
     "php": ">=5.3.2",
     "composer/satis": "dev-master",
