@@ -20,7 +20,7 @@ class Application extends BaseApplication
     protected function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load(function(ContainerBuilder $container) {
-                $container->register('router.dispatcher_factory', 'Terramar\Packages\Router\CachedDispatcherFactory')
+                $container->register('router.dispatcher_factory', 'Terramar\Packages\Router\DispatcherFactory')
                     ->setArguments(array(
                             new Reference('router.collector'),
                             $this->getCacheDir() . '/Routes.php',
