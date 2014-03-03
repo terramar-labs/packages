@@ -7,3 +7,5 @@
 /web/packages.json
 !/web/robots.txt
 /config.yml
+/cache/*
+/logs/*
