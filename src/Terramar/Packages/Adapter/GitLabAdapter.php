@@ -41,7 +41,7 @@ class GitLabAdapter implements AdapterInterface
 
         $projects = $client->api('projects')->all();
 
-        return array_map(function($project) {
+        return array_map(function ($project) {
             $parts = explode(':', $project['ssh_url_to_repo']);
 
             return $parts[count($parts) - 1];

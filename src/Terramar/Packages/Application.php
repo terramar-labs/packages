@@ -19,7 +19,7 @@ class Application extends BaseApplication
      */
     protected function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load(function(ContainerBuilder $container) {
+        $loader->load(function (ContainerBuilder $container) {
                 $container->register('router.dispatcher_factory', 'Terramar\Packages\Router\DispatcherFactory')
                     ->setArguments(array(
                             new Reference('router.collector'),
@@ -35,7 +35,7 @@ class Application extends BaseApplication
     protected function registerDefaultExtensions()
     {
         parent::registerDefaultExtensions();
-        
+
         $this->registerExtension(new TwigExtension($this->getRootDir() . '/views'));
     }
 }
