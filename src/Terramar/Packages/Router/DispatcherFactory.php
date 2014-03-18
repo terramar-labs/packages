@@ -16,6 +16,6 @@ class DispatcherFactory extends CachedDispatcherFactory
      */
     protected function doCollectRoutes(RouteCollector $collector)
     {
-        $collector->addRoute('GET', '/', array('Terramar\Packages\Controller\DefaultController', 'indexAction'));
+        $collector->addRoute('GET', '/', 'Terramar\Packages\Controller\DefaultController::indexAction');
     }
 }

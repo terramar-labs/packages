@@ -9,7 +9,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class DefaultController
 {
-    public static function indexAction(Application $app, Request $request)
+    public function indexAction(Application $app, Request $request)
     {
         $rootDir = $app->getRootDir();
         $mtime = new \DateTime('@' . filemtime($rootDir . '/web/packages.json'));
