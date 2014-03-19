@@ -3,6 +3,7 @@
 namespace Terramar\Packages;
 
 use Nice\Application as BaseApplication;
+use Nice\Extension\SessionExtension;
 use Nice\Extension\TwigExtension;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -36,6 +37,7 @@ class Application extends BaseApplication
     {
         parent::registerDefaultExtensions();
 
+        $this->registerExtension(new SessionExtension());
         $this->registerExtension(new TwigExtension($this->getRootDir() . '/views'));
     }
 }
