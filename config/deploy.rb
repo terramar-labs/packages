@@ -1,6 +1,6 @@
 set :application, "packages"
 set :repository,  "https://github.com/terramar-labs/packages"
-set :branch, "2-0-develop"
+set :branch, "develop"
 
 default_run_options[:pty] = true
 set :use_sudo, true

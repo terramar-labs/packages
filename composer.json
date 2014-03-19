@@ -23,6 +23,11 @@
       "Terramar\\Packages": "src/"
     }
   },
+  "extra": {
+    "branch-alias": {
+      "dev-develop": "2.0-dev"
+    }
+  },
   "minimum-stability": "beta",
   "prefer-stable": true
 }
