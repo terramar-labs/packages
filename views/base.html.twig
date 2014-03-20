@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Composer Repository - {{ name }}</title>
+    <link href="{{ asset('favicon.ico') }}" rel="shortcut icon">
+    <link href="{{ asset('css/styles.css') }}" type="text/css" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,900,300italic,400italic,700italic,900italic" type="text/css" rel="stylesheet">
+</head>
+<body>
+
+    <div id="doc" class="yui-t7">
+        <div id="hd">
+            <h1><img src="{{ asset('img/logo.png') }}" alt="{{ name }} Composer Repository" title="{{ name }} Composer Repository" /></h1>
+            {% block subtitle %}
+            {% endblock %}
+        </div>
+        <div id="bd">
+            <div class="yui-g">
+                {% block body %}
+                {% endblock %}
+            </div>
+        </div>
+        <div id="ft">
+            <p><small>Proudly powered by <a href="https://github.com/composer/satis">Satis</a> {{ constant('Composer\\Satis\\Satis::VERSION') }} and Terramar Labs Packages {{ constant('Terramar\\Packages\\Version::VERSION') }} - Last updated: {{ updatedAt|date('Y-m-d H:i:s') }}</small></p>
+            <p id="copy">&copy; {{ "now"|date('Y') }} Terramar Labs.</p>
+        </div>
+    </div>
+
+</body>
+</html>
