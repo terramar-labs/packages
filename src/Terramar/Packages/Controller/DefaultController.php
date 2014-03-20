@@ -22,4 +22,14 @@ class DefaultController
                     'name'      => $config['satis']['name']
                 )));
     }
+
+    public function loginAction(Application $app, Request $request)
+    {
+        $config = Yaml::parse(file_get_contents($app->getRootDir() . '/config.yml'));
+
+        return new Response(
+            $app->get('twig')->render('login.html.twig', array(
+                    'name'      => $config['satis']['name']
+                )));
+    }
 }
