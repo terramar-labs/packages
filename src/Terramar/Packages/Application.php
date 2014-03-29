@@ -23,5 +23,11 @@ class Application extends BaseApplication
         $this->appendExtension(new PackagesExtension());
         $this->appendExtension(new SessionExtension());
         $this->appendExtension(new TwigExtension($this->getRootDir() . '/views'));
+        $this->appendExtension(new SecurityExtension(array(
+            'username' => 'admin', 
+            'password' => 'password', 
+            'firewall' => '^/manage',
+            'success_path' => '/manage'
+        )));
     }
 }
