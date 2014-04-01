@@ -1,0 +1,10 @@
+{% extends 'Default/base.html.twig' %}
+
+{% block body %}
+    <h2>Please login.</h2>
+    <form method="post" class="form-inline">
+        <p><input class="form-control" type="text" placeholder="Username" name="username"></p>
+        <p><input class="form-control" type="password" placeholder="Password" name="password"></p>
+        <p><button class="btn btn-primary" type="submit">Submit</button></p>
+    </form>
+{% endblock %}

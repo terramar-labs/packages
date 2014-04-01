@@ -14,22 +14,14 @@ class DefaultController
         $rootDir = $app->getRootDir();
         $mtime = new \DateTime('@' . filemtime($rootDir . '/web/packages.json'));
 
-        $config = Yaml::parse(file_get_contents($rootDir . '/config.yml'));
-
         return new Response(
-            $app->get('twig')->render('index.html.twig', array(
-                    'updatedAt' => $mtime,
-                    'name'      => $config['satis']['name']
+            $app->get('twig')->render('Default/index.html.twig', array(
+                    'updatedAt' => $mtime
                 )));
     }
 
     public function loginAction(Application $app, Request $request)
     {
-        $config = Yaml::parse(file_get_contents($app->getRootDir() . '/config.yml'));
-
-        return new Response(
-            $app->get('twig')->render('login.html.twig', array(
-                    'name'      => $config['satis']['name']
-                )));
+        return new Response($app->get('twig')->render('Default/login.html.twig'));
     }
 }
