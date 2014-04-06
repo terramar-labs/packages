@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Packages - Terramar Labs</title>
+        <title>{% if block('title') is not empty %}{{ block('title') }} - {% endif %}Packages - Terramar Labs</title>
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <link href="{{ asset("favicon.ico") }}" rel="shortcut icon">
         <link href="//cdn.jsdelivr.net/bootstrap/3.1.1/css/bootstrap.min.css" type="text/css" rel="stylesheet">
