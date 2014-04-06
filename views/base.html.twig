@@ -1,32 +1,113 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="robots" content="noindex,nofollow" />
-    <title>Composer Repository - {{ name }}</title>
-    <link href="{{ asset('favicon.ico') }}" rel="shortcut icon">
-    <link href="{{ asset('css/styles.css') }}" type="text/css" rel="stylesheet">
-    <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,900,300italic,400italic,700italic,900italic" type="text/css" rel="stylesheet">
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Packages - Terramar Labs</title>
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <link href="{{ asset("favicon.ico") }}" rel="shortcut icon">
+        <link href="//cdn.jsdelivr.net/bootstrap/3.1.1/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+        <link href="//cdn.jsdelivr.net/fontawesome/4.0.3/css/font-awesome.min.css" type="text/css" rel="stylesheet">
+        <link href="//cdn.jsdelivr.net/ionicons/1.4.1/css/ionicons.min.css" type="text/css" rel="stylesheet">
+        <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,300italic,400italic,600italic" type="text/css" rel="stylesheet">
+        <link href="{{ asset("css/AdminLTE.css") }}" type="text/css" rel="stylesheet">
 
-    <div id="doc" class="yui-t7">
-        <div id="hd">
-            <h1><img src="{{ asset('img/logo.png') }}" alt="{{ name }} Composer Repository" title="{{ name }} Composer Repository" /></h1>
-            {% block subtitle %}
-            {% endblock %}
-        </div>
-        <div id="bd">
-            <div class="yui-g">
-                {% block body %}
-                {% endblock %}
-            </div>
-        </div>
-        <div id="ft">
-            <p><small>Proudly powered by <a href="https://github.com/composer/satis">Satis</a> {{ constant('Composer\\Satis\\Satis::VERSION') }} and Terramar Labs Packages {{ constant('Terramar\\Packages\\Version::VERSION') }} - Last updated: {{ updatedAt|date('Y-m-d H:i:s') }}</small></p>
-            <p id="copy">&copy; {{ "now"|date('Y') }} Terramar Labs.</p>
-        </div>
-    </div>
+        <!--[if lt IE 9]>
+        <script src="//cdn.jsdelivr.net/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="//cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body class="skin-blue">
+        <!-- header logo: style can be found in header.less -->
+        <header class="header">
+            <a href="index.html" class="logo">
+                <!-- Add the class icon to your logo image or logo icon to add the margining -->
+                Packages
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <div class="navbar-right">
+                    <ul class="nav navbar-nav">
+                        <!-- Messages: style can be found in dropdown.less-->
+                        <li class="dropdown messages-menu">
+                            <a href="logout">
+                                <i class="ion ion-power"></i>
+                                Logout
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <div class="wrapper row-offcanvas row-offcanvas-left">
+            <!-- Left side column. contains the logo and sidebar -->
+            <aside class="left-side sidebar-offcanvas">                
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <!-- search form -->
+                    <form action="search" method="get" class="sidebar-form">
+                        <div class="input-group">
+                            <input type="text" name="query" class="form-control" placeholder="Search..."/>
+                            <span class="input-group-btn">
+                                <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </form>
+                    <!-- /.search form -->
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <ul class="sidebar-menu">
+                        <li class="active">
+                            <a href="manage">
+                                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="repositories">
+                                <i class="ion ion-fork-repo"></i> <span>Repositories</span>
+                            </a>
+                        </li>
+                        <li class="treeview">
+                            <a href="repositories">
+                                <i class="fa fa-gears"></i> <span>Configuration</span>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
 
-</body>
+            <!-- Right side column. Contains the navbar and content of the page -->
+            <aside class="right-side">                
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <h1>
+                        Blank page
+                        <small>Control panel</small>
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                        <li class="active">Blank page</li>
+                    </ol>
+                </section>
+
+                <!-- Main content -->
+                <section class="content">
+
+
+                </section><!-- /.content -->
+            </aside><!-- /.right-side -->
+        </div><!-- ./wrapper -->
+
+
+        <script src="//cdn.jsdelivr.net/jquery/1.11.0/jquery.min.js" type="text/javascript"></script>
+        <script src="//cdn.jsdelivr.net/bootstrap/3.1.1/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="{{ asset("js/AdminLTE/app.js") }}" type="text/javascript"></script>
+
+    </body>
 </html>
