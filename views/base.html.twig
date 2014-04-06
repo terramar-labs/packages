@@ -86,20 +86,18 @@
             <aside class="right-side">                
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
+                    {% block content_header %}
                     <h1>
-                        Blank page
-                        <small>Control panel</small>
+                        {% block title %}{% endblock title %}
+                        <small>{% block alt_title %}{% endblock alt_title %}</small>
                     </h1>
-                    <ol class="breadcrumb">
-                        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                        <li class="active">Blank page</li>
-                    </ol>
+                    {% endblock content_header %}
                 </section>
 
                 <!-- Main content -->
                 <section class="content">
-
-
+                    {% block content %}
+                    {% endblock content %}
                 </section><!-- /.content -->
             </aside><!-- /.right-side -->
         </div><!-- ./wrapper -->
