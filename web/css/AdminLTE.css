@@ -2492,6 +2492,7 @@ Component: timeline
 }
 .skin-blue .sidebar > .sidebar-menu > li > a {
   margin-right: 1px;
+  background: #f4f4f4 none;
 }
 .skin-blue .sidebar > .sidebar-menu > li > a:hover,
 .skin-blue .sidebar > .sidebar-menu > li.active > a {
@@ -2503,7 +2504,7 @@ Component: timeline
   background: #f9f9f9;
 }
 .skin-blue .left-side {
-  background: #f4f4f4;
+  background: url('../img/debut_light.png') repeat #f4f4f4;
   -webkit-box-shadow: inset -3px 0px 8px -4px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: inset -3px 0px 8px -4px rgba(0, 0, 0, 0.1);
   box-shadow: inset -3px 0px 8px -4px rgba(0, 0, 0, 0.07);
