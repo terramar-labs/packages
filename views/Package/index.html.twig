@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Packages' %}
+
+{% block alt_title '' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-warning">
+            <div class="box-header">
+                <h3 class="box-title">Showing all packages</h3>  
+                <a class="btn btn-default pull-right" href="package/new">New Package</a>
+            </div>
+            <div class="box-body table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Releases</th>
+                            <th>Installs</th>
+                            <th>Last activity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for package in packages %}
+                        <tr>
+                            <td>{{ package.name }}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'New Package' %}
+
+{% block alt_title 'Create a new package' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xs-6 col-md-3">
+        <div class="box box-warning">
+            <div class="box-header">
+                <h3 class="box-title">Package Information</h3>                                    
+            </div>
+            <form action="create" method="post">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" value="{{ package.name }}" placeholder="Enter name" id="name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea name="description" placeholder="Enter description" id="description" class="form-control">{{ package.description }}</textarea>
+                    </div>
+                </div>
+
+                <div class="box-footer">
+                    <button class="btn btn-primary" type="submit">Create Package</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
