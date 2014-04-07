@@ -15,13 +15,14 @@ class PackagesExtension extends Extension
      * @param ContainerBuilder $container A ContainerBuilder instance
      *
      * @throws \InvalidArgumentException When provided tag is not defined in this extension
-     *
-     * @api
      */
     public function load(array $config, ContainerBuilder $container)
     {
         $container->register('router.collector', 'Terramar\Packages\Router\RouteCollector')
             ->addArgument(new Reference('router.parser'))
             ->addArgument(new Reference('router.data_generator'));
+        
+        $container->register('repository.package', 'Terramar\Packages\Repository\PackageRepository')
+            ->addArgument(new Reference('cache.default'));
     }
 }
