@@ -3,6 +3,7 @@
 namespace Terramar\Packages;
 
 use Nice\Application as BaseApplication;
+use Nice\Extension\CacheExtension;
 use Nice\Extension\SecurityExtension;
 use Nice\Extension\SessionExtension;
 use Nice\Extension\TwigExtension;
@@ -24,10 +25,15 @@ class Application extends BaseApplication
         $this->appendExtension(new SessionExtension());
         $this->appendExtension(new TwigExtension($this->getRootDir() . '/views'));
         $this->appendExtension(new SecurityExtension(array(
-            'username' => 'admin', 
-            'password' => 'password', 
-            'firewall' => '^/manage',
-            'success_path' => '/manage'
-        )));
+                'username' => 'admin', 
+                'password' => 'password', 
+                'firewall' => '^/manage',
+                'success_path' => '/manage'
+            )));
+        $this->appendExtension(new CacheExtension(array(
+                'connections' => array(array(
+                    'name' => 'default'
+                )
+            ))));
     }
 }
