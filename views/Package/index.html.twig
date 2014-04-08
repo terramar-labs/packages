@@ -9,17 +9,20 @@
     <div class="col-xs-12">
         <div class="box box-warning">
             <div class="box-header">
-                <h3 class="box-title">Showing all packages</h3>  
-                <a class="btn btn-default pull-right" href="package/new">New Package</a>
+                <h3 class="box-title">Showing all packages</h3>
+                <div class="box-controls">
+                    <a class="btn btn-default" href="package/new"><i class="fa fa-plus"></i> New Package</a>
+                </div>
             </div>
             <div class="box-body table-responsive">
-                <table class="table table-bordered table-hover">
+                <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th>Name</th>
                             <th>Releases</th>
                             <th>Installs</th>
                             <th>Last activity</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -29,6 +32,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
+                            <td><a class="btn btn-default" href="package/{{ package.name }}/edit"><i class="fa fa-edit"></i> Edit</a></td>
                         </tr>
                         {% endfor %}
                     </tbody>

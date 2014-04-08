@@ -49,6 +49,9 @@ body > .header {
   right: 0;
   z-index: 1030;
 }
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+  vertical-align: middle;
+}
 /* Define 2 column template */
 .right-side,
 .left-side {
@@ -1275,6 +1278,12 @@ body > .header .logo .icon {
 }
 .box.box-success {
   border-top-color: #00a65a;
+}
+.box .box-header .box-controls {
+  display: inline-block;
+  float: right;
+  margin: 0;
+  padding: 10px 10px 0 10px;
 }
 .box.height-control .box-body {
   max-height: 300px;
