@@ -31,9 +31,11 @@ class Application extends BaseApplication
                 'success_path' => '/manage'
             )));
         $this->appendExtension(new CacheExtension(array(
-                'connections' => array(array(
-                    'name' => 'default'
+            'connections' => array('default' => array(
+                'driver' => 'redis',
+                'options' => array(
+                    'socket' => '/tmp/redis.sock'
                 )
-            ))));
+            )))));
     }
 }
