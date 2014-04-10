@@ -62,17 +62,17 @@
                     <!-- /.search form -->
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu">
-                        <li class="active">
+                        <li{% if is_current_controller('Manage') %} class="active"{% endif %}>
                             <a href="manage">
                                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                             </a>
                         </li>
-                        <li>
+                        <li{% if is_current_controller('Package') %} class="active"{% endif %}>
                             <a href="packages">
                                 <i class="ion ion-fork-repo"></i> <span>Packages</span>
                             </a>
                         </li>
-                        <li class="treeview">
+                        <li{% if is_current_controller('Configuration') %} class="active"{% endif %}>
                             <a href="repositories">
                                 <i class="fa fa-gears"></i> <span>Configuration</span>
                             </a>
