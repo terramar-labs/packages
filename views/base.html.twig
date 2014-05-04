@@ -19,7 +19,7 @@
     <body class="skin-gray">
         <!-- header logo: style can be found in header.less -->
         <header class="header">
-            <a href="manage" class="logo">
+            <a href="{{ path('manage') }}" class="logo">
                 <!-- Add the class icon to your logo image or logo icon to add the margining -->
                 Packages
             </a>
@@ -36,7 +36,7 @@
                     <ul class="nav navbar-nav">
                         <!-- Messages: style can be found in dropdown.less-->
                         <li class="dropdown messages-menu">
-                            <a href="logout">
+                            <a href="{{ path('logout') }}">
                                 <i class="ion ion-power"></i>
                                 Logout
                             </a>
@@ -51,7 +51,7 @@
                 <!-- sidebar: style can be found in sidebar.less -->
                 <section class="sidebar">
                     <!-- search form -->
-                    <form action="search" method="get" class="sidebar-form">
+                    <form action="{{ path('manage') }}" method="get" class="sidebar-form">
                         <div class="input-group">
                             <input type="text" name="query" class="form-control" placeholder="Search..."/>
                             <span class="input-group-btn">
@@ -63,17 +63,17 @@
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu">
                         <li{% if is_current_controller('Manage') %} class="active"{% endif %}>
-                            <a href="manage">
+                            <a href="{{ path('manage') }}">
                                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                             </a>
                         </li>
                         <li{% if is_current_controller('Package') %} class="active"{% endif %}>
-                            <a href="packages">
+                            <a href="{{ path('manage_packages') }}">
                                 <i class="ion ion-fork-repo"></i> <span>Packages</span>
                             </a>
                         </li>
                         <li{% if is_current_controller('Configuration') %} class="active"{% endif %}>
-                            <a href="repositories">
+                            <a href="{{ path('manage') }}">
                                 <i class="fa fa-gears"></i> <span>Configuration</span>
                             </a>
                         </li>
