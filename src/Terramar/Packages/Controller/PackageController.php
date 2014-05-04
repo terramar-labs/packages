@@ -41,6 +41,33 @@ class PackageController
         $repository = $app->get('repository.package');
         $repository->save($package);
         
-        return new RedirectResponse('packages');
+        return new RedirectResponse($app->get('router.url_generator')->generate('manage_packages'));
+    }
+
+    public function editAction(Application $app, $id)
+    {
+        /** @var PackageRepository $repository */
+        $repository = $app->get('repository.package');
+        $package = $repository->findById($id);
+        if (!$package) {
+            throw new \RuntimeException('Oops');
+        }
+        
+        return new Response($app->get('twig')->render('Package/edit.html.twig', array(
+                'package' => $package
+            )));
+    }
+
+    public function updateAction(Application $app, Request $request, $id)
+    {
+        /** @var PackageRepository $repository */
+        $repository = $app->get('repository.package');
+        $package = $repository->findById($id);
+        $package->setName($request->request->get('name'));
+        $package->setDescription($request->request->get('description'));
+
+        $repository->save($package);
+
+        return new RedirectResponse($app->get('router.url_generator')->generate('manage_packages'));
     }
 }

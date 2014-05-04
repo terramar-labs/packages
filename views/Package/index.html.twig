@@ -11,7 +11,7 @@
             <div class="box-header">
                 <h3 class="box-title">Showing all packages</h3>
                 <div class="box-controls">
-                    <a class="btn btn-default" href="package/new"><i class="fa fa-plus"></i> New Package</a>
+                    <a class="btn btn-default" href="{{ path('manage_package_new') }}"><i class="fa fa-plus"></i> New Package</a>
                 </div>
             </div>
             <div class="box-body table-responsive">
@@ -32,7 +32,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><a class="btn btn-default" href="package/{{ package.name }}/edit"><i class="fa fa-edit"></i> Edit</a></td>
+                            <td><a class="btn btn-default" href="{{ path('manage_package_edit', { id: package.id }) }}"><i class="fa fa-edit"></i> Edit</a></td>
                         </tr>
                         {% endfor %}
                     </tbody>

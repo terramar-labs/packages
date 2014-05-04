@@ -1,17 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title 'New Package' %}
+{% block title 'Edit Package' %}
 
-{% block alt_title 'Create a new package' %}
+{% block alt_title 'Edit an existing package' %}
 
 {% block content %}
 <div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-3">
+    <div class="col-xs-12 col-sm-8 col-md-3">
         <div class="box box-warning">
             <div class="box-header">
                 <h3 class="box-title">Package Information</h3>                                    
             </div>
-            <form action="{{ path('manage_package_create') }}" method="post">
+            <form action="{{ path('manage_package_update', { id: package.id }) }}" method="post">
                 <div class="box-body">
                     <div class="form-group">
                         <label for="name">Name</label>
@@ -24,7 +24,7 @@
                 </div>
 
                 <div class="box-footer">
-                    <button class="btn btn-primary" type="submit">Create Package</button>
+                    <button class="btn btn-primary" type="submit">Update Package</button>
                 </div>
             </form>
         </div>
