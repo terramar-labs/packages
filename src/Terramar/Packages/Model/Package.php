@@ -4,9 +4,27 @@ namespace Terramar\Packages\Model;
 
 class Package implements \Serializable
 {
+    private $id;
+    
     private $name;
     
     private $description;
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * @return mixed
@@ -46,6 +64,7 @@ class Package implements \Serializable
     public function serialize()
     {
         return serialize(array(
+                'id' => $this->id,
                 'name' => $this->name,
                 'description' => $this->description
             ));
@@ -58,6 +77,7 @@ class Package implements \Serializable
     {
         $data = unserialize($serialized);
         
+        $this->id = $data['id'];
         $this->name = $data['name'];
         $this->description = $data['description'];
     }
