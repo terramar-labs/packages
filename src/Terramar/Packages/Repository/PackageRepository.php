@@ -24,25 +24,25 @@ class PackageRepository
     
     public function findAll()
     {
-        $names = $this->cache->fetch('name_index') ?: array();
-        $packages = array();
-        foreach ($names as $name) {
-            $packages[] = $this->findByName($name);
-        }
+        $packages = $this->cache->fetch('packages:index') ?: array();
         
         return $packages;
     }
     
-    public function findByName($name)
+    public function findById($id)
     {
-        return $this->cache->fetch($name);
+        return $this->cache->fetch('package:' . $id);
     }
     
     public function save(Package $package)
     {
-        $this->cache->save($package->getName(), $package);
-        $nameIndex = $this->cache->fetch('name_index');
-        $nameIndex[] = $package->getName();
-        $this->cache->save('name_index', $nameIndex);
+        $indexArray = $this->cache->fetch('packages:index') ?: array();
+        if (!$package->getId()) {
+            $index = array_push($indexArray, $package);
+            $package->setId($index);
+        }
+        
+        $this->cache->save('package:' . $package->getId(), $package);
+        $this->cache->save('packages:index', $indexArray);
     }
 }
