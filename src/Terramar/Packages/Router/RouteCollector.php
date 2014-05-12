@@ -24,5 +24,11 @@ class RouteCollector extends BaseCollector
         $this->addNamedRoute('manage_package_create', 'POST', '/manage/package/create', 'Terramar\Packages\Controller\PackageController::createAction');
         $this->addNamedRoute('manage_package_edit', 'GET', '/manage/package/{id}/edit', 'Terramar\Packages\Controller\PackageController::editAction');
         $this->addNamedRoute('manage_package_update', 'POST', '/manage/package/{id}/update', 'Terramar\Packages\Controller\PackageController::updateAction');
+
+        $this->addNamedRoute('manage_configurations', 'GET', '/manage/configurations', 'Terramar\Packages\Controller\ConfigurationController::indexAction');
+        $this->addNamedRoute('manage_configuration_new', 'GET', '/manage/configuration/new', 'Terramar\Packages\Controller\ConfigurationController::newAction');
+        $this->addNamedRoute('manage_configuration_create', 'POST', '/manage/configuration/create', 'Terramar\Packages\Controller\ConfigurationController::createAction');
+        $this->addNamedRoute('manage_configuration_edit', 'GET', '/manage/configuration/{id}/edit', 'Terramar\Packages\Controller\ConfigurationController::editAction');
+        $this->addNamedRoute('manage_configuration_update', 'POST', '/manage/configuration/{id}/update', 'Terramar\Packages\Controller\ConfigurationController::updateAction');
     }
 }
