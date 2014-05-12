@@ -10,6 +10,7 @@ use Nice\Extension\TwigExtension;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
+use Terramar\Packages\DependencyInjection\DoctrineOrmExtension;
 use Terramar\Packages\DependencyInjection\PackagesExtension;
 
 class Application extends BaseApplication
@@ -22,6 +23,7 @@ class Application extends BaseApplication
         parent::registerDefaultExtensions();
         
         $this->appendExtension(new PackagesExtension());
+        $this->appendExtension(new DoctrineOrmExtension());
         $this->appendExtension(new SessionExtension());
         $this->appendExtension(new TwigExtension($this->getRootDir() . '/views'));
         $this->appendExtension(new SecurityExtension(array(
