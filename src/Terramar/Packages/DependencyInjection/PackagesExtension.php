@@ -21,8 +21,5 @@ class PackagesExtension extends Extension
         $container->register('router.collector', 'Terramar\Packages\Router\RouteCollector')
             ->addArgument(new Reference('router.parser'))
             ->addArgument(new Reference('router.data_generator'));
-        
-        $container->register('repository.package', 'Terramar\Packages\Repository\PackageRepository')
-            ->addArgument(new Reference('cache.default'));
     }
 }
