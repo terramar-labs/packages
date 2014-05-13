@@ -38,12 +38,6 @@ class Configuration
     private $token;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Terramar\Packages\Entity\Configuration")
-     * @ORM\JoinColumn(name="configuration_id", referencedColumnName="id")
-     */
-    private $configuration;
-
-    /**
      * @return boolean
      */
     public function isEnabled()
