@@ -2,6 +2,7 @@
 
 namespace Terramar\Packages\Controller;
 
+use Doctrine\ORM\EntityManager;
 use Nice\Application;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +26,8 @@ class PackageController
     public function newAction(Application $app)
     {
         return new Response($app->get('twig')->render('Package/new.html.twig', array(
-                    'package' => new Package()
+                    'package' => new Package(),
+                    'configurations' => $this->getConfigurations($app->get('doctrine.orm.entity_manager'))
                 )));
     }
 
@@ -37,6 +39,8 @@ class PackageController
 
         /** @var \Doctrine\ORM\EntityManager $entityManager */
         $entityManager = $app->get('doctrine.orm.entity_manager');
+        $package->setConfiguration($entityManager->find('Terramar\Packages\Entity\Configuration', $request->get('configuration_id')));
+        
         $entityManager->persist($package);
         $entityManager->flush();
         
@@ -53,7 +57,8 @@ class PackageController
         }
         
         return new Response($app->get('twig')->render('Package/edit.html.twig', array(
-                'package' => $package
+                'package' => $package,
+                'configurations' => $this->getConfigurations($app->get('doctrine.orm.entity_manager'))
             )));
     }
 
@@ -64,10 +69,16 @@ class PackageController
         $package = $entityManager->getRepository('Terramar\Packages\Entity\Package')->find($id);
         $package->setName($request->request->get('name'));
         $package->setDescription($request->request->get('description'));
+        $package->setConfiguration($entityManager->find('Terramar\Packages\Entity\Configuration', $request->get('configuration_id')));
 
         $entityManager->persist($package);
         $entityManager->flush();
 
         return new RedirectResponse($app->get('router.url_generator')->generate('manage_packages'));
+    }
+    
+    protected function getConfigurations(EntityManager $entityManager)
+    {
+        return $entityManager->getRepository('Terramar\Packages\Entity\Configuration')->findBy(array('enabled' => true)); 
     }
 }

@@ -28,6 +28,12 @@ class Package
     private $description;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Terramar\Packages\Entity\Configuration")
+     * @ORM\JoinColumn(name="configuration_id", referencedColumnName="id")
+     */
+    private $configuration;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -65,5 +71,21 @@ class Package
     public function setName($name)
     {
         $this->name = (string) $name;
+    }
+
+    /**
+     * @return Configuration
+     */
+    public function getConfiguration()
+    {
+        return $this->configuration;
+    }
+
+    /**
+     * @param Configuration $configuration
+     */
+    public function setConfiguration(Configuration $configuration)
+    {
+        $this->configuration = $configuration;
     }
 }
