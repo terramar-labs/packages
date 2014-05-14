@@ -22,30 +22,6 @@ class PackageController
                     'packages' => $packages
                 )));
     }
-    
-    public function newAction(Application $app)
-    {
-        return new Response($app->get('twig')->render('Package/new.html.twig', array(
-                    'package' => new Package(),
-                    'configurations' => $this->getConfigurations($app->get('doctrine.orm.entity_manager'))
-                )));
-    }
-
-    public function createAction(Application $app, Request $request)
-    {
-        $package = new Package();
-        $package->setName($request->get('name'));
-        $package->setDescription($request->get('description'));
-
-        /** @var \Doctrine\ORM\EntityManager $entityManager */
-        $entityManager = $app->get('doctrine.orm.entity_manager');
-        $package->setConfiguration($entityManager->find('Terramar\Packages\Entity\Configuration', $request->get('configuration_id')));
-        
-        $entityManager->persist($package);
-        $entityManager->flush();
-        
-        return new RedirectResponse($app->get('router.url_generator')->generate('manage_packages'));
-    }
 
     public function editAction(Application $app, $id)
     {
@@ -67,9 +43,13 @@ class PackageController
         /** @var \Doctrine\ORM\EntityManager $entityManager */
         $entityManager = $app->get('doctrine.orm.entity_manager');
         $package = $entityManager->getRepository('Terramar\Packages\Entity\Package')->find($id);
+        if (!$package) {
+            throw new \RuntimeException('Oops');
+        }
+        
         $package->setName($request->request->get('name'));
         $package->setDescription($request->request->get('description'));
-        $package->setConfiguration($entityManager->find('Terramar\Packages\Entity\Configuration', $request->get('configuration_id')));
+        $package->setEnabled($request->get('enabled', false));
 
         $entityManager->persist($package);
         $entityManager->flush();

@@ -10,9 +10,6 @@
         <div class="box box-warning">
             <div class="box-header">
                 <h3 class="box-title">Showing all packages</h3>
-                <div class="box-controls">
-                    <a class="btn btn-default" href="{{ path('manage_package_new') }}"><i class="fa fa-plus"></i> New Package</a>
-                </div>
             </div>
             <div class="box-body table-responsive">
                 <table class="table table-bordered">
@@ -27,7 +24,7 @@
                     <tbody>
                         {% for package in packages %}
                         <tr>
-                            <td>{{ package.name }}</td>
+                            <td>{{ package.name }} (<a href="{{ package.webUrl }}">{{ package.fqn }}</a>){% if not package.enabled %} <label class="label label-warning">Disabled</label>{% endif %}</td>
                             <td>{{ package.configuration.name }}</td>
                             <td></td>
                             <td><a class="btn btn-default" href="{{ path('manage_package_edit', { id: package.id }) }}"><i class="fa fa-edit"></i> Edit</a></td>
