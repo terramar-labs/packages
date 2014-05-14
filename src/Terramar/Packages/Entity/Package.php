@@ -23,9 +23,34 @@ class Package
     private $name;
 
     /**
+     * @ORM\Column(name="external_id", type="string")
+     */
+    private $externalId;
+
+    /**
      * @ORM\Column(name="description", type="string")
      */
     private $description;
+
+    /**
+     * @ORM\Column(name="enabled", type="boolean")
+     */
+    private $enabled = false;
+
+    /**
+     * @ORM\Column(name="ssh_url", type="string")
+     */
+    private $sshUrl;
+
+    /**
+     * @ORM\Column(name="web_url", type="string")
+     */
+    private $webUrl;
+
+    /**
+     * @ORM\Column(name="fqn", type="string")
+     */
+    private $fqn;
 
     /**
      * @ORM\ManyToOne(targetEntity="Terramar\Packages\Entity\Configuration")
@@ -33,6 +58,22 @@ class Package
      */
     private $configuration;
 
+    /**
+     * @param mixed $enabled
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = (bool) $enabled;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isEnabled()
+    {
+        return $this->enabled;
+    }
+    
     /**
      * @return mixed
      */
@@ -87,5 +128,69 @@ class Package
     public function setConfiguration(Configuration $configuration)
     {
         $this->configuration = $configuration;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExternalId()
+    {
+        return $this->externalId;
+    }
+
+    /**
+     * @param mixed $externalId
+     */
+    public function setExternalId($externalId)
+    {
+        $this->externalId = (string) $externalId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFqn()
+    {
+        return $this->fqn;
+    }
+
+    /**
+     * @param mixed $fqn
+     */
+    public function setFqn($fqn)
+    {
+        $this->fqn = (string) $fqn;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSshUrl()
+    {
+        return $this->sshUrl;
+    }
+
+    /**
+     * @param mixed $sshUrl
+     */
+    public function setSshUrl($sshUrl)
+    {
+        $this->sshUrl = (string) $sshUrl;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWebUrl()
+    {
+        return $this->webUrl;
+    }
+
+    /**
+     * @param mixed $webUrl
+     */
+    public function setWebUrl($webUrl)
+    {
+        $this->webUrl = (string) $webUrl;
     }
 }
