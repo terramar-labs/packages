@@ -3,6 +3,7 @@
 namespace Terramar\Packages\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gitlab\Client;
 
 /**
  * @ORM\Entity
@@ -107,5 +108,13 @@ class Configuration
     public function setUrl($url)
     {
         $this->url = (string) $url;
+    }
+    
+    public function createClient()
+    {
+        $client = new Client(rtrim($this->url, '/') . '/api/v3/');
+        $client->authenticate($this->token, Client::AUTH_HTTP_TOKEN);
+        
+        return $client;
     }
 }
