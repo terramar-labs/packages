@@ -28,7 +28,12 @@
                         <tr>
                             <td>{{ configuration.name }}</td>
                             <td>{{ configuration.enabled ? 'Enabled' : 'Disabled' }}</td>
-                            <td><a class="btn btn-default" href="{{ path('manage_configuration_edit', { id: configuration.id }) }}"><i class="fa fa-edit"></i> Edit</a></td>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn btn-default" href="{{ path('manage_configuration_edit', { id: configuration.id }) }}"><i class="fa fa-edit"></i> Edit</a>
+                                    <a class="btn btn-default" href="{{ path('manage_configuration_sync', { id: configuration.id }) }}"><i class="fa fa-refresh"></i> Sync</a>
+                                </div>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>

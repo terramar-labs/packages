@@ -21,5 +21,8 @@ class PackagesExtension extends Extension
         $container->register('router.collector', 'Terramar\Packages\Router\RouteCollector')
             ->addArgument(new Reference('router.parser'))
             ->addArgument(new Reference('router.data_generator'));
+        
+        $container->register('packages.helper.sync', 'Terramar\Packages\Helper\SyncHelper')
+            ->addArgument(new Reference('doctrine.orm.entity_manager'));
     }
 }

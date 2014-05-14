@@ -53,7 +53,7 @@ class ConfigurationController
         if (!$configuration) {
             throw new \RuntimeException('Oops');
         }
-        
+
         return new Response($app->get('twig')->render('Configuration/edit.html.twig', array(
                 'configuration' => $configuration
             )));
@@ -70,6 +70,27 @@ class ConfigurationController
         $configuration->setEnabled($request->get('enabled', false));
 
         $entityManager->persist($configuration);
+        $entityManager->flush();
+
+        return new RedirectResponse($app->get('router.url_generator')->generate('manage_configurations'));
+    }
+
+    public function syncAction(Application $app, $id)
+    {
+        /** @var \Doctrine\ORM\EntityManager $entityManager */
+        $entityManager = $app->get('doctrine.orm.entity_manager');
+        $configuration = $entityManager->getRepository('Terramar\Packages\Entity\Configuration')->find($id);
+        if (!$configuration) {
+            throw new \RuntimeException('Oops');
+        }
+
+        /** @var \Terramar\Packages\Helper\SyncHelper $helper */
+        $helper = $app->get('packages.helper.sync');
+        $packages = $helper->synchronizePackages($configuration);
+        foreach($packages as $package) {
+            $entityManager->persist($package);
+        }
+
         $entityManager->flush();
 
         return new RedirectResponse($app->get('router.url_generator')->generate('manage_configurations'));
