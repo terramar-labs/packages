@@ -6,16 +6,24 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Yaml\Exception\RuntimeException;
 use Terramar\Packages\Adapter\FileAdapter;
 use Terramar\Packages\Adapter\GitLabAdapter;
 use Terramar\Packages\Adapter\SshAdapter;
+use Terramar\Packages\Entity\Package;
 
 /**
  * Updates the projects satis.json
  */
-class UpdateCommand extends Command
+class UpdateCommand extends Command implements ContainerAwareInterface
 {
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+    
     private static $template = array(
         'name' => 'Terramar Labs',
         'homepage' => 'http://packages.terramarlabs.com',
@@ -51,19 +59,18 @@ class UpdateCommand extends Command
 
         $remote = $config['remote'];
 
-        $adapter = $this->getAdapter(
-            isset($remote['type']) ? $remote['type'] : 'file',
-            $config
-        );
+        $packages = $this->container->get('doctrine.orm.entity_manager')->getRepository('Terramar\Packages\Entity\Package')->findBy(array('enabled' => true));
 
-        $repositories = $adapter->getRepositories();
+        $repositories = array_map(function(Package $package) {
+                return $package->getSshUrl();
+            }, $packages);
 
         foreach ($repositories as $repository) {
             if (!in_array((string) $repository, $remote['exclude'] ?: array())) {
                 $output->writeln(sprintf('Found repository: <comment>%s</comment>', $repository));
                 $data['repositories'][] = array(
                     'type' => 'vcs',
-                    'url' => $remote['prefix'] . $repository
+                    'url' => $repository
                 );
             }
         }
@@ -105,5 +112,17 @@ class UpdateCommand extends Command
             default:
                 throw new RuntimeException(sprintf('Unable to locate adapter for type "%s"', $type));
         }
+    }
+
+    /**
+     * Sets the Container.
+     *
+     * @param ContainerInterface|null $container A ContainerInterface instance or null
+     *
+     * @api
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
     }
 }
