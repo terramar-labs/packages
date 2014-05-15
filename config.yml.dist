@@ -18,3 +18,5 @@ doctrine:
     # password:
     # database: packages
    
+redis:
+  # socket: /tmp/redis.sock 
