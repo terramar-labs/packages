@@ -50,14 +50,9 @@ class UpdateCommand extends Command implements ContainerAwareInterface
     {
         $config = $this->getApplication()->getConfiguration();
         $data = array(
-            'name'          => $config['name'],
-            'homepage'      => $config['homepage'],
-            'output-dir'    => $config['output_dir'],
-            'twig-template' => 'views/index.html.twig',
+            'output-dir'    => realpath($config['output_dir']),
             'repositories'  => array(),
         );
-
-        $remote = $config['remote'];
 
         $packages = $this->container->get('doctrine.orm.entity_manager')->getRepository('Terramar\Packages\Entity\Package')->findBy(array('enabled' => true));
 
@@ -66,13 +61,11 @@ class UpdateCommand extends Command implements ContainerAwareInterface
             }, $packages);
 
         foreach ($repositories as $repository) {
-            if (!in_array((string) $repository, $remote['exclude'] ?: array())) {
-                $output->writeln(sprintf('Found repository: <comment>%s</comment>', $repository));
-                $data['repositories'][] = array(
-                    'type' => 'vcs',
-                    'url' => $repository
-                );
-            }
+            $output->writeln(sprintf('Found repository: <comment>%s</comment>', $repository));
+            $data['repositories'][] = array(
+                'type' => 'vcs',
+                'url' => $repository
+            );
         }
 
         if (count($data['repositories']) > 0) {
@@ -81,7 +74,7 @@ class UpdateCommand extends Command implements ContainerAwareInterface
                 throw new \RuntimeException('Unable to open "satis.json" for writing.');
             }
 
-            fwrite($fp, json_encode($data));
+            fwrite($fp, json_encode($data, JSON_PRETTY_PRINT));
 
             $output->writeln(array(
                 '<info>satis.json updated successfully.</info>',

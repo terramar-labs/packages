@@ -1,10 +1,4 @@
 packages:
-  # The name of this repository
-  name: Terramar Labs
-
-  # The public URL for this repository
-  homepage: http://packages.terramarlabs.com/
-
   # The admin username and password
   admin_username: 
   admin_password: 

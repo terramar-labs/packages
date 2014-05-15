@@ -24,20 +24,16 @@ class Application extends BaseApplication
         parent::registerDefaultExtensions();
         
         $config = Yaml::parse(file_get_contents($this->getRootDir() . '/config.yml'));
-        $packages = isset($config['packages']) ? $config['packages'] : array();
+        $security = isset($config['security']) ? $config['security'] : array();
         $doctrine = isset($config['doctrine']) ? $config['doctrine'] : array();
         
-        $this->appendExtension(new PackagesExtension(array(
-                'name' => isset($packages['name']) ? $packages['name'] : null,
-                'homepage' => isset($packages['homepage']) ? $packages['homepage'] : null,
-                'output_dir' => $this->getRootDir() . '/web',
-            )));
+        $this->appendExtension(new PackagesExtension());
         $this->appendExtension(new DoctrineOrmExtension($doctrine));
         $this->appendExtension(new SessionExtension());
         $this->appendExtension(new TwigExtension($this->getRootDir() . '/views'));
         $this->appendExtension(new SecurityExtension(array(
-                'username' => isset($packages['admin_username']) ? $packages['admin_username'] : null, 
-                'password' => isset($packages['admin_password']) ? $packages['admin_password'] : null, 
+                'username' => isset($security['username']) ? $security['username'] : null, 
+                'password' => isset($security['password']) ? $security['password'] : null, 
                 'firewall' => '^/manage',
                 'success_path' => '/manage'
             )));
