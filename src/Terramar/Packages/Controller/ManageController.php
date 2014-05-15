@@ -16,6 +16,7 @@ class ManageController
         $entityManager = $app->get('doctrine.orm.entity_manager');
         $packages = $entityManager->getRepository('Terramar\Packages\Entity\Package')->createQueryBuilder('p')
             ->select('COUNT(p)')
+            ->where('p.enabled = true')
             ->getQuery()->getSingleScalarResult();
 
         return new Response($app->get('twig')->render('Manage/index.html.twig', array(
