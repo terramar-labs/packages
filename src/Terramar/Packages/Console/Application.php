@@ -24,7 +24,6 @@ class Application extends BaseApplication
 {
     protected $io;
     protected $composer;
-    protected $config;
 
     /**
      * @var \Terramar\Packages\Application
@@ -34,9 +33,8 @@ class Application extends BaseApplication
     public function __construct(AppKernel $app)
     {
         parent::__construct('Terramar Labs Packages', Version::VERSION);
+        
         ErrorHandler::register();
-        $this->config = Yaml::parse('config.yml');
-        $this->config = $this->config['satis'];
         $this->app = $app;
     }
 
@@ -126,6 +124,6 @@ class Application extends BaseApplication
      */
     public function getConfiguration()
     {
-        return $this->config;
+        return $this->app->getParameter('packages.configuration');
     }
 }

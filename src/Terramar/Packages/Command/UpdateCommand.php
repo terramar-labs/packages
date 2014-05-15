@@ -93,27 +93,6 @@ class UpdateCommand extends Command implements ContainerAwareInterface
         ));
     }
 
-    private function getAdapter($type, array $config)
-    {
-        $path = $config['remote']['path'];
-
-        switch ($type) {
-            case 'file':
-                return new FileAdapter($path);
-
-            case 'ssh':
-                return new SshAdapter($path);
-
-            case 'gitlab':
-                $key = $config['remote']['key'];
-
-                return new GitLabAdapter($key, $path);
-
-            default:
-                throw new RuntimeException(sprintf('Unable to locate adapter for type "%s"', $type));
-        }
-    }
-
     /**
      * Sets the Container.
      *
