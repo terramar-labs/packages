@@ -2,6 +2,7 @@
 
 namespace Terramar\Packages\Console;
 
+use Doctrine\ORM\Tools\Console\ConsoleRunner;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -44,6 +45,7 @@ class Application extends BaseApplication
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
+        $this->setHelperSet(ConsoleRunner::createHelperSet($this->app->get('doctrine.orm.entity_manager')));
         $this->registerCommands();
         $this->io = new ConsoleIO($input, $output, $this->getHelperSet());
 
@@ -72,8 +74,31 @@ class Application extends BaseApplication
      */
     protected function registerCommands()
     {
-        $this->add(new BuildCommand());
-        $this->add(new UpdateCommand());
+        $this->addCommands(array(
+            new BuildCommand(),
+            new UpdateCommand(),
+            
+            // DBAL Commands
+            new \Doctrine\DBAL\Tools\Console\Command\RunSqlCommand(),
+            new \Doctrine\DBAL\Tools\Console\Command\ImportCommand(),
+
+            // ORM Commands
+            new \Doctrine\ORM\Tools\Console\Command\ClearCache\MetadataCommand(),
+            new \Doctrine\ORM\Tools\Console\Command\ClearCache\ResultCommand(),
+            new \Doctrine\ORM\Tools\Console\Command\ClearCache\QueryCommand(),
+            new \Doctrine\ORM\Tools\Console\Command\SchemaTool\CreateCommand(),
+            new \Doctrine\ORM\Tools\Console\Command\SchemaTool\UpdateCommand(),
+            new \Doctrine\ORM\Tools\Console\Command\SchemaTool\DropCommand(),
+            new \Doctrine\ORM\Tools\Console\Command\EnsureProductionSettingsCommand(),
+            new \Doctrine\ORM\Tools\Console\Command\ConvertDoctrine1SchemaCommand(),
+            new \Doctrine\ORM\Tools\Console\Command\GenerateRepositoriesCommand(),
+            new \Doctrine\ORM\Tools\Console\Command\GenerateEntitiesCommand(),
+            new \Doctrine\ORM\Tools\Console\Command\GenerateProxiesCommand(),
+            new \Doctrine\ORM\Tools\Console\Command\ConvertMappingCommand(),
+            new \Doctrine\ORM\Tools\Console\Command\RunDqlCommand(),
+            new \Doctrine\ORM\Tools\Console\Command\ValidateSchemaCommand(),
+            new \Doctrine\ORM\Tools\Console\Command\InfoCommand()
+        ));
     }
 
     /**
