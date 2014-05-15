@@ -34,7 +34,7 @@ vi config.yml
 Create your database schema.
 
 ```
-bin/doctrine orm:schema-tool:create
+bin/console orm:schema-tool:create
 ```
 
 Your installation is complete! Visit the project's web directory from your browser to see the result.
