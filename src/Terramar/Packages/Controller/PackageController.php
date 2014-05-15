@@ -56,6 +56,23 @@ class PackageController
 
         return new RedirectResponse($app->get('router.url_generator')->generate('manage_packages'));
     }
+
+    public function toggleAction(Application $app, $id)
+    {
+        /** @var \Doctrine\ORM\EntityManager $entityManager */
+        $entityManager = $app->get('doctrine.orm.entity_manager');
+        $package = $entityManager->getRepository('Terramar\Packages\Entity\Package')->find($id);
+        if (!$package) {
+            throw new \RuntimeException('Oops');
+        }
+
+        $package->setEnabled(!$package->isEnabled());
+
+        $entityManager->persist($package);
+        $entityManager->flush();
+
+        return new RedirectResponse($app->get('router.url_generator')->generate('manage_packages'));
+    }
     
     protected function getConfigurations(EntityManager $entityManager)
     {

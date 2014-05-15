@@ -27,7 +27,16 @@
                             <td>{{ package.name }} (<a href="{{ package.webUrl }}">{{ package.fqn }}</a>){% if not package.enabled %} <label class="label label-warning">Disabled</label>{% endif %}</td>
                             <td>{{ package.configuration.name }}</td>
                             <td></td>
-                            <td><a class="btn btn-default" href="{{ path('manage_package_edit', { id: package.id }) }}"><i class="fa fa-edit"></i> Edit</a></td>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn btn-default" href="{{ path('manage_package_edit', { id: package.id }) }}"><i class="fa fa-edit"></i> Edit</a>
+                                    {% if package.enabled %}
+                                    <a class="btn btn-warning" href="{{ path('manage_package_toggle', { id: package.id }) }}"><i class="fa fa-power-off"></i> Disable</a>
+                                    {% else %}
+                                    <a class="btn btn-default" href="{{ path('manage_package_toggle', { id: package.id }) }}"><i class="fa fa-power-off"></i> Enable</a>
+                                    {% endif %}
+                                </div>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
