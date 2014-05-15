@@ -3,12 +3,14 @@
 namespace Terramar\Packages\Console;
 
 use Symfony\Component\Console\Application as BaseApplication;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Terramar\Packages\Application as AppKernel;
 use Composer\Satis\Command\BuildCommand;
 use Symfony\Component\Yaml\Yaml;
 use Terramar\Packages\Command\UpdateCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Composer\Satis\Command;
 use Composer\IO\ConsoleIO;
 use Composer\Factory;
 use Composer\Util\ErrorHandler;
@@ -23,12 +25,18 @@ class Application extends BaseApplication
     protected $composer;
     protected $config;
 
-    public function __construct()
+    /**
+     * @var \Terramar\Packages\Application
+     */
+    protected $app;
+
+    public function __construct(AppKernel $app)
     {
         parent::__construct('Terramar Labs Packages', Version::VERSION);
         ErrorHandler::register();
         $this->config = Yaml::parse('config.yml');
         $this->config = $this->config['satis'];
+        $this->app = $app;
     }
 
     /**
@@ -66,6 +74,26 @@ class Application extends BaseApplication
     {
         $this->add(new BuildCommand());
         $this->add(new UpdateCommand());
+    }
+
+    /**
+     * Adds a command object.
+     *
+     * If a command with the same name already exists, it will be overridden.
+     *
+     * @param Command $command A Command object
+     *
+     * @return Command The registered command
+     *
+     * @api
+     */
+    public function add(Command $command)
+    {
+        if ($command instanceof ContainerAwareInterface) {
+            $command->setContainer($this->app);
+        }
+
+        return parent::add($command);
     }
 
     /**
