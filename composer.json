@@ -1,6 +1,6 @@
 {
   "name": "terramar/packages",
-  "description": "Terramar Labs Repository. Adds additional functionality on top of Composer Satis",
+  "description": "Packages extends Composer Satis with a management interface and GitLab integration",
   "license": "MIT",
   "require": {
     "php": ">=5.4.0",
@@ -17,7 +17,7 @@
     "tyler-sommer/nice": "1.0.x-dev"
   },
   "require-dev": {
-    "phpunit/phpunit": "~3.6"
+    "phpunit/phpunit": "~3.7"
   },
   "autoload": {
     "psr-0": {
