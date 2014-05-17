@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "6b90f5e8d0fd4bfdb7060fe5fb374b05",
+    "hash": "a2ccb04ba467bca450a2bfc97aaf4aa5",
     "packages": [
         {
             "name": "composer/composer",
@@ -1641,12 +1641,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/tyler-sommer/nice.git",
-                "reference": "975ffbed58fd8811ea0f8cfdea0d3725d0746bbf"
+                "reference": "e7950ddfa9d0215e3565c50fcfe429a399bb6757"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tyler-sommer/nice/zipball/975ffbed58fd8811ea0f8cfdea0d3725d0746bbf",
-                "reference": "975ffbed58fd8811ea0f8cfdea0d3725d0746bbf",
+                "url": "https://api.github.com/repos/tyler-sommer/nice/zipball/e7950ddfa9d0215e3565c50fcfe429a399bb6757",
+                "reference": "e7950ddfa9d0215e3565c50fcfe429a399bb6757",
                 "shasum": ""
             },
             "require": {
@@ -1683,7 +1683,7 @@
                 "MIT"
             ],
             "description": "A nice PHP microframework",
-            "time": "2014-04-12 15:34:01"
+            "time": "2014-05-17 03:46:20"
         }
     ],
     "packages-dev": [
