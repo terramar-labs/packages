@@ -5,5 +5,8 @@ require __DIR__.'/../src/bootstrap.php';
 
 use Terramar\Packages\Console\Application;
 
-$application = new Application();
+$kernel = new Terramar\Packages\Application('dev', true);
+$kernel->boot();
+
+$application = new Application($kernel);
 $application->run();

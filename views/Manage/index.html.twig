@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Dashboard' %}
+
+{% block alt_title '' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-3 col-xs-6">
+        <div class="small-box bg-yellow">
+            <div class="inner">
+                <h3>
+                    {{ packages|number_format }}
+                </h3>
+                <p>
+                    Package{% if packages != 1 %}s{% endif %}
+                </p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-ios7-box-outline"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+                More info <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

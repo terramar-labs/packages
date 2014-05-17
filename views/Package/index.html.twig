@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Packages' %}
+
+{% block alt_title '' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-warning">
+            <div class="box-header">
+                <h3 class="box-title">Showing all packages</h3>
+            </div>
+            <div class="box-body table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Instance</th>
+                            <th>Last activity</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for package in packages %}
+                        <tr>
+                            <td>{{ package.name }} (<a href="{{ package.webUrl }}">{{ package.fqn }}</a>){% if not package.enabled %} <label class="label label-warning">Disabled</label>{% endif %}</td>
+                            <td>{{ package.configuration.name }}</td>
+                            <td></td>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn btn-default" href="{{ path('manage_package_edit', { id: package.id }) }}"><i class="fa fa-edit"></i> Edit</a>
+                                    {% if package.enabled %}
+                                    <a class="btn btn-warning" href="{{ path('manage_package_toggle', { id: package.id }) }}"><i class="fa fa-power-off"></i> Disable</a>
+                                    {% else %}
+                                    <a class="btn btn-default" href="{{ path('manage_package_toggle', { id: package.id }) }}"><i class="fa fa-power-off"></i> Enable</a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

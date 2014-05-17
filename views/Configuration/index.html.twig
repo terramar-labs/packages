@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'GitLab Configuration' %}
+
+{% block alt_title '' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-warning">
+            <div class="box-header">
+                <h3 class="box-title">Showing all configured GitLab instances</h3>
+                <div class="box-controls">
+                    <a class="btn btn-default" href="{{ path('manage_configuration_new') }}"><i class="fa fa-plus"></i> New Instance</a>
+                </div>
+            </div>
+            <div class="box-body table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Enabled</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for configuration in configurations %}
+                        <tr>
+                            <td>{{ configuration.name }}</td>
+                            <td>{{ configuration.enabled ? 'Enabled' : 'Disabled' }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn btn-default" href="{{ path('manage_configuration_edit', { id: configuration.id }) }}"><i class="fa fa-edit"></i> Edit</a>
+                                    <a class="btn btn-default" href="{{ path('manage_configuration_sync', { id: configuration.id }) }}"><i class="fa fa-refresh"></i> Sync</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

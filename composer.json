@@ -1,11 +1,12 @@
 {
   "name": "terramar/packages",
-  "description": "Terramar Labs Repository. Adds additional functionality on top of Composer Satis",
+  "description": "Packages extends Composer Satis with a management interface and GitLab integration",
   "license": "MIT",
   "require": {
     "php": ">=5.4.0",
     "composer/satis": "dev-master",
     "composer/composer": "1.0.x-dev",
+    "doctrine/orm": "~2.4",
     "twig/twig": "~1.15",
     "symfony/debug": "~2.4",
     "symfony/console": "~2.4",
@@ -15,9 +16,17 @@
     "nikic/fast-route": "dev-master",
     "tyler-sommer/nice": "1.0.x-dev"
   },
+  "require-dev": {
+    "phpunit/phpunit": "~3.7"
+  },
   "autoload": {
     "psr-0": {
       "Terramar\\Packages": "src/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-develop": "2.0-dev"
     }
   },
   "minimum-stability": "beta",
