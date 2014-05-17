@@ -68,18 +68,16 @@ class UpdateCommand extends Command implements ContainerAwareInterface
             );
         }
 
-        if (count($data['repositories']) > 0) {
-            $fp = fopen('satis.json', 'w+');
-            if (!$fp) {
-                throw new \RuntimeException('Unable to open "satis.json" for writing.');
-            }
-
-            fwrite($fp, json_encode($data, JSON_PRETTY_PRINT));
-
-            $output->writeln(array(
-                '<info>satis.json updated successfully.</info>',
-            ));
+        $fp = fopen('satis.json', 'w+');
+        if (!$fp) {
+            throw new \RuntimeException('Unable to open "satis.json" for writing.');
         }
+    
+        fwrite($fp, json_encode($data, JSON_PRETTY_PRINT));
+    
+        $output->writeln(array(
+            '<info>satis.json updated successfully.</info>',
+        ));
 
         $output->writeln(array(
             sprintf('<info>Found </info>%s<info> repositories.</info>', count($data['repositories'])),
