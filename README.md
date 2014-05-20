@@ -1,7 +1,7 @@
 packages
 ========
 
-Packages is a custom implementation of [Satis](https://github.com/composer/satis) tailored for the needs of Terramar Labs.
+Packages extends [Satis](https://github.com/composer/satis), adding useful management functionality.
 
 Version 2.0 features a web management interface that allows for easy management of exposed
 packages and configured source control repositories.

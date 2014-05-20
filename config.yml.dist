@@ -1,7 +1,7 @@
-packages:
-  # The admin username and password
-  admin_username: 
-  admin_password: 
+security:
+  # Username and password to access the web management interface
+  username: somebody
+  password: password
 
 doctrine:
   mapping: 
