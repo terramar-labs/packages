@@ -1641,12 +1641,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/tyler-sommer/nice.git",
-                "reference": "e7950ddfa9d0215e3565c50fcfe429a399bb6757"
+                "reference": "cd77ad86538a0b868e4cd040f26dfb19952dc976"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tyler-sommer/nice/zipball/e7950ddfa9d0215e3565c50fcfe429a399bb6757",
-                "reference": "e7950ddfa9d0215e3565c50fcfe429a399bb6757",
+                "url": "https://api.github.com/repos/tyler-sommer/nice/zipball/cd77ad86538a0b868e4cd040f26dfb19952dc976",
+                "reference": "cd77ad86538a0b868e4cd040f26dfb19952dc976",
                 "shasum": ""
             },
             "require": {
@@ -1683,7 +1683,7 @@
                 "MIT"
             ],
             "description": "A nice PHP microframework",
-            "time": "2014-05-17 03:46:20"
+            "time": "2014-05-20 18:17:37"
         }
     ],
     "packages-dev": [
