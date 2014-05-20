@@ -6,6 +6,7 @@ DirectoryIndex index.php
     RewriteCond %{HTTPS} off
     RewriteCond %{REMOTE_ADDR} !=127.0.0.1
     RewriteCond %{REMOTE_ADDR} !=::1
+    RewriteCond %{REMOTE_ADDR} !=fe80::1
     RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [QSA,L]
 
     RewriteCond %{ENV:REDIRECT_STATUS} ^$
