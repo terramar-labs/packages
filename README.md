@@ -57,7 +57,7 @@ all valid composer packages it is able to locate.
 and their branches, tags, etc. Once `satis.json` is updated, run the build command to update `packages.json`.
 
 ```
-bin/console build --no-html-output
+bin/console build
 ```
 
 
