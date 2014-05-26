@@ -61,6 +61,8 @@ class PackagesExtension extends Extension
                 'output_dir' => $config['output_dir']
             ));
         
+        $container->register('packages.helper.resque', 'Terramar\Packages\Helper\ResqueHelper');
+        
         $container->setParameter('packages.resque.host', $config['resque']['host']);
         $container->setParameter('packages.resque.port', $config['resque']['port']);
         $container->setParameter('packages.resque.database', $config['resque']['database']);
