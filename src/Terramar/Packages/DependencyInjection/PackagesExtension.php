@@ -60,5 +60,9 @@ class PackagesExtension extends Extension
         $container->setParameter('packages.configuration', array(
                 'output_dir' => $config['output_dir']
             ));
+        
+        $container->setParameter('packages.resque.host', $config['resque']['host']);
+        $container->setParameter('packages.resque.port', $config['resque']['port']);
+        $container->setParameter('packages.resque.database', $config['resque']['database']);
     }
 }
