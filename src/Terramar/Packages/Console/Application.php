@@ -71,6 +71,11 @@ class Application extends BaseApplication
     protected function registerCommands()
     {
         $this->addCommands(array(
+            // Resque Commands
+            new \Terramar\Packages\Command\Worker\StartCommand(),
+            new \Terramar\Packages\Command\Worker\ListCommand(),
+            new \Terramar\Packages\Command\Worker\StopCommand(),
+                
             // Satis Commands
             new \Terramar\Packages\Command\Satis\UpdateCommand(),
             new \Terramar\Packages\Command\Satis\BuildCommand(),
