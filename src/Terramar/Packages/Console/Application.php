@@ -72,8 +72,8 @@ class Application extends BaseApplication
     {
         $this->addCommands(array(
             // Satis Commands
-            new \Terramar\Packages\Command\UpdateCommand(),
-            new \Terramar\Packages\Command\BuildCommand(),
+            new \Terramar\Packages\Command\Satis\UpdateCommand(),
+            new \Terramar\Packages\Command\Satis\BuildCommand(),
             
             // DBAL Commands
             new \Doctrine\DBAL\Tools\Console\Command\RunSqlCommand(),
