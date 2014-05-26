@@ -47,6 +47,9 @@ class UpdateCommand extends ContainerAwareCommand
         $data = array(
             'output-dir'    => realpath($config['output_dir']),
             'repositories'  => array(),
+            'output-html'   => false,
+            'require-dependencies'     => true,
+            'require-dev-dependencies' => true,
         );
 
         $packages = $this->container->get('doctrine.orm.entity_manager')->getRepository('Terramar\Packages\Entity\Package')->findBy(array('enabled' => true));
