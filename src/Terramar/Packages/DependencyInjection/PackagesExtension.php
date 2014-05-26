@@ -55,7 +55,8 @@ class PackagesExtension extends Extension
             ->addArgument(new Reference('router.data_generator'));
         
         $container->register('packages.helper.sync', 'Terramar\Packages\Helper\SyncHelper')
-            ->addArgument(new Reference('doctrine.orm.entity_manager'));
+            ->addArgument(new Reference('doctrine.orm.entity_manager'))
+            ->addArgument(new Reference('router.url_generator'));
         
         $container->setParameter('packages.configuration', array(
                 'output_dir' => $config['output_dir']
