@@ -43,12 +43,10 @@ Your installation is complete! Visit the project's web directory from your brows
 ### Updating satis.json
 
 ```
-bin/console update
+bin/console satis:update
 ```
 
-This command parses the project `config.yml` file and generates an updated satis.json with
-all valid composer packages it is able to locate.
-
+This command generates an updated satis.json with all enabled packages.
 
 
 ### Updating the exposed packages.json
@@ -57,7 +55,14 @@ all valid composer packages it is able to locate.
 and their branches, tags, etc. Once `satis.json` is updated, run the build command to update `packages.json`.
 
 ```
-bin/console build
+bin/console satis:build
+```
+
+Alternatively, running the `satis:update` command while passing `--build` will both 
+update `satis.json` and build `packages.json`.
+
+```
+bin/console satis:update --build
 ```
 
 
