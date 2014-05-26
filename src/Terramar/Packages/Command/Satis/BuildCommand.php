@@ -1,6 +1,6 @@
 <?php
 
-namespace Terramar\Packages\Command;
+namespace Terramar\Packages\Command\Satis;
 
 use Composer\Satis\Command\BuildCommand as BaseCommand;
 use Symfony\Component\Console\Input\InputInterface;

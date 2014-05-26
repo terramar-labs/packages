@@ -1,6 +1,6 @@
 <?php
 
-namespace Terramar\Packages\Command;
+namespace Terramar\Packages\Command\Satis;
 
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,9 +11,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Yaml\Exception\RuntimeException;
-use Terramar\Packages\Adapter\FileAdapter;
-use Terramar\Packages\Adapter\GitLabAdapter;
-use Terramar\Packages\Adapter\SshAdapter;
+use Terramar\Packages\Command\ContainerAwareCommand;
 use Terramar\Packages\Entity\Package;
 
 /**
