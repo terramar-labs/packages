@@ -28,6 +28,11 @@ class Package
     private $externalId;
 
     /**
+     * @ORM\Column(name="hook_external_id", type="string")
+     */
+    private $hookExternalId;
+
+    /**
      * @ORM\Column(name="description", type="string")
      */
     private $description;
@@ -144,6 +149,22 @@ class Package
     public function setExternalId($externalId)
     {
         $this->externalId = (string) $externalId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHookExternalId()
+    {
+        return $this->hookExternalId;
+    }
+
+    /**
+     * @param mixed $hookExternalId
+     */
+    public function setHookExternalId($hookExternalId)
+    {
+        $this->hookExternalId = (string) $hookExternalId;
     }
 
     /**
