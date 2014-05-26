@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Terramar\Packages\Entity\Package;
+use Terramar\Packages\Job\UpdateAndBuildJob;
 
 class PackageController
 {
@@ -47,9 +48,21 @@ class PackageController
             throw new \RuntimeException('Oops');
         }
         
+        $enabledBefore = $package->isEnabled();
+        $enabledAfter = (bool) $request->get('enabled', false);
+        
         $package->setName($request->request->get('name'));
         $package->setDescription($request->request->get('description'));
-        $package->setEnabled($request->get('enabled', false));
+        
+        if ($enabledBefore !== $enabledAfter) {
+            /** @var \Terramar\Packages\Helper\SyncHelper $helper */
+            $helper = $app->get('packages.helper.sync');
+            if ($enabledAfter) {
+                $helper->enableHook($package);
+            } else {
+                $helper->disableHook($package);
+            }
+        }
 
         $entityManager->persist($package);
         $entityManager->flush();
@@ -66,7 +79,14 @@ class PackageController
             throw new \RuntimeException('Oops');
         }
 
-        $package->setEnabled(!$package->isEnabled());
+        $enabledAfter = !$package->isEnabled();
+        /** @var \Terramar\Packages\Helper\SyncHelper $helper */
+        $helper = $app->get('packages.helper.sync');
+        if ($enabledAfter) {
+            $helper->enableHook($package);
+        } else {
+            $helper->disableHook($package);
+        }
 
         $entityManager->persist($package);
         $entityManager->flush();
