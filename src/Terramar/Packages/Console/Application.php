@@ -7,9 +7,7 @@ use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Terramar\Packages\Application as AppKernel;
-use Composer\Satis\Command\BuildCommand;
 use Symfony\Component\Yaml\Yaml;
-use Terramar\Packages\Command\UpdateCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Composer\IO\ConsoleIO;
@@ -73,8 +71,9 @@ class Application extends BaseApplication
     protected function registerCommands()
     {
         $this->addCommands(array(
-            new BuildCommand(),
-            new UpdateCommand(),
+            // Satis Commands
+            new \Terramar\Packages\Command\UpdateCommand(),
+            new \Terramar\Packages\Command\BuildCommand(),
             
             // DBAL Commands
             new \Doctrine\DBAL\Tools\Console\Command\RunSqlCommand(),

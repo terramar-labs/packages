@@ -2,7 +2,9 @@
 
 namespace Terramar\Packages\Command;
 
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Command\Command;
@@ -30,10 +32,11 @@ class UpdateCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('update')
+            ->setName('satis:update')
             ->setDescription('Updates the project\'s satis.json file')
             ->setDefinition(array(
-                new InputArgument('scan-dir', InputArgument::OPTIONAL, 'Directory to look for git repositories')
+                new InputArgument('scan-dir', InputArgument::OPTIONAL, 'Directory to look for git repositories'),
+                new InputOption('build', 'b', InputOption::VALUE_NONE, 'Build packages.json after update')
             ));
     }
 
@@ -80,5 +83,12 @@ class UpdateCommand extends ContainerAwareCommand
         $output->writeln(array(
             sprintf('<info>Found </info>%s<info> repositories.</info>', count($data['repositories'])),
         ));
+        
+        if ($input->getOption('build')) {
+            $command = $this->getApplication()->find('satis:build');
+
+            $input = new ArrayInput(array(''));
+            $command->run($input, $output);
+        }
     }
 }
