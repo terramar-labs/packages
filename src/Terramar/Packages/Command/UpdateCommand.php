@@ -17,13 +17,8 @@ use Terramar\Packages\Entity\Package;
 /**
  * Updates the projects satis.json
  */
-class UpdateCommand extends Command implements ContainerAwareInterface
+class UpdateCommand extends ContainerAwareCommand
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-    
     private static $template = array(
         'name' => 'Terramar Labs',
         'homepage' => 'http://packages.terramarlabs.com',
@@ -82,17 +77,5 @@ class UpdateCommand extends Command implements ContainerAwareInterface
         $output->writeln(array(
             sprintf('<info>Found </info>%s<info> repositories.</info>', count($data['repositories'])),
         ));
-    }
-
-    /**
-     * Sets the Container.
-     *
-     * @param ContainerInterface|null $container A ContainerInterface instance or null
-     *
-     * @api
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
     }
 }
