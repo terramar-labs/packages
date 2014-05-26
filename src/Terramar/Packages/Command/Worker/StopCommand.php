@@ -30,16 +30,11 @@ class StopCommand extends ContainerAwareCommand
             if (!$worker) {
                 $availableWorkers = \Resque_Worker::all();
                 if (!empty($availableWorkers)) {
-                    $output->writeln('<error>You need to give an existing worker.</error>');
-
-                } else {
-                    $output->writeln('<error>There are no workers running.</error>');
+                    throw new \RuntimeException('A running worker must be specified');
                 }
-
-                return 1;
             }
 
-            $workers = array($worker);
+            $workers = $worker ? array($worker) : array();
         }
 
         if (count($workers) <= 0) {
@@ -48,7 +43,7 @@ class StopCommand extends ContainerAwareCommand
                     ''
                 ));
 
-            return 0;
+            return;
         }
 
         $signal = $input->getOption('force') ? SIGTERM : SIGQUIT;
