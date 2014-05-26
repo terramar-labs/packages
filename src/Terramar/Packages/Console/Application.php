@@ -5,6 +5,7 @@ namespace Terramar\Packages\Console;
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Terramar\Packages\Application as AppKernel;
 use Symfony\Component\Yaml\Yaml;
@@ -42,6 +43,7 @@ class Application extends BaseApplication
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         $this->setHelperSet(ConsoleRunner::createHelperSet($this->app->get('doctrine.orm.entity_manager')));
+        $this->getHelperSet()->set(new DialogHelper());
         $this->registerCommands();
         $this->io = new ConsoleIO($input, $output, $this->getHelperSet());
 
@@ -101,7 +103,16 @@ class Application extends BaseApplication
             new \Doctrine\ORM\Tools\Console\Command\ConvertMappingCommand(),
             new \Doctrine\ORM\Tools\Console\Command\RunDqlCommand(),
             new \Doctrine\ORM\Tools\Console\Command\ValidateSchemaCommand(),
-            new \Doctrine\ORM\Tools\Console\Command\InfoCommand()
+            new \Doctrine\ORM\Tools\Console\Command\InfoCommand(),
+                
+            // Migrations Commands
+            new \Doctrine\DBAL\Migrations\Tools\Console\Command\DiffCommand(),
+            new \Doctrine\DBAL\Migrations\Tools\Console\Command\ExecuteCommand(),
+            new \Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand(),
+            new \Doctrine\DBAL\Migrations\Tools\Console\Command\LatestCommand(),
+            new \Doctrine\DBAL\Migrations\Tools\Console\Command\MigrateCommand(),
+            new \Doctrine\DBAL\Migrations\Tools\Console\Command\StatusCommand(),
+            new \Doctrine\DBAL\Migrations\Tools\Console\Command\VersionCommand()
         ));
     }
 
