@@ -3,8 +3,9 @@ packages
 
 Packages extends [Satis](https://github.com/composer/satis), adding useful management functionality.
 
-Version 2.0 features a web management interface that allows for easy management of exposed
-packages and configured source control repositories.
+Packages automatically registers GitLab project web hooks to keep references up to date. The latest version 
+features a web management interface that allows for easy management of exposed packages and configured source 
+control repositories.
 
 
 Installation
@@ -13,6 +14,7 @@ Installation
 Packages requires:
  * PHP 5.4 or later
  * Some database platform supported by [Doctrine 2](http://doctrine-project.org)
+ * Redis
  * [Composer](https://getcomposer.org)
 
 
@@ -31,13 +33,13 @@ cp config.yml.dist config.yml
 vi config.yml
 ```
 
-Create your database schema.
+Run database migrations to create your database schema.
 
 ```
-bin/console orm:schema-tool:create
+bin/console migrations:migrate
 ```
 
-Your installation is complete! Visit the project's web directory from your browser to see the result.
+Your installation is complete! Visit the project's web directory from your browser to configure your packages.
 
 
 ### Updating satis.json
