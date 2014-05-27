@@ -2,8 +2,6 @@
 
 namespace Terramar\Packages\Job;
 
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Terramar\Packages\Application;
 
@@ -27,27 +25,19 @@ abstract class ContainerAwareJob
     /**
      * @var Application
      */
-    private $kernel = null;
+    private $app = null;
 
     /**
      * @return ContainerInterface
      */
     protected function getContainer()
     {
-        if ($this->kernel === null) {
-            $this->kernel = $this->createApplication();
-            $this->kernel->boot();
+        if ($this->app === null) {
+            $this->app = $this->createApplication();
+            $this->app->boot();
         }
 
-        return $this->kernel->getContainer();
-    }
-
-    /**
-     * @param array $kernelOptions
-     */
-    public function setKernelOptions(array $kernelOptions)
-    {
-        $this->args = \array_merge($this->args, $kernelOptions);
+        return $this->app->getContainer();
     }
 
     /**
@@ -68,16 +58,6 @@ abstract class ContainerAwareJob
     public function perform()
     {
         $this->run($this->args);
-    }
-
-    /**
-     * Clean up the kernel
-     */
-    public function tearDown()
-    {
-        if ($this->kernel) {
-            $this->kernel->shutdown();
-        }
     }
 
     abstract protected function run($args);
