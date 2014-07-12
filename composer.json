@@ -7,12 +7,14 @@
     "composer/satis": "dev-master",
     "composer/composer": "1.0.x-dev",
     "doctrine/orm": "~2.4",
+    "doctrine/migrations": "dev-master",
     "twig/twig": "~1.15",
     "symfony/debug": "~2.4",
     "symfony/console": "~2.4",
     "symfony/process": "~2.4",
     "symfony/yaml": "~2.4",
     "m4tthumphrey/php-gitlab-api": "dev-master",
+    "chrisboulton/php-resque": "dev-master",
     "nikic/fast-route": "dev-master",
     "tyler-sommer/nice": "1.0.x-dev"
   },
@@ -26,7 +28,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-develop": "2.0-dev"
+      "dev-develop": "2.1-dev"
     }
   },
   "minimum-stability": "beta",

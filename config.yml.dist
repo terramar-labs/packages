@@ -18,5 +18,7 @@ doctrine:
     # password:
     # database: packages
    
-redis:
-  # socket: /tmp/redis.sock 
+resque:
+  host:     'unix:/tmp/redis.sock'
+  port:     ~
+  database: 0

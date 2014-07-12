@@ -1,29 +1,24 @@
 <?php
 
-namespace Terramar\Packages\Command;
+namespace Terramar\Packages\Command\Satis;
 
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Yaml\Exception\RuntimeException;
-use Terramar\Packages\Adapter\FileAdapter;
-use Terramar\Packages\Adapter\GitLabAdapter;
-use Terramar\Packages\Adapter\SshAdapter;
+use Terramar\Packages\Command\ContainerAwareCommand;
 use Terramar\Packages\Entity\Package;
 
 /**
  * Updates the projects satis.json
  */
-class UpdateCommand extends Command implements ContainerAwareInterface
+class UpdateCommand extends ContainerAwareCommand
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-    
     private static $template = array(
         'name' => 'Terramar Labs',
         'homepage' => 'http://packages.terramarlabs.com',
@@ -35,10 +30,11 @@ class UpdateCommand extends Command implements ContainerAwareInterface
     protected function configure()
     {
         $this
-            ->setName('update')
+            ->setName('satis:update')
             ->setDescription('Updates the project\'s satis.json file')
             ->setDefinition(array(
-                new InputArgument('scan-dir', InputArgument::OPTIONAL, 'Directory to look for git repositories')
+                new InputArgument('scan-dir', InputArgument::OPTIONAL, 'Directory to look for git repositories'),
+                new InputOption('build', 'b', InputOption::VALUE_NONE, 'Build packages.json after update')
             ));
     }
 
@@ -52,6 +48,9 @@ class UpdateCommand extends Command implements ContainerAwareInterface
         $data = array(
             'output-dir'    => realpath($config['output_dir']),
             'repositories'  => array(),
+            'output-html'   => false,
+            'require-dependencies'     => true,
+            'require-dev-dependencies' => true,
         );
 
         $packages = $this->container->get('doctrine.orm.entity_manager')->getRepository('Terramar\Packages\Entity\Package')->findBy(array('enabled' => true));
@@ -82,17 +81,12 @@ class UpdateCommand extends Command implements ContainerAwareInterface
         $output->writeln(array(
             sprintf('<info>Found </info>%s<info> repositories.</info>', count($data['repositories'])),
         ));
-    }
+        
+        if ($input->getOption('build')) {
+            $command = $this->getApplication()->find('satis:build');
 
-    /**
-     * Sets the Container.
-     *
-     * @param ContainerInterface|null $container A ContainerInterface instance or null
-     *
-     * @api
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
+            $input = new ArrayInput(array(''));
+            $command->run($input, $output);
+        }
     }
 }

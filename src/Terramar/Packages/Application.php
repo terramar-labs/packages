@@ -26,11 +26,12 @@ class Application extends BaseApplication
         $config = Yaml::parse(file_get_contents($this->getRootDir() . '/config.yml'));
         $security = isset($config['security']) ? $config['security'] : array();
         $doctrine = isset($config['doctrine']) ? $config['doctrine'] : array();
-        $redis = isset($config['redis']) ? $config['redis'] : null;
+        $resque = isset($config['resque']) ? $config['resque'] : null;
         
         $this->appendExtension(new PackagesExtension(array(
-                'output_dir' => $this->getRootDir() . '/web'
-            )));
+                'output_dir' => $this->getRootDir() . '/web',
+                'resque' => $resque
+        )));
         $this->appendExtension(new DoctrineOrmExtension($doctrine));
         $this->appendExtension(new SessionExtension());
         $this->appendExtension(new TwigExtension($this->getRootDir() . '/views'));
@@ -40,12 +41,5 @@ class Application extends BaseApplication
                 'firewall' => '^/manage',
                 'success_path' => '/manage'
             )));
-        if (isset($redis)) {
-            $this->appendExtension(new CacheExtension(array(
-                'connections' => array('default' => array(
-                    'driver' => 'redis',
-                    'options' => $redis
-                )))));
-        }
     }
 }

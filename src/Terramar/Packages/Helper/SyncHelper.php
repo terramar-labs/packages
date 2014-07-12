@@ -3,6 +3,8 @@
 namespace Terramar\Packages\Helper;
 
 use Doctrine\ORM\EntityManager;
+use Gitlab\Model\Project;
+use Nice\Router\UrlGeneratorInterface;
 use Terramar\Packages\Entity\Configuration;
 use Terramar\Packages\Entity\Package;
 
@@ -13,9 +15,15 @@ class SyncHelper
      */
     private $entityManager;
 
-    public function __construct(EntityManager $entityManager)
+    /**
+     * @var \Nice\Router\UrlGeneratorInterface
+     */
+    private $urlGenerator;
+
+    public function __construct(EntityManager $entityManager, UrlGeneratorInterface $urlGenerator)
     {
         $this->entityManager = $entityManager;
+        $this->urlGenerator = $urlGenerator;
     }
     
     public function synchronizePackages(Configuration $configuration)
@@ -41,6 +49,39 @@ class SyncHelper
         }
         
         return $packages;
+    }
+    
+    public function enableHook(Package $package)
+    {
+        if ($package->isEnabled()) {
+            return true;
+        }
+        
+        $client = $package->getConfiguration()->createClient();
+        $project = Project::fromArray($client, (array) $client->api('projects')->show($package->getExternalId()));
+        $hook = $project->addHook($this->urlGenerator->generate('webhook_receive', array('id' => $package->getId()), true));
+        $package->setHookExternalId($hook->id);
+        $package->setEnabled(true);
+                
+        return true;
+    }
+    
+    public function disableHook(Package $package)
+    {
+        if (!$package->isEnabled()) {
+            return true;
+        }
+        
+        if ($package->getHookExternalId()) {
+            $client  = $package->getConfiguration()->createClient();
+            $project = Project::fromArray($client, (array) $client->api('projects')->show($package->getExternalId()));
+            $project->removeHook($package->getHookExternalId());
+        }
+
+        $package->setHookExternalId('');
+        $package->setEnabled(false);
+
+        return true;
     }
     
     private function getAllProjects(Configuration $configuration)

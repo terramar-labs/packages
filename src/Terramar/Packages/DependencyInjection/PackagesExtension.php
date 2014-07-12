@@ -55,10 +55,17 @@ class PackagesExtension extends Extension
             ->addArgument(new Reference('router.data_generator'));
         
         $container->register('packages.helper.sync', 'Terramar\Packages\Helper\SyncHelper')
-            ->addArgument(new Reference('doctrine.orm.entity_manager'));
+            ->addArgument(new Reference('doctrine.orm.entity_manager'))
+            ->addArgument(new Reference('router.url_generator'));
         
         $container->setParameter('packages.configuration', array(
                 'output_dir' => $config['output_dir']
             ));
+        
+        $container->register('packages.helper.resque', 'Terramar\Packages\Helper\ResqueHelper');
+        
+        $container->setParameter('packages.resque.host', $config['resque']['host']);
+        $container->setParameter('packages.resque.port', $config['resque']['port']);
+        $container->setParameter('packages.resque.database', $config['resque']['database']);
     }
 }

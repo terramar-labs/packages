@@ -3,8 +3,9 @@ packages
 
 Packages extends [Satis](https://github.com/composer/satis), adding useful management functionality.
 
-Version 2.0 features a web management interface that allows for easy management of exposed
-packages and configured source control repositories.
+Packages automatically registers GitLab project web hooks to keep references up to date. The latest version 
+features a web management interface that allows for easy management of exposed packages and configured source 
+control repositories.
 
 
 Installation
@@ -13,6 +14,7 @@ Installation
 Packages requires:
  * PHP 5.4 or later
  * Some database platform supported by [Doctrine 2](http://doctrine-project.org)
+ * Redis
  * [Composer](https://getcomposer.org)
 
 
@@ -31,24 +33,22 @@ cp config.yml.dist config.yml
 vi config.yml
 ```
 
-Create your database schema.
+Run database migrations to create your database schema.
 
 ```
-bin/console orm:schema-tool:create
+bin/console migrations:migrate
 ```
 
-Your installation is complete! Visit the project's web directory from your browser to see the result.
+Your installation is complete! Visit the project's web directory from your browser to configure your packages.
 
 
 ### Updating satis.json
 
 ```
-bin/console update
+bin/console satis:update
 ```
 
-This command parses the project `config.yml` file and generates an updated satis.json with
-all valid composer packages it is able to locate.
-
+This command generates an updated satis.json with all enabled packages.
 
 
 ### Updating the exposed packages.json
@@ -57,7 +57,14 @@ all valid composer packages it is able to locate.
 and their branches, tags, etc. Once `satis.json` is updated, run the build command to update `packages.json`.
 
 ```
-bin/console build --no-html-output
+bin/console satis:build
+```
+
+Alternatively, running the `satis:update` command while passing `--build` will both 
+update `satis.json` and build `packages.json`.
+
+```
+bin/console satis:update --build
 ```
 
 

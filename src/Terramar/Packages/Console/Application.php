@@ -5,11 +5,10 @@ namespace Terramar\Packages\Console;
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Terramar\Packages\Application as AppKernel;
-use Composer\Satis\Command\BuildCommand;
 use Symfony\Component\Yaml\Yaml;
-use Terramar\Packages\Command\UpdateCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Composer\IO\ConsoleIO;
@@ -44,6 +43,7 @@ class Application extends BaseApplication
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         $this->setHelperSet(ConsoleRunner::createHelperSet($this->app->get('doctrine.orm.entity_manager')));
+        $this->getHelperSet()->set(new DialogHelper());
         $this->registerCommands();
         $this->io = new ConsoleIO($input, $output, $this->getHelperSet());
 
@@ -73,8 +73,16 @@ class Application extends BaseApplication
     protected function registerCommands()
     {
         $this->addCommands(array(
-            new BuildCommand(),
-            new UpdateCommand(),
+            // Resque Commands
+            new \Terramar\Packages\Command\Worker\StartCommand(),
+            new \Terramar\Packages\Command\Worker\ListCommand(),
+            new \Terramar\Packages\Command\Worker\StopCommand(),
+            new \Terramar\Packages\Command\Queue\ListCommand(),
+            new \Terramar\Packages\Command\Queue\ClearCommand(),
+                
+            // Satis Commands
+            new \Terramar\Packages\Command\Satis\UpdateCommand(),
+            new \Terramar\Packages\Command\Satis\BuildCommand(),
             
             // DBAL Commands
             new \Doctrine\DBAL\Tools\Console\Command\RunSqlCommand(),
@@ -95,7 +103,16 @@ class Application extends BaseApplication
             new \Doctrine\ORM\Tools\Console\Command\ConvertMappingCommand(),
             new \Doctrine\ORM\Tools\Console\Command\RunDqlCommand(),
             new \Doctrine\ORM\Tools\Console\Command\ValidateSchemaCommand(),
-            new \Doctrine\ORM\Tools\Console\Command\InfoCommand()
+            new \Doctrine\ORM\Tools\Console\Command\InfoCommand(),
+                
+            // Migrations Commands
+            new \Doctrine\DBAL\Migrations\Tools\Console\Command\DiffCommand(),
+            new \Doctrine\DBAL\Migrations\Tools\Console\Command\ExecuteCommand(),
+            new \Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand(),
+            new \Doctrine\DBAL\Migrations\Tools\Console\Command\LatestCommand(),
+            new \Doctrine\DBAL\Migrations\Tools\Console\Command\MigrateCommand(),
+            new \Doctrine\DBAL\Migrations\Tools\Console\Command\StatusCommand(),
+            new \Doctrine\DBAL\Migrations\Tools\Console\Command\VersionCommand()
         ));
     }
 

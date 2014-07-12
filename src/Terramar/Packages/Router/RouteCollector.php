@@ -17,6 +17,8 @@ class RouteCollector extends BaseCollector
         $this->addNamedRoute('login', 'GET', '/login', 'Terramar\Packages\Controller\DefaultController::loginAction');
         $this->addNamedRoute('logout', 'GET', '/logout', '');
 
+        $this->addNamedRoute('webhook_receive', 'POST', '/webhook/{id}/receive', 'Terramar\Packages\Controller\WebHookController::receiveAction');
+        
         $this->addNamedRoute('manage', 'GET', '/manage', 'Terramar\Packages\Controller\ManageController::indexAction');
 
         $this->addNamedRoute('manage_packages', 'GET', '/manage/packages', 'Terramar\Packages\Controller\PackageController::indexAction');
