@@ -5,6 +5,7 @@ namespace Terramar\Packages\DependencyInjection;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Reference;
+use Terramar\Packages\Events;
 
 class PackagesExtension extends Extension
 {
@@ -67,5 +68,14 @@ class PackagesExtension extends Extension
         $container->setParameter('packages.resque.host', $config['resque']['host']);
         $container->setParameter('packages.resque.port', $config['resque']['port']);
         $container->setParameter('packages.resque.database', $config['resque']['database']);
+        
+        $this->configureSatis($container);
+    }
+    
+    protected function configureSatis(ContainerBuilder $container)
+    {
+        $container->register('packages.listener.satis', 'Terramar\Packages\Plugin\Satis\UpdatePackageListener')
+            ->addArgument(new Reference('packages.helper.resque'))
+            ->addTag('kernel.event_listener', array('event' => Events::PACKAGE_UPDATE, 'method' => 'onUpdatePackage', 'priority' => 0));
     }
 }
