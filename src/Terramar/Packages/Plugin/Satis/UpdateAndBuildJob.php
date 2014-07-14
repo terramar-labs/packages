@@ -1,9 +1,10 @@
 <?php
 
-namespace Terramar\Packages\Job;
+namespace Terramar\Packages\Plugin\Satis;
 
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\ProcessBuilder;
+use Terramar\Packages\Job\ContainerAwareJob;
 
 class UpdateAndBuildJob extends ContainerAwareJob
 {
