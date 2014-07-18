@@ -70,6 +70,7 @@ class PackagesExtension extends Extension
 
         $this->configureGitLabPlugin($container);
         $this->configureSatisPlugin($container);
+        $this->configureCloneProjectPlugin($container);
     }
 
     protected function configureGitLabPlugin(ContainerBuilder $container)
@@ -90,6 +91,14 @@ class PackagesExtension extends Extension
     protected function configureSatisPlugin(ContainerBuilder $container)
     {
         $container->register('packages.plugins.satis.subscriber', 'Terramar\Packages\Plugin\Satis\SatisPluginSubscriber')
+            ->addArgument(new Reference('packages.helper.resque'))
+            ->addArgument(new Reference('doctrine.orm.entity_manager'))
+            ->addTag('kernel.event_subscriber');
+    }
+
+    protected function configureCloneProjectPlugin(ContainerBuilder $container)
+    {
+        $container->register('packages.plugins.clone_project.subscriber', 'Terramar\Packages\Plugin\CloneProject\CloneProjectPluginSubscriber')
             ->addArgument(new Reference('packages.helper.resque'))
             ->addArgument(new Reference('doctrine.orm.entity_manager'))
             ->addTag('kernel.event_subscriber');
