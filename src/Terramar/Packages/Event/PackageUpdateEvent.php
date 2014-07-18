@@ -2,16 +2,10 @@
 
 namespace Terramar\Packages\Event;
 
-use Symfony\Component\EventDispatcher\Event;
 use Terramar\Packages\Entity\Package;
 
-class PackageUpdateEvent extends Event
+class PackageUpdateEvent extends PackageEvent
 {
-    /**
-     * @var Package
-     */
-    private $package;
-
     /**
      * @var mixed
      */
@@ -25,16 +19,9 @@ class PackageUpdateEvent extends Event
      */
     public function __construct(Package $package, $payload)
     {
-        $this->package = $package;
         $this->payload = $payload;
-    }
-
-    /**
-     * @return Package
-     */
-    public function getPackage()
-    {
-        return $this->package;
+        
+        parent::__construct($package);
     }
 
     /**
