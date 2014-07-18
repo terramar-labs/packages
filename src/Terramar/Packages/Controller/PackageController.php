@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Terramar\Packages\Entity\Package;
+use Terramar\Packages\Event\PackageEvent;
+use Terramar\Packages\Events;
 use Terramar\Packages\Job\UpdateAndBuildJob;
 
 class PackageController
@@ -55,13 +57,12 @@ class PackageController
         $package->setDescription($request->request->get('description'));
         
         if ($enabledBefore !== $enabledAfter) {
-            /** @var \Terramar\Packages\Helper\SyncHelper $helper */
-            $helper = $app->get('packages.helper.sync');
-            if ($enabledAfter) {
-                $helper->enableHook($package);
-            } else {
-                $helper->disableHook($package);
-            }
+            $eventName = $enabledAfter ? Events::PACKAGE_ENABLE : Events::PACKAGE_DISABLE; 
+            $event = new PackageEvent($package);
+
+            /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher */
+            $dispatcher = $app->get('event_dispatcher');
+            $dispatcher->dispatch($eventName, $event);
         }
 
         $entityManager->persist($package);
@@ -80,13 +81,12 @@ class PackageController
         }
 
         $enabledAfter = !$package->isEnabled();
-        /** @var \Terramar\Packages\Helper\SyncHelper $helper */
-        $helper = $app->get('packages.helper.sync');
-        if ($enabledAfter) {
-            $helper->enableHook($package);
-        } else {
-            $helper->disableHook($package);
-        }
+        $eventName = $enabledAfter ? Events::PACKAGE_ENABLE : Events::PACKAGE_DISABLE;
+        $event = new PackageEvent($package);
+
+        /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher */
+        $dispatcher = $app->get('event_dispatcher');
+        $dispatcher->dispatch($eventName, $event);
 
         $entityManager->persist($package);
         $entityManager->flush();
