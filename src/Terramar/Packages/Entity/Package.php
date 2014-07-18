@@ -30,7 +30,7 @@ class Package
     /**
      * @ORM\Column(name="hook_external_id", type="string")
      */
-    private $hookExternalId;
+    private $hookExternalId = '';
 
     /**
      * @ORM\Column(name="description", type="string")
