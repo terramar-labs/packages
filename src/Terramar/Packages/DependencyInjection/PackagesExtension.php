@@ -56,8 +56,7 @@ class PackagesExtension extends Extension
             ->addArgument(new Reference('router.data_generator'));
         
         $container->register('packages.helper.sync', 'Terramar\Packages\Helper\SyncHelper')
-            ->addArgument(new Reference('doctrine.orm.entity_manager'))
-            ->addArgument(new Reference('router.url_generator'));
+            ->addArgument(new Reference('event_dispatcher'));
         
         $container->setParameter('packages.configuration', array(
                 'output_dir' => $config['output_dir']
@@ -68,14 +67,31 @@ class PackagesExtension extends Extension
         $container->setParameter('packages.resque.host', $config['resque']['host']);
         $container->setParameter('packages.resque.port', $config['resque']['port']);
         $container->setParameter('packages.resque.database', $config['resque']['database']);
+
+        $this->configureGitLabPlugin($container);
+        $this->configureSatisPlugin($container);
+    }
+
+    protected function configureGitLabPlugin(ContainerBuilder $container)
+    {
+        $container->register('packages.plugins.gitlab.adapter', 'Terramar\Packages\Plugin\GitLab\GitLabAdapter')
+            ->addArgument(new Reference('doctrine.orm.entity_manager'))
+            ->addArgument(new Reference('router.url_generator'));
         
-        $this->configureSatis($container);
+        $container->getDefinition('packages.helper.sync')
+            ->addMethodCall('registerAdapter', array(new Reference('packages.plugins.gitlab.adapter')));
+        
+        $container->register('packages.plugins.gitlab.subscriber', 'Terramar\Packages\Plugin\GitLab\GitLabPluginSubscriber')
+            ->addArgument(new Reference('packages.plugins.gitlab.adapter'))
+            ->addArgument(new Reference('doctrine.orm.entity_manager'))
+            ->addTag('kernel.event_subscriber');
     }
     
-    protected function configureSatis(ContainerBuilder $container)
+    protected function configureSatisPlugin(ContainerBuilder $container)
     {
-        $container->register('packages.listener.satis', 'Terramar\Packages\Plugin\Satis\UpdatePackageListener')
+        $container->register('packages.plugins.satis.subscriber', 'Terramar\Packages\Plugin\Satis\SatisPluginSubscriber')
             ->addArgument(new Reference('packages.helper.resque'))
-            ->addTag('kernel.event_listener', array('event' => Events::PACKAGE_UPDATE, 'method' => 'onUpdatePackage', 'priority' => 0));
+            ->addArgument(new Reference('doctrine.orm.entity_manager'))
+            ->addTag('kernel.event_subscriber');
     }
 }
