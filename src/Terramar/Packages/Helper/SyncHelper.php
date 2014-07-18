@@ -5,108 +5,76 @@ namespace Terramar\Packages\Helper;
 use Doctrine\ORM\EntityManager;
 use Gitlab\Model\Project;
 use Nice\Router\UrlGeneratorInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Terramar\Packages\Entity\Configuration;
 use Terramar\Packages\Entity\Package;
+use Terramar\Packages\Event\PackageEvent;
+use Terramar\Packages\Events;
 
 class SyncHelper
 {
-    /**
-     * @var \Doctrine\ORM\EntityManager
-     */
-    private $entityManager;
 
     /**
-     * @var \Nice\Router\UrlGeneratorInterface
+     * @var EventDispatcherInterface
      */
-    private $urlGenerator;
+    private $eventDispatcher;
 
-    public function __construct(EntityManager $entityManager, UrlGeneratorInterface $urlGenerator)
+    /**
+     * @var array|SyncAdapterInterface[]
+     */
+    private $adapters = array();
+
+    /**
+     * Constructor
+     * 
+     * @param EventDispatcherInterface $eventDispatcher
+     */
+    public function __construct(EventDispatcherInterface $eventDispatcher)
     {
-        $this->entityManager = $entityManager;
-        $this->urlGenerator = $urlGenerator;
+        $this->eventDispatcher = $eventDispatcher;
     }
-    
+
+    /**
+     * Register an adapter with the helper
+     * 
+     * @param SyncAdapterInterface $adapter
+     */
+    public function registerAdapter(SyncAdapterInterface $adapter)
+    {
+        if (!in_array($adapter, $this->adapters, true)) {
+            $this->adapters[] = $adapter;
+        }
+    }
+
+    /**
+     * Synchronize packages in the given configuration
+     * 
+     * @param Configuration $configuration
+     *
+     * @return \Terramar\Packages\Entity\Package[]
+     */
     public function synchronizePackages(Configuration $configuration)
     {
-        $existingPackages = $this->entityManager->getRepository('Terramar\Packages\Entity\Package')->findBy(array('configuration' => $configuration));
+        $adapter = $this->getAdapter($configuration);
         
-        $projects = $this->getAllProjects($configuration);
-
-        $packages = array();
-        foreach ($projects as $project) {
-            if (!$this->packageExists($existingPackages, $project['id'])) {
-                $package = new Package();
-                $package->setExternalId($project['id']);
-                $package->setName($project['name']);
-                $package->setDescription($project['description']);
-                $package->setFqn($project['path_with_namespace']);
-                $package->setWebUrl($project['web_url']);
-                $package->setSshUrl($project['ssh_url_to_repo']);
-                $package->setConfiguration($configuration);
-                
-                $packages[] = $package;
-            }
+        $packages = $adapter->synchronizePackages($configuration);
+        
+        foreach ($packages as $package) {
+            $event = new PackageEvent($package);
+            $this->eventDispatcher->dispatch(Events::PACKAGE_CREATE, $event);
         }
         
         return $packages;
     }
     
-    public function enableHook(Package $package)
+    private function getAdapter(Configuration $configuration)
     {
-        if ($package->isEnabled()) {
-            return true;
-        }
-        
-        $client = $package->getConfiguration()->createClient();
-        $project = Project::fromArray($client, (array) $client->api('projects')->show($package->getExternalId()));
-        $hook = $project->addHook($this->urlGenerator->generate('webhook_receive', array('id' => $package->getId()), true));
-        $package->setHookExternalId($hook->id);
-        $package->setEnabled(true);
-                
-        return true;
-    }
-    
-    public function disableHook(Package $package)
-    {
-        if (!$package->isEnabled()) {
-            return true;
-        }
-        
-        if ($package->getHookExternalId()) {
-            $client  = $package->getConfiguration()->createClient();
-            $project = Project::fromArray($client, (array) $client->api('projects')->show($package->getExternalId()));
-            $project->removeHook($package->getHookExternalId());
-        }
-
-        $package->setHookExternalId('');
-        $package->setEnabled(false);
-
-        return true;
-    }
-    
-    private function getAllProjects(Configuration $configuration)
-    {
-        $client = $configuration->createClient();
-
-        $projects = array();
-        $page = 1;
-        while (true) {
-            $projects = array_merge($projects, $client->api('projects')->all($page, 100));
-            $linkHeader = $client->getHttpClient()->getLastResponse()->getHeader('Link');
-            if (strpos($linkHeader, 'rel="next"') === false) {
-                break;
+        foreach ($this->adapters as $adapter) {
+            if ($adapter->supports($configuration)) {
+                return $adapter;
             }
-            
-            $page++;
         }
         
-        return $projects;
-    }
-    
-    private function packageExists($existingPackages, $gitlabId)
-    {
-        return count(array_filter($existingPackages, function(Package $package) use ($gitlabId) {
-                return (string) $package->getExternalId() === (string) $gitlabId;
-            })) > 0;
+        throw new \RuntimeException('No adapter registered supports the given configuration');
     }
 }
