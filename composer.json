@@ -2,11 +2,12 @@
   "name": "terramar/packages",
   "description": "Packages extends Composer Satis with a management interface and GitLab integration",
   "license": "MIT",
+  "type": "application",
   "require": {
     "php": ">=5.4.0",
     "composer/satis": "dev-master",
     "composer/composer": "1.0.x-dev",
-    "doctrine/orm": "~2.4",
+    "doctrine/orm": "2.5.x-dev",
     "doctrine/migrations": "dev-master",
     "twig/twig": "~1.15",
     "symfony/debug": "~2.4",
