@@ -7,8 +7,9 @@
     "php": ">=5.4.0",
     "composer/satis": "dev-master",
     "composer/composer": "1.0.x-dev",
+    "sami/sami": "2.0.x-dev",
     "doctrine/orm": "2.5.x-dev",
-    "doctrine/migrations": "dev-master",
+    "doctrine/migrations": "1.0.x-dev",
     "twig/twig": "~1.15",
     "symfony/debug": "~2.4",
     "symfony/console": "~2.4",
@@ -23,8 +24,8 @@
     "phpunit/phpunit": "~3.7"
   },
   "autoload": {
-    "psr-0": {
-      "Terramar\\Packages": "src/"
+    "psr-4": {
+      "Terramar\\Packages\\": "src/"
     }
   },
   "extra": {

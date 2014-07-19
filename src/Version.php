@@ -4,5 +4,5 @@ namespace Terramar\Packages;
 
 class Version
 {
-    const VERSION = '2.1.1';
+    const VERSION = '3.0.0-DEV';
 }
