@@ -29,6 +29,11 @@ class Configuration
     private $url;
 
     /**
+     * @ORM\Column(name="adapter", type="string", nullable=true)
+     */
+    private $adapter;
+
+    /**
      * @ORM\Column(name="enabled", type="boolean")
      */
     private $enabled = true;
@@ -108,6 +113,22 @@ class Configuration
     public function setUrl($url)
     {
         $this->url = (string) $url;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdapter()
+    {
+        return $this->adapter;
+    }
+
+    /**
+     * @param string $adapter
+     */
+    public function setAdapter($adapter)
+    {
+        $this->adapter = (string) $adapter;
     }
     
     public function createClient()
