@@ -12,6 +12,7 @@
                 <h3 class="box-title">Showing all packages</h3>
             </div>
             <div class="box-body table-responsive">
+                {% if packages|length %}
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -25,7 +26,7 @@
                         {% for package in packages %}
                         <tr>
                             <td>{{ package.name }} (<a href="{{ package.webUrl }}">{{ package.fqn }}</a>){% if not package.enabled %} <label class="label label-warning">Disabled</label>{% endif %}</td>
-                            <td>{{ package.configuration.name }}</td>
+                            <td>{{ package.remote.name }}</td>
                             <td></td>
                             <td>
                                 <div class="btn-group">
@@ -41,6 +42,9 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                {% else %}
+                    <h4>No packages. Synchronize <a href="{{ path('manage_remotes') }}">remote repositories</a> to add packages.</h4>
+                {% endif %}
             </div>
         </div>
     </div>

@@ -33,9 +33,9 @@
                     <div class="form-group">
                         <label for="configuration_id">GitLab Instance</label>
                         <select class="form-control" name="configuration_id" id="configuration_id" disabled>
-                            <option value="">Select configuration</option>
+                            <option value="">Select remote</option>
                             {% for config in configurations %}
-                                <option value="{{ config.id }}"{% if package.configuration is sameas(config) %} selected="selected"{% endif %}>{{ config.name }}</option>
+                                <option value="{{ config.id }}"{% if package.remote is sameas(config) %} selected="selected"{% endif %}>{{ config.name }}</option>
                             {% endfor %}
                         </select>
                     </div>

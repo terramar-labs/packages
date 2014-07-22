@@ -2,7 +2,7 @@
 
 namespace Terramar\Packages\Helper;
 
-use Terramar\Packages\Entity\Configuration;
+use Terramar\Packages\Entity\Remote;
 use Terramar\Packages\Entity\Package;
 
 interface SyncAdapterInterface
@@ -10,20 +10,20 @@ interface SyncAdapterInterface
     /**
      * Returns true if the adapter supports the given configuration
      * 
-     * @param Configuration $configuration
+     * @param Remote $configuration
      *
      * @return bool
      */
-    public function supports(Configuration $configuration);
+    public function supports(Remote $configuration);
 
     /**
      * Synchronizes the given adapter, returning any new Packages
      * 
-     * @param Configuration $configuration
+     * @param Remote $configuration
      *
      * @return Package[]
      */
-    public function synchronizePackages(Configuration $configuration);
+    public function synchronizePackages(Remote $configuration);
 
     /**
      * Gets the name of the adapter

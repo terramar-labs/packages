@@ -19,7 +19,7 @@ class ManageController
             ->where('p.enabled = true')
             ->getQuery()->setCacheable(true)->getSingleScalarResult();
         
-        $remotes = $entityManager->getRepository('Terramar\Packages\Entity\Configuration')->createQueryBuilder('c')
+        $remotes = $entityManager->getRepository('Terramar\Packages\Entity\Remote')->createQueryBuilder('c')
             ->select('COUNT(c)')
             ->where('c.enabled = true')
             ->getQuery()->setCacheable(true)->getSingleScalarResult();

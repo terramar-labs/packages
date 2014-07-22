@@ -58,10 +58,10 @@ class Package
     private $fqn;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Terramar\Packages\Entity\Configuration")
+     * @ORM\ManyToOne(targetEntity="Terramar\Packages\Entity\Remote")
      * @ORM\JoinColumn(name="configuration_id", referencedColumnName="id")
      */
-    private $configuration;
+    private $remote;
 
     /**
      * @param mixed $enabled
@@ -120,19 +120,19 @@ class Package
     }
 
     /**
-     * @return Configuration
+     * @return Remote
      */
-    public function getConfiguration()
+    public function getRemote()
     {
-        return $this->configuration;
+        return $this->remote;
     }
 
     /**
-     * @param Configuration $configuration
+     * @param Remote $remote
      */
-    public function setConfiguration(Configuration $configuration)
+    public function setRemote(Remote $remote)
     {
-        $this->configuration = $configuration;
+        $this->remote = $remote;
     }
 
     /**

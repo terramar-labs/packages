@@ -5,7 +5,7 @@ namespace Terramar\Packages\Plugin\GitLab;
 use Doctrine\ORM\EntityManager;
 use Gitlab\Model\Project;
 use Nice\Router\UrlGeneratorInterface;
-use Terramar\Packages\Entity\Configuration;
+use Terramar\Packages\Entity\Remote;
 use Terramar\Packages\Entity\Package;
 use Terramar\Packages\Helper\SyncAdapterInterface;
 
@@ -34,21 +34,21 @@ class GitLabAdapter implements SyncAdapterInterface
     }
 
     /**
-     * @param Configuration $configuration
+     * @param Remote $configuration
      *
      * @return bool
      */
-    public function supports(Configuration $configuration)
+    public function supports(Remote $configuration)
     {
         return true;
     }
 
     /**
-     * @param Configuration $configuration
+     * @param Remote $configuration
      *
      * @return Package[]
      */
-    public function synchronizePackages(Configuration $configuration)
+    public function synchronizePackages(Remote $configuration)
     {
         $existingPackages = $this->entityManager->getRepository('Terramar\Packages\Entity\Package')->findBy(array('configuration' => $configuration));
 
@@ -64,7 +64,7 @@ class GitLabAdapter implements SyncAdapterInterface
                 $package->setFqn($project['path_with_namespace']);
                 $package->setWebUrl($project['web_url']);
                 $package->setSshUrl($project['ssh_url_to_repo']);
-                $package->setConfiguration($configuration);
+                $package->setRemote($configuration);
 
                 $packages[] = $package;
             }
@@ -94,7 +94,7 @@ class GitLabAdapter implements SyncAdapterInterface
             return true;
         }
 
-        $client = $package->getConfiguration()->createClient();
+        $client = $package->getRemote()->createClient();
         $project = Project::fromArray($client, (array) $client->api('projects')->show($package->getExternalId()));
         $hook = $project->addHook($this->urlGenerator->generate('webhook_receive', array('id' => $package->getId()), true));
         $package->setHookExternalId($hook->id);
@@ -117,7 +117,7 @@ class GitLabAdapter implements SyncAdapterInterface
         }
 
         if ($package->getHookExternalId()) {
-            $client  = $package->getConfiguration()->createClient();
+            $client  = $package->getRemote()->createClient();
             $project = Project::fromArray($client, (array) $client->api('projects')->show($package->getExternalId()));
             $project->removeHook($package->getHookExternalId());
         }
@@ -128,7 +128,7 @@ class GitLabAdapter implements SyncAdapterInterface
         return true;
     }
 
-    private function getAllProjects(Configuration $configuration)
+    private function getAllProjects(Remote $configuration)
     {
         $client = $configuration->createClient();
 

@@ -26,11 +26,11 @@ class RouteCollector extends BaseCollector
         $this->addNamedRoute('manage_package_update', 'POST', '/manage/package/{id}/update', 'Terramar\Packages\Controller\PackageController::updateAction');
         $this->addNamedRoute('manage_package_toggle', 'GET', '/manage/package/{id}/toggle', 'Terramar\Packages\Controller\PackageController::toggleAction');
 
-        $this->addNamedRoute('manage_configurations', 'GET', '/manage/configurations', 'Terramar\Packages\Controller\ConfigurationController::indexAction');
-        $this->addNamedRoute('manage_configuration_new', 'GET', '/manage/configuration/new', 'Terramar\Packages\Controller\ConfigurationController::newAction');
-        $this->addNamedRoute('manage_configuration_create', 'POST', '/manage/configuration/create', 'Terramar\Packages\Controller\ConfigurationController::createAction');
-        $this->addNamedRoute('manage_configuration_edit', 'GET', '/manage/configuration/{id}/edit', 'Terramar\Packages\Controller\ConfigurationController::editAction');
-        $this->addNamedRoute('manage_configuration_update', 'POST', '/manage/configuration/{id}/update', 'Terramar\Packages\Controller\ConfigurationController::updateAction');
-        $this->addNamedRoute('manage_configuration_sync', 'GET', '/manage/configuration/{id}/sync', 'Terramar\Packages\Controller\ConfigurationController::syncAction');
+        $this->addNamedRoute('manage_remotes', 'GET', '/manage/remotes', 'Terramar\Packages\Controller\RemoteController::indexAction');
+        $this->addNamedRoute('manage_remote_new', 'GET', '/manage/remote/new', 'Terramar\Packages\Controller\RemoteController::newAction');
+        $this->addNamedRoute('manage_remote_create', 'POST', '/manage/remote/create', 'Terramar\Packages\Controller\RemoteController::createAction');
+        $this->addNamedRoute('manage_remote_edit', 'GET', '/manage/remote/{id}/edit', 'Terramar\Packages\Controller\RemoteController::editAction');
+        $this->addNamedRoute('manage_remote_update', 'POST', '/manage/remote/{id}/update', 'Terramar\Packages\Controller\RemoteController::updateAction');
+        $this->addNamedRoute('manage_remote_sync', 'GET', '/manage/remote/{id}/sync', 'Terramar\Packages\Controller\RemoteController::syncAction');
     }
 }

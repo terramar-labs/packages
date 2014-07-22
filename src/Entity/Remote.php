@@ -7,9 +7,9 @@ use Gitlab\Client;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="configurations")
+ * @ORM\Table(name="remotes")
  */
-class Configuration
+class Remote
 {
     /**
      * @ORM\Id

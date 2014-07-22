@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Gitlab\Model\Project;
 use Nice\Router\UrlGeneratorInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Terramar\Packages\Entity\Configuration;
+use Terramar\Packages\Entity\Remote;
 use Terramar\Packages\Entity\Package;
 use Terramar\Packages\Event\PackageEvent;
 use Terramar\Packages\Events;
@@ -47,11 +47,11 @@ class SyncHelper
     /**
      * Synchronize packages in the given configuration
      * 
-     * @param Configuration $configuration
+     * @param Remote $configuration
      *
      * @return \Terramar\Packages\Entity\Package[]
      */
-    public function synchronizePackages(Configuration $configuration)
+    public function synchronizePackages(Remote $configuration)
     {
         $adapter = $this->getAdapter($configuration);
         
@@ -73,7 +73,7 @@ class SyncHelper
         return array_values($this->adapters);
     }
     
-    private function getAdapter(Configuration $configuration)
+    private function getAdapter(Remote $configuration)
     {
         foreach ($this->adapters as $adapter) {
             if ($adapter->supports($configuration)) {
