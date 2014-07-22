@@ -41,9 +41,7 @@ class SyncHelper
      */
     public function registerAdapter(SyncAdapterInterface $adapter)
     {
-        if (!in_array($adapter, $this->adapters, true)) {
-            $this->adapters[] = $adapter;
-        }
+        $this->adapters[$adapter->getName()] = $adapter;
     }
 
     /**
@@ -65,6 +63,14 @@ class SyncHelper
         }
         
         return $packages;
+    }
+
+    /**
+     * @return array|SyncAdapterInterface[]
+     */
+    public function getAdapters()
+    {
+        return array_values($this->adapters);
     }
     
     private function getAdapter(Configuration $configuration)

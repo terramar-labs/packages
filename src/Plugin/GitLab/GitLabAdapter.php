@@ -74,6 +74,14 @@ class GitLabAdapter implements SyncAdapterInterface
     }
 
     /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'GitLab';
+    }
+
+    /**
      * Enable a GitLab webhook for the given Package
      * 
      * @param Package $package

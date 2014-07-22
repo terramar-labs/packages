@@ -24,4 +24,11 @@ interface SyncAdapterInterface
      * @return Package[]
      */
     public function synchronizePackages(Configuration $configuration);
+
+    /**
+     * Gets the name of the adapter
+     * 
+     * @return string
+     */
+    public function getName();
 }
