@@ -22,7 +22,7 @@ class WebHookController
         }
 
         $receivedData = json_decode($request->getContent());
-        if ($package->getExternalId() != $receivedData->project_id) {
+        if (!is_object($receivedData) || $package->getExternalId() != $receivedData->project_id) {
             return new Response('Project identifier does not match', 400);
         }
 
