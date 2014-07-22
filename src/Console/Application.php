@@ -79,11 +79,7 @@ class Application extends BaseApplication
             new \Terramar\Packages\Command\Worker\StopCommand(),
             new \Terramar\Packages\Command\Queue\ListCommand(),
             new \Terramar\Packages\Command\Queue\ClearCommand(),
-                
-            // Satis Commands
-            new \Terramar\Packages\Command\Satis\UpdateCommand(),
-            new \Terramar\Packages\Command\Satis\BuildCommand(),
-            
+
             // DBAL Commands
             new \Doctrine\DBAL\Tools\Console\Command\RunSqlCommand(),
             new \Doctrine\DBAL\Tools\Console\Command\ImportCommand(),
