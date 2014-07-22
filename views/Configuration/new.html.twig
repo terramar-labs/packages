@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title 'New GitLab Instance' %}
+{% block title 'New Remote' %}
 
-{% block alt_title 'Create a new GitLab configuration' %}
+{% block alt_title 'Create a new remote repository configuration' %}
 
 {% block content %}
 <div class="row">
@@ -16,6 +16,14 @@
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" name="name" value="{{ configuration.name }}" placeholder="Enter name" id="name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adapter">Adapter</label>
+                        <select id="adapter" name="adapter" class="form-control">
+                            {% for adapter in adapters %}
+                                <option>{{ adapter.name }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="url">URL</label>

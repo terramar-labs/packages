@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title 'Edit GitLab Instance' %}
+{% block title 'Edit Remote' %}
 
-{% block alt_title 'Edit an existing GitLab configuration' %}
+{% block alt_title 'Edit an existing remote repository configuration' %}
 
 {% block content %}
 <div class="row">
@@ -18,12 +18,18 @@
                         <input type="text" name="name" value="{{ configuration.name }}" placeholder="Enter name" id="name" class="form-control" required>
                     </div>
                     <div class="form-group">
+                        <label for="adapter">Adapter</label>
+                        <select id="adapter" disabled="disabled" name="adapter" class="form-control">
+                            <option>{{ configuration.adapter }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="url">URL</label>
-                        <input type="url" name="url" value="{{ configuration.url }}" placeholder="Enter GitLab URL" id="url" class="form-control" required>
+                        <input type="url" name="url" value="{{ configuration.url }}" placeholder="Enter Remote URL" id="url" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="token">Token</label>
-                        <input type="text" name="token" value="{{ configuration.token }}" placeholder="Enter GitLab Token" id="token" class="form-control" required>
+                        <input type="text" name="token" value="{{ configuration.token }}" placeholder="Enter Auth Token" id="token" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="enabled">

@@ -24,7 +24,10 @@ class ConfigurationController
     
     public function newAction(Application $app)
     {
+        $adapters = $app->get('packages.helper.sync')->getAdapters();
+        
         return new Response($app->get('twig')->render('Configuration/new.html.twig', array(
+                    'adapters'      => $adapters,
                     'configuration' => new Configuration()
                 )));
     }
@@ -35,6 +38,7 @@ class ConfigurationController
         $configuration->setName($request->get('name'));
         $configuration->setUrl($request->get('url'));
         $configuration->setToken($request->get('token'));
+        $configuration->setAdapter($request->get('adapter'));
         $configuration->setEnabled($request->get('enabled', false));
 
         /** @var \Doctrine\ORM\EntityManager $entityManager */
