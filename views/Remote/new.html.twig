@@ -9,7 +9,7 @@
     <div class="col-xs-12 col-sm-6 col-md-3">
         <div class="box box-warning">
             <div class="box-header">
-                <h3 class="box-title">Configuration Information</h3>                                    
+                <h3 class="box-title">Configure Remote</h3>                                    
             </div>
             <form action="{{ path('manage_remote_create') }}" method="post">
                 <div class="box-body">
@@ -27,11 +27,11 @@
                     </div>
                     <div class="form-group">
                         <label for="url">URL</label>
-                        <input type="url" name="url" value="{{ remote.url }}" placeholder="Enter GitLab URL" id="url" class="form-control" required>
+                        <input type="url" name="url" value="{{ remote.url }}" placeholder="Enter Remote URL" id="url" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="token">Token</label>
-                        <input type="text" name="token" value="{{ remote.token }}" placeholder="Enter GitLab Token" id="token" class="form-control" required>
+                        <input type="text" name="token" value="{{ remote.token }}" placeholder="Enter Auth Token" id="token" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="enabled">

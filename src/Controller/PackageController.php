@@ -37,7 +37,7 @@ class PackageController
         
         return new Response($app->get('twig')->render('Package/edit.html.twig', array(
                 'package' => $package,
-                'configurations' => $this->getConfigurations($app->get('doctrine.orm.entity_manager'))
+                'remotes' => $this->getRemotes($app->get('doctrine.orm.entity_manager'))
             )));
     }
 
@@ -94,8 +94,8 @@ class PackageController
         return new RedirectResponse($app->get('router.url_generator')->generate('manage_packages'));
     }
     
-    protected function getConfigurations(EntityManager $entityManager)
+    protected function getRemotes(EntityManager $entityManager)
     {
-        return $entityManager->getRepository('Terramar\Packages\Entity\Configuration')->findBy(array('enabled' => true)); 
+        return $entityManager->getRepository('Terramar\Packages\Entity\Remote')->findBy(array('enabled' => true)); 
     }
 }

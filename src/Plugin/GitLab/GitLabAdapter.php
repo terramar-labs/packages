@@ -44,15 +44,15 @@ class GitLabAdapter implements SyncAdapterInterface
     }
 
     /**
-     * @param Remote $configuration
+     * @param Remote $remote
      *
      * @return Package[]
      */
-    public function synchronizePackages(Remote $configuration)
+    public function synchronizePackages(Remote $remote)
     {
-        $existingPackages = $this->entityManager->getRepository('Terramar\Packages\Entity\Package')->findBy(array('configuration' => $configuration));
+        $existingPackages = $this->entityManager->getRepository('Terramar\Packages\Entity\Package')->findBy(array('remote' => $remote));
 
-        $projects = $this->getAllProjects($configuration);
+        $projects = $this->getAllProjects($remote);
 
         $packages = array();
         foreach ($projects as $project) {
@@ -64,7 +64,7 @@ class GitLabAdapter implements SyncAdapterInterface
                 $package->setFqn($project['path_with_namespace']);
                 $package->setWebUrl($project['web_url']);
                 $package->setSshUrl($project['ssh_url_to_repo']);
-                $package->setRemote($configuration);
+                $package->setRemote($remote);
 
                 $packages[] = $package;
             }

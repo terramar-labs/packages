@@ -31,10 +31,10 @@
                         <input type="text" name="fqn" value="{{ package.fqn }}" id="fqn" class="form-control" disabled>
                     </div>
                     <div class="form-group">
-                        <label for="configuration_id">GitLab Instance</label>
+                        <label for="configuration_id">Remote Repository</label>
                         <select class="form-control" name="configuration_id" id="configuration_id" disabled>
                             <option value="">Select remote</option>
-                            {% for config in configurations %}
+                            {% for config in remotes %}
                                 <option value="{{ config.id }}"{% if package.remote is sameas(config) %} selected="selected"{% endif %}>{{ config.name }}</option>
                             {% endfor %}
                         </select>

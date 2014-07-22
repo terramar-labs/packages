@@ -19,11 +19,11 @@ interface SyncAdapterInterface
     /**
      * Synchronizes the given adapter, returning any new Packages
      * 
-     * @param Remote $configuration
+     * @param Remote $remote
      *
      * @return Package[]
      */
-    public function synchronizePackages(Remote $configuration);
+    public function synchronizePackages(Remote $remote);
 
     /**
      * Gets the name of the adapter
