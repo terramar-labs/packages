@@ -17,12 +17,16 @@ class ManageController
         $packages = $entityManager->getRepository('Terramar\Packages\Entity\Package')->createQueryBuilder('p')
             ->select('COUNT(p)')
             ->where('p.enabled = true')
-            ->getQuery()->getSingleScalarResult();
+            ->getQuery()->setCacheable(true)->getSingleScalarResult();
+        
+        $remotes = $entityManager->getRepository('Terramar\Packages\Entity\Configuration')->createQueryBuilder('c')
+            ->select('COUNT(c)')
+            ->where('c.enabled = true')
+            ->getQuery()->setCacheable(true)->getSingleScalarResult();
 
         return new Response($app->get('twig')->render('Manage/index.html.twig', array(
-                    'commits' => 11094,
                     'packages' => $packages,
-                    'releases' => 325,
+                    'remotes'  => $remotes,
                 )));
     }
 }

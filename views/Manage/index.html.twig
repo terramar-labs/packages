@@ -7,22 +7,44 @@
 {% block content %}
 <div class="row">
     <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-yellow">
-            <div class="inner">
-                <h3>
-                    {{ packages|number_format }}
-                </h3>
-                <p>
-                    Package{% if packages != 1 %}s{% endif %}
-                </p>
+        <a href="{{ path('manage_packages') }}">
+            <div class="small-box bg-olive">
+                <div class="inner">
+                    <h3>
+                        {{ packages|number_format }}
+                    </h3>
+                    <p>
+                        Package{% if packages != 1 %}s{% endif %}
+                    </p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-fork-repo"></i>
+                </div>
+                <span class="small-box-footer">
+                    More info <i class="fa fa-arrow-circle-right"></i>
+                </span>
             </div>
-            <div class="icon">
-                <i class="ion ion-ios7-box-outline"></i>
+        </a>
+    </div>
+    <div class="col-lg-3 col-xs-6">
+        <a href="{{ path('manage_configurations') }}"
+            <div class="small-box bg-orange">
+                <div class="inner">
+                    <h3>
+                        {{ remotes|number_format }}
+                    </h3>
+                    <p>
+                        Remote{% if remotes != 1 %}s{% endif %}
+                    </p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-share-alt"></i>
+                </div>
+                <span class="small-box-footer">
+                    More info <i class="fa fa-arrow-circle-right"></i>
+                </span>
             </div>
-            <a href="#" class="small-box-footer">
-                More info <i class="fa fa-arrow-circle-right"></i>
-            </a>
-        </div>
+        </a>
     </div>
 </div>
 {% endblock %}
