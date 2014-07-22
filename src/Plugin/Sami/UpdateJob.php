@@ -51,7 +51,7 @@ class UpdateJob extends ContainerAwareJob
         $this->writeConfig($configFilePath, $package, $config);
         
         $finder = new PhpExecutableFinder();
-        $builder = new ProcessBuilder(array('vendor/bin/sami', 'update', $configFilePath));
+        $builder = new ProcessBuilder(array('vendor/bin/sami.php', 'update', $configFilePath));
         $builder->setEnv('HOME', $this->getContainer()->getParameter('app.root_dir'));
         $builder->setPrefix($finder->find());
 
