@@ -78,8 +78,17 @@
                             </a>
                         </li>
                     </ul>
+                    
                 </section>
                 <!-- /.sidebar -->
+                
+                <section class="plugin-list">
+                    <dl>
+                        {% for plugin in app.parameter('packages.registered_plugins') %}
+                            <dt>{{ plugin }}</dt>
+                        {% endfor %}
+                    </dl>
+                </section>
             </aside>
 
             <!-- Right side column. Contains the navbar and content of the page -->

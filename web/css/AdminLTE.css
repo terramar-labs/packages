@@ -2963,3 +2963,17 @@ Component: timeline
 .pace-inactive {
   display: none;
 }
+
+
+
+
+.plugin-list {
+  font-size: 90%;
+  padding: 20px;
+  color: #BBB;
+  text-shadow: 1px 1px 1px #FFF;
+}
+
+.plugin-list dt {
+  font-weight: normal;
+}
