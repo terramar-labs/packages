@@ -1,6 +1,6 @@
 <?php
 
-namespace Terramar\Packages\Plugin\Satis;
+namespace Terramar\Packages\Plugin\GitLab;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -8,13 +8,14 @@ use Terramar\Packages\Event\PackageEvent;
 use Terramar\Packages\Event\PackageUpdateEvent;
 use Terramar\Packages\Events;
 use Terramar\Packages\Helper\ResqueHelper;
+use Terramar\Packages\Helper\SyncHelper;
 
-class SatisPluginSubscriber implements EventSubscriberInterface
+class EventSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var ResqueHelper
+     * @var SyncAdapter
      */
-    private $resqueHelper;
+    private $adapter;
 
     /**
      * @var EntityManager
@@ -23,29 +24,14 @@ class SatisPluginSubscriber implements EventSubscriberInterface
 
     /**
      * Constructor
-     * 
-     * @param ResqueHelper $resqueHelper
+     *
+     * @param SyncAdapter $adapter
+     * @param EntityManager $entityManager
      */
-    public function __construct(ResqueHelper $resqueHelper, EntityManager $entityManager)
+    public function __construct(SyncAdapter $adapter, EntityManager $entityManager)
     {
-        $this->resqueHelper  = $resqueHelper;
+        $this->adapter  = $adapter;
         $this->entityManager = $entityManager;
-    }
-
-    /**
-     * @param PackageUpdateEvent $event
-     */
-    public function onUpdatePackage(PackageUpdateEvent $event)
-    {
-        $package = $event->getPackage();
-        $config = $this->entityManager->getRepository('Terramar\Packages\Plugin\Satis\PackageConfiguration')
-            ->findOneBy(array('package' => $package));
-        
-        if (!$config || !$config->isEnabled()) {
-            return;
-        }
-        
-        $this->resqueHelper->enqueueOnce('default', 'Terramar\Packages\Plugin\Satis\UpdateAndBuildJob');
     }
 
     /**
@@ -54,7 +40,7 @@ class SatisPluginSubscriber implements EventSubscriberInterface
     public function onEnablePackage(PackageEvent $event)
     {
         $package = $event->getPackage();
-        $config = $this->entityManager->getRepository('Terramar\Packages\Plugin\Satis\PackageConfiguration')
+        $config = $this->entityManager->getRepository('Terramar\Packages\Plugin\GitLab\PackageConfiguration')
             ->findOneBy(array('package' => $package));
         
         if (!$config) {
@@ -63,6 +49,7 @@ class SatisPluginSubscriber implements EventSubscriberInterface
         }
         
         $config->setEnabled(true);
+        $this->adapter->enableHook($package);
         
         $this->entityManager->persist($config);
     }
@@ -73,7 +60,7 @@ class SatisPluginSubscriber implements EventSubscriberInterface
     public function onDisablePackage(PackageEvent $event)
     {
         $package = $event->getPackage();
-        $config = $this->entityManager->getRepository('Terramar\Packages\Plugin\Satis\PackageConfiguration')
+        $config = $this->entityManager->getRepository('Terramar\Packages\Plugin\GitLab\PackageConfiguration')
             ->findOneBy(array('package' => $package));
 
         if (!$config) {
@@ -82,6 +69,7 @@ class SatisPluginSubscriber implements EventSubscriberInterface
         }
 
         $config->setEnabled(false);
+        $this->adapter->disableHook($package);
 
         $this->entityManager->persist($config);
     }
@@ -92,9 +80,8 @@ class SatisPluginSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            Events::PACKAGE_ENABLE  => array('onEnablePackage', 0),
-            Events::PACKAGE_DISABLE => array('onDisablePackage', 0),
-            Events::PACKAGE_UPDATE  => array('onUpdatePackage', 0)
+            Events::PACKAGE_ENABLE  => array('onEnablePackage', 255),
+            Events::PACKAGE_DISABLE => array('onDisablePackage', 255)
         );
     }
 }

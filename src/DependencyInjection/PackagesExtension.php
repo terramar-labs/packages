@@ -6,6 +6,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Reference;
 use Terramar\Packages\Events;
+use Terramar\Packages\Plugin\ContainerConfiguratorInterface;
+use Terramar\Packages\Plugin\PluginInterface;
 
 class PackagesExtension extends Extension
 {
@@ -15,12 +17,18 @@ class PackagesExtension extends Extension
     private $options = array();
 
     /**
+     * @var array|PluginInterface[]
+     */
+    private $plugins = array();
+
+    /**
      * Constructor
      *
      * @param array $options
      */
-    public function __construct(array $options = array())
+    public function __construct(array $plugins = array(), array $options = array())
     {
+        $this->plugins = $plugins;
         $this->options = $options;
     }
     
@@ -67,54 +75,15 @@ class PackagesExtension extends Extension
         $container->setParameter('packages.resque.host', $config['resque']['host']);
         $container->setParameter('packages.resque.port', $config['resque']['port']);
         $container->setParameter('packages.resque.database', $config['resque']['database']);
-
-        $this->configureGitLabPlugin($container);
-        $this->configureSatisPlugin($container);
-        $this->configureCloneProjectPlugin($container);
-        $this->configureSamiPlugin($container);
-    }
-
-    protected function configureGitLabPlugin(ContainerBuilder $container)
-    {
-        $container->register('packages.plugins.gitlab.adapter', 'Terramar\Packages\Plugin\GitLab\GitLabAdapter')
-            ->addArgument(new Reference('doctrine.orm.entity_manager'))
-            ->addArgument(new Reference('router.url_generator'));
         
-        $container->getDefinition('packages.helper.sync')
-            ->addMethodCall('registerAdapter', array(new Reference('packages.plugins.gitlab.adapter')));
-        
-        $container->register('packages.plugins.gitlab.subscriber', 'Terramar\Packages\Plugin\GitLab\GitLabPluginSubscriber')
-            ->addArgument(new Reference('packages.plugins.gitlab.adapter'))
-            ->addArgument(new Reference('doctrine.orm.entity_manager'))
-            ->addTag('kernel.event_subscriber');
-    }
-    
-    protected function configureSatisPlugin(ContainerBuilder $container)
-    {
-        $container->register('packages.plugins.satis.subscriber', 'Terramar\Packages\Plugin\Satis\SatisPluginSubscriber')
-            ->addArgument(new Reference('packages.helper.resque'))
-            ->addArgument(new Reference('doctrine.orm.entity_manager'))
-            ->addTag('kernel.event_subscriber');
-        
-        $container->register('packages.plugins.satis.config_helper', 'Terramar\Packages\Plugin\Satis\ConfigurationHelper')
-            ->addArgument(new Reference('doctrine.orm.entity_manager'))
-            ->addArgument('%app.root_dir%')
-            ->addArgument('%app.cache_dir%');
-    }
+        $container->register('packages.helper.plugin', 'Terramar\Packages\Helper\PluginHelper');
 
-    protected function configureCloneProjectPlugin(ContainerBuilder $container)
-    {
-        $container->register('packages.plugins.clone_project.subscriber', 'Terramar\Packages\Plugin\CloneProject\CloneProjectPluginSubscriber')
-            ->addArgument(new Reference('packages.helper.resque'))
-            ->addArgument(new Reference('doctrine.orm.entity_manager'))
-            ->addTag('kernel.event_subscriber');
-    }
-
-    protected function configureSamiPlugin(ContainerBuilder $container)
-    {
-        $container->register('packages.plugins.sami.subscriber', 'Terramar\Packages\Plugin\Sami\SamiPluginSubscriber')
-            ->addArgument(new Reference('packages.helper.resque'))
-            ->addArgument(new Reference('doctrine.orm.entity_manager'))
-            ->addTag('kernel.event_subscriber');
+        $plugins = array();
+        foreach ($this->plugins as $plugin) {
+            $plugin->configure($container);
+            $plugins[] = $plugin->getName();
+        }
+        
+        $container->setParameter('packages.registered_plugins', $plugins);
     }
 }

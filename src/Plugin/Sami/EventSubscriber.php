@@ -10,7 +10,7 @@ use Terramar\Packages\Helper\ResqueHelper;
 use Terramar\Packages\Plugin\CloneProject\Events as CloneProjectEvents;
 use Terramar\Packages\Plugin\CloneProject\PackageCloneEvent;
 
-class SamiPluginSubscriber implements EventSubscriberInterface
+class EventSubscriber implements EventSubscriberInterface
 {
     /**
      * @var ResqueHelper

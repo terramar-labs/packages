@@ -9,7 +9,7 @@ use Terramar\Packages\Event\PackageUpdateEvent;
 use Terramar\Packages\Events;
 use Terramar\Packages\Helper\ResqueHelper;
 
-class CloneProjectPluginSubscriber implements EventSubscriberInterface
+class EventSubscriber implements EventSubscriberInterface
 {
     /**
      * @var ResqueHelper

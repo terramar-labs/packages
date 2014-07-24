@@ -9,7 +9,7 @@ use Terramar\Packages\Entity\Remote;
 use Terramar\Packages\Entity\Package;
 use Terramar\Packages\Helper\SyncAdapterInterface;
 
-class GitLabAdapter implements SyncAdapterInterface
+class SyncAdapter implements SyncAdapterInterface
 {
     /**
      * @var \Doctrine\ORM\EntityManager

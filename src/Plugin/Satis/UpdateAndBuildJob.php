@@ -13,7 +13,7 @@ class UpdateAndBuildJob extends ContainerAwareJob
      */
     private function getConfigurationHelper()
     {
-        return $this->getContainer()->get('packages.plugins.satis.config_helper');
+        return $this->getContainer()->get('packages.plugin.satis.config_helper');
     }
     
     public function run($args)
