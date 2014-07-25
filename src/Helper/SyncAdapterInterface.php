@@ -10,11 +10,11 @@ interface SyncAdapterInterface
     /**
      * Returns true if the adapter supports the given configuration
      * 
-     * @param Remote $configuration
+     * @param Remote $remote
      *
      * @return bool
      */
-    public function supports(Remote $configuration);
+    public function supports(Remote $remote);
 
     /**
      * Synchronizes the given adapter, returning any new Packages

@@ -35,13 +35,13 @@ class SyncAdapter implements SyncAdapterInterface
     }
 
     /**
-     * @param Remote $configuration
+     * @param Remote $remote
      *
      * @return bool
      */
-    public function supports(Remote $configuration)
+    public function supports(Remote $remote)
     {
-        return true;
+        return $remote->getAdapter() === $this->getName();
     }
 
     /**
