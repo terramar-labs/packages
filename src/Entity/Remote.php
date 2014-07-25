@@ -130,12 +130,4 @@ class Remote
     {
         $this->adapter = (string) $adapter;
     }
-    
-    public function createClient()
-    {
-        $client = new Client(rtrim($this->url, '/') . '/api/v3/');
-        $client->authenticate($this->token, Client::AUTH_HTTP_TOKEN);
-        
-        return $client;
-    }
 }

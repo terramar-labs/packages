@@ -3,6 +3,7 @@
 namespace Terramar\Packages\Plugin\GitLab;
 
 use Doctrine\ORM\EntityManager;
+use Gitlab\Client;
 use Gitlab\Model\Project;
 use Nice\Router\UrlGeneratorInterface;
 use Terramar\Packages\Entity\Remote;
@@ -94,7 +95,7 @@ class SyncAdapter implements SyncAdapterInterface
             return true;
         }
 
-        $client = $package->getRemote()->createClient();
+        $client = $this->getClient($package->getRemote());
         $project = Project::fromArray($client, (array) $client->api('projects')->show($package->getExternalId()));
         $hook = $project->addHook($this->urlGenerator->generate('webhook_receive', array('id' => $package->getId()), true));
         $package->setHookExternalId($hook->id);
@@ -117,7 +118,7 @@ class SyncAdapter implements SyncAdapterInterface
         }
 
         if ($package->getHookExternalId()) {
-            $client  = $package->getRemote()->createClient();
+            $client = $this->getClient($package->getRemote());
             $project = Project::fromArray($client, (array) $client->api('projects')->show($package->getExternalId()));
             $project->removeHook($package->getHookExternalId());
         }
@@ -128,9 +129,9 @@ class SyncAdapter implements SyncAdapterInterface
         return true;
     }
 
-    private function getAllProjects(Remote $configuration)
+    private function getAllProjects(Remote $remote)
     {
-        $client = $configuration->createClient();
+        $client = $this->getClient($remote);
 
         $projects = array();
         $page = 1;
@@ -145,6 +146,14 @@ class SyncAdapter implements SyncAdapterInterface
         }
 
         return $projects;
+    }
+    
+    private function getClient(Remote $remote)
+    {
+        $client = new Client(rtrim($remote->getUrl(), '/') . '/api/v3/');
+        $client->authenticate($remote->getToken(), Client::AUTH_HTTP_TOKEN);
+
+        return $client;
     }
 
     private function packageExists($existingPackages, $gitlabId)
