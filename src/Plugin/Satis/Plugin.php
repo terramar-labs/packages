@@ -30,6 +30,10 @@ class Plugin implements PluginInterface
             ->addArgument(new Reference('doctrine.orm.entity_manager'))
             ->addArgument('%app.root_dir%')
             ->addArgument('%app.cache_dir%');
+
+        $container->getDefinition('packages.controller_manager')
+            ->addMethodCall('registerController', array('package.edit', 'Terramar\Packages\Plugin\Satis\Controller::editAction'))
+            ->addMethodCall('registerController', array('package.update', 'Terramar\Packages\Plugin\Satis\Controller::updateAction'));
     }
 
     /**

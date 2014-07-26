@@ -23,7 +23,7 @@ class EventSubscriber implements EventSubscriberInterface
 
     /**
      * Constructor
-     * 
+     *
      * @param ResqueHelper $resqueHelper
      */
     public function __construct(ResqueHelper $resqueHelper, EntityManager $entityManager)
@@ -40,11 +40,11 @@ class EventSubscriber implements EventSubscriberInterface
         $package = $event->getPackage();
         $config = $this->entityManager->getRepository('Terramar\Packages\Plugin\Satis\PackageConfiguration')
             ->findOneBy(array('package' => $package));
-        
+
         if (!$config || !$config->isEnabled()) {
             return;
         }
-        
+
         $this->resqueHelper->enqueueOnce('default', 'Terramar\Packages\Plugin\Satis\UpdateAndBuildJob');
     }
 
@@ -56,14 +56,14 @@ class EventSubscriber implements EventSubscriberInterface
         $package = $event->getPackage();
         $config = $this->entityManager->getRepository('Terramar\Packages\Plugin\Satis\PackageConfiguration')
             ->findOneBy(array('package' => $package));
-        
+
         if (!$config) {
             $config = new PackageConfiguration();
             $config->setPackage($package);
         }
-        
+
         $config->setEnabled(true);
-        
+
         $this->entityManager->persist($config);
     }
 
@@ -92,8 +92,6 @@ class EventSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            Events::PACKAGE_ENABLE  => array('onEnablePackage', 0),
-            Events::PACKAGE_DISABLE => array('onDisablePackage', 0),
             Events::PACKAGE_UPDATE  => array('onUpdatePackage', 0)
         );
     }
