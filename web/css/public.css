@@ -53,6 +53,33 @@ h1 {
   margin-top: 30px;
 }
 
+.contact {
+  color: #777;
+}
+
+.contact span:before {
+  content: "contact@";
+}
+
+.contact span:after {
+  content: "terramarlabs.com"
+}
+
+.last-update, .contact {
+  display: block;
+}
+
+@media only screen and (min-width: 480px) {
+  .last-update:before {
+    content: "- ";
+  }
+  
+  .last-update, .contact {
+    display: inline-block;
+  }
+}
+
+
 @media only screen and (max-width: 992px) {
   .wrapper {
     margin: 15px;

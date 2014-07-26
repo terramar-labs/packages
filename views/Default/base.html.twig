@@ -39,7 +39,7 @@
             <section class="content-footer">
                 <p><small>Proudly powered by <a href="https://github.com/composer/satis">Satis</a> {{ constant('Composer\\Satis\\Satis::VERSION') }} 
                         and <a href="https://github.com/terramar-labs/packages">Packages</a> {{ constant('Terramar\\Packages\\Version::VERSION') }}
-                        - Last updated: {{ updatedAt|date('Y-m-d H:i:s') }}
+                        {% if updatedAt %}<span class="last-update">Last updated: {{ updatedAt|date('Y-m-d H:i:s') }}</span>{% endif %}
                 </small></p>
                 <p id="copy">&copy; {{ "now"|date('Y') }} Terramar Labs.</p>
             </section>
