@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Terramar\Packages\Entity\Package;
 use Terramar\Packages\Event\PackageEvent;
 use Terramar\Packages\Events;
-use Terramar\Packages\Job\UpdateAndBuildJob;
 
 class PackageController
 {
@@ -20,7 +19,7 @@ class PackageController
         $entityManager = $app->get('doctrine.orm.entity_manager');
 
         $packages = $entityManager->getRepository('Terramar\Packages\Entity\Package')->findAll();
-        
+
         return new Response($app->get('twig')->render('Package/index.html.twig', array(
                     'packages' => $packages
                 )));
@@ -34,7 +33,7 @@ class PackageController
         if (!$package) {
             throw new \RuntimeException('Oops');
         }
-        
+
         return new Response($app->get('twig')->render('Package/edit.html.twig', array(
                 'package' => $package,
                 'remotes' => $this->getRemotes($app->get('doctrine.orm.entity_manager'))
@@ -49,21 +48,27 @@ class PackageController
         if (!$package) {
             throw new \RuntimeException('Oops');
         }
-        
+
         $enabledBefore = $package->isEnabled();
         $enabledAfter = (bool) $request->get('enabled', false);
-        
+
         $package->setName($request->request->get('name'));
         $package->setDescription($request->request->get('description'));
-        
+
         if ($enabledBefore !== $enabledAfter) {
-            $eventName = $enabledAfter ? Events::PACKAGE_ENABLE : Events::PACKAGE_DISABLE; 
+            $eventName = $enabledAfter ? Events::PACKAGE_ENABLE : Events::PACKAGE_DISABLE;
             $event = new PackageEvent($package);
 
             /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher */
             $dispatcher = $app->get('event_dispatcher');
             $dispatcher->dispatch($eventName, $event);
         }
+
+        /** @var \Terramar\Packages\Helper\PluginHelper $helper */
+        $helper = $app->get('packages.helper.plugin');
+        $helper->invokeAction($request, 'package.update', array_merge($request->request->all(), array(
+                'id' => $id
+            )));
 
         $entityManager->persist($package);
         $entityManager->flush();
@@ -93,9 +98,9 @@ class PackageController
 
         return new RedirectResponse($app->get('router.url_generator')->generate('manage_packages'));
     }
-    
+
     protected function getRemotes(EntityManager $entityManager)
     {
-        return $entityManager->getRepository('Terramar\Packages\Entity\Remote')->findBy(array('enabled' => true)); 
+        return $entityManager->getRepository('Terramar\Packages\Entity\Remote')->findBy(array('enabled' => true));
     }
 }
