@@ -3,14 +3,11 @@
 namespace Terramar\Packages;
 
 use Nice\Application as BaseApplication;
-use Nice\Extension\CacheExtension;
 use Nice\Extension\SecurityExtension;
 use Nice\Extension\SessionExtension;
 use Nice\Extension\TwigExtension;
-use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Yaml\Yaml;
+use Terramar\Packages\DependencyInjection\Compiler\TwigExtensionPass;
 use Terramar\Packages\DependencyInjection\DoctrineOrmExtension;
 use Terramar\Packages\DependencyInjection\PackagesExtension;
 use Terramar\Packages\Plugin\CloneProject\Plugin as CloneProjectPlugin;
@@ -25,34 +22,36 @@ class Application extends BaseApplication
      * @var array|PluginInterface[]
      */
     private $plugins = array();
-    
+
     /**
      * Register default extensions
      */
     protected function registerDefaultExtensions()
     {
         parent::registerDefaultExtensions();
-        
+
         $this->registerDefaultPlugins();
-        
+
         $config = Yaml::parse(file_get_contents($this->getRootDir() . '/config.yml'));
         $security = isset($config['security']) ? $config['security'] : array();
         $doctrine = isset($config['doctrine']) ? $config['doctrine'] : array();
         $resque = isset($config['resque']) ? $config['resque'] : null;
-        
+
         $this->appendExtension(new PackagesExtension($this->plugins, array(
-                    'output_dir' => $this->getRootDir() . '/web',
-                    'resque' => $resque
-                )));
+                'output_dir' => $this->getRootDir() . '/web',
+                'resque' => $resque
+            )));
         $this->appendExtension(new DoctrineOrmExtension($doctrine));
         $this->appendExtension(new SessionExtension());
         $this->appendExtension(new TwigExtension($this->getRootDir() . '/views'));
         $this->appendExtension(new SecurityExtension(array(
-                'username' => isset($security['username']) ? $security['username'] : null, 
-                'password' => isset($security['password']) ? $security['password'] : null, 
+                'username' => isset($security['username']) ? $security['username'] : null,
+                'password' => isset($security['password']) ? $security['password'] : null,
                 'firewall' => '^/manage',
                 'success_path' => '/manage'
             )));
+
+        $this->addCompilerPass(new TwigExtensionPass());
     }
 
     /**
@@ -68,7 +67,7 @@ class Application extends BaseApplication
 
     /**
      * Register a Plugin with the Application
-     * 
+     *
      * @param PluginInterface $plugin
      */
     public function registerPlugin(PluginInterface $plugin)
