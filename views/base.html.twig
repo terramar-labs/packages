@@ -84,8 +84,8 @@
 
                 <section class="plugin-list">
                     <dl>
-                        {% for plugin in app.parameter('packages.registered_plugins') %}
-                            <dt>{{ plugin }}</dt>
+                        {% for plugin,version in app.parameter('packages.registered_plugins') %}
+                            <dt>{{ plugin }}{% if version %} ({{ version }}){% endif %}</dt>
                         {% endfor %}
                     </dl>
                 </section>

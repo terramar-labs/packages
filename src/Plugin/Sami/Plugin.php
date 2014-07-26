@@ -34,6 +34,14 @@ class Plugin implements PluginInterface
      */
     public function getName()
     {
-        return 'Sami (' . Sami::VERSION . ')';
+        return 'Sami';
+    }
+
+    /**
+     * @return string
+     */
+    public function getVersion()
+    {
+        return Sami::VERSION;
     }
 }

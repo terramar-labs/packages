@@ -9,6 +9,11 @@ use Terramar\Packages\Plugin\PluginInterface;
 class Plugin implements PluginInterface
 {
     /**
+     * @var string
+     */
+    private $version;
+
+    /**
      * Configure the given ContainerBuilder
      *
      * This method allows a plugin to register additional services with the
@@ -33,9 +38,20 @@ class Plugin implements PluginInterface
      */
     public function getName()
     {
-        $matches = array();
-        preg_match('/version (\d\.\d\.\d(\.\d)?)/', exec('git --version'), $matches);
+        return 'git-clone';
+    }
+
+    /**
+     * @return string
+     */
+    public function getVersion()
+    {
+        if (!$this->version) {
+            $matches = array();
+            preg_match('/version (\d\.\d\.\d(\.\d)?)/', exec('git --version'), $matches);
+            $this->version = $matches[1];
+        }
         
-        return 'git-clone (' . $matches[1] . ')';
+        return $this->version;
     }
 }

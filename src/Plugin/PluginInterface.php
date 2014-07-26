@@ -24,4 +24,11 @@ interface PluginInterface
      * @return string
      */
     public function getName();
+
+    /**
+     * Get a string identifying the plugin's (or underlying tool's) version
+     * 
+     * @return string|null
+     */
+    public function getVersion();
 }

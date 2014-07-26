@@ -119,7 +119,7 @@ class PackagesExtension extends Extension
         $plugins = array();
         foreach ($this->plugins as $plugin) {
             $plugin->configure($container);
-            $plugins[] = $plugin->getName();
+            $plugins[$plugin->getName()] = $plugin->getVersion();
         }
 
         $container->setParameter('packages.registered_plugins', $plugins);

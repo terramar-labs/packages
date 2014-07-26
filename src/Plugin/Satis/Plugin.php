@@ -43,6 +43,14 @@ class Plugin implements PluginInterface
      */
     public function getName()
     {
-        return 'Satis (' . Satis::VERSION . ')';
+        return 'Satis';
+    }
+
+    /**
+     * @return string
+     */
+    public function getVersion()
+    {
+        return Satis::VERSION;
     }
 }

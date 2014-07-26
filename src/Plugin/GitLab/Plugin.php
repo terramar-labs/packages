@@ -42,4 +42,12 @@ class Plugin implements PluginInterface
     {
         return 'GitLab';
     }
+
+    /**
+     * @return null
+     */
+    public function getVersion()
+    {
+        return null;
+    }
 }
