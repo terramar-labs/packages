@@ -1,11 +1,11 @@
 <?php
 
-namespace Terramar\Packages\Command\Queue;
+namespace Terramar\Packages\Console\Command\Queue;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Terramar\Packages\Command\ContainerAwareCommand;
+use Terramar\Packages\Console\Command\ContainerAwareCommand;
 
 class ClearCommand extends ContainerAwareCommand
 {

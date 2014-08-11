@@ -1,8 +1,8 @@
 <?php
 
-namespace Terramar\Packages\Command\Worker;
+namespace Terramar\Packages\Console\Command\Worker;
 
-use Terramar\Packages\Command\ContainerAwareCommand;
+use Terramar\Packages\Console\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

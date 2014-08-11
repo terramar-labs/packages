@@ -74,11 +74,11 @@ class Application extends BaseApplication
     {
         $this->addCommands(array(
             // Resque Commands
-            new \Terramar\Packages\Command\Worker\StartCommand(),
-            new \Terramar\Packages\Command\Worker\ListCommand(),
-            new \Terramar\Packages\Command\Worker\StopCommand(),
-            new \Terramar\Packages\Command\Queue\ListCommand(),
-            new \Terramar\Packages\Command\Queue\ClearCommand(),
+            new \Terramar\Packages\Console\Command\Worker\StartCommand(),
+            new \Terramar\Packages\Console\Command\Worker\ListCommand(),
+            new \Terramar\Packages\Console\Command\Worker\StopCommand(),
+            new \Terramar\Packages\Console\Command\Queue\ListCommand(),
+            new \Terramar\Packages\Console\Command\Queue\ClearCommand(),
 
             // DBAL Commands
             new \Doctrine\DBAL\Tools\Console\Command\RunSqlCommand(),

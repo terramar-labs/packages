@@ -1,6 +1,6 @@
 <?php
 
-namespace Terramar\Packages\Command;
+namespace Terramar\Packages\Console\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
