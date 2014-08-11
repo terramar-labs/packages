@@ -48,7 +48,7 @@
 
         </div>
     </div>
-  {% for controller in plugin_controllers('package.edit', { id: package.id }) %}
+  {% for controller in plugin_controllers(constant('Terramar\\Packages\\Plugin\\Actions::PACKAGE_EDIT'), { id: package.id }) %}
     <div class="col-xs-12 col-sm-8 col-md-3 plugin-box"{% if not package.enabled %} style="display: none"{% endif %}>
       <div class="box box-success">
     {{ render(controller) }}
