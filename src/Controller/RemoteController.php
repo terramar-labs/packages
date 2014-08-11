@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Terramar\Packages\Entity\Remote;
+use Terramar\Packages\Plugin\Actions;
 
 class RemoteController
 {
@@ -41,6 +42,10 @@ class RemoteController
         $remote->setAdapter($request->get('adapter'));
         $remote->setEnabled($request->get('enabled', false));
 
+        /** @var \Terramar\Packages\Helper\PluginHelper $helper */
+        $helper = $app->get('packages.helper.plugin');
+        $helper->invokeAction($request, Actions::REMOTE_CREATE, $request->request->all());
+
         /** @var \Doctrine\ORM\EntityManager $entityManager */
         $entityManager = $app->get('doctrine.orm.entity_manager');
         $entityManager->persist($remote);
@@ -72,6 +77,12 @@ class RemoteController
         $remote->setUrl($request->get('url'));
         $remote->setToken($request->get('token'));
         $remote->setEnabled($request->get('enabled', false));
+
+        /** @var \Terramar\Packages\Helper\PluginHelper $helper */
+        $helper = $app->get('packages.helper.plugin');
+        $helper->invokeAction($request, Actions::REMOTE_UPDATE, array_merge($request->request->all(), array(
+                'id' => $id
+            )));
 
         $entityManager->persist($remote);
         $entityManager->flush();

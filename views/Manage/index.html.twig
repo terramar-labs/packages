@@ -46,5 +46,10 @@
             </div>
         </a>
     </div>
+    {% for controller in plugin_controllers(constant('Terramar\\Packages\\Plugin\\Actions::DASHBOARD_INDEX')) %}
+    <div class="col-lg-3 col-xs-6">
+    {{ render(controller) }}
+    </div>
+    {% endfor %}
 </div>
 {% endblock %}

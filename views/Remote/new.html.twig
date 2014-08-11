@@ -46,6 +46,12 @@
             </form>
         </div>
     </div>
-
+    {% for controller in plugin_controllers(constant('Terramar\\Packages\\Plugin\\Actions::REMOTE_NEW'), { id: remote.id }) %}
+    <div class="col-xs-12 col-sm-8 col-md-3">
+      <div class="box box-warning">
+    {{ render(controller) }}
+      </div>
+    </div>
+    {% endfor %}
 </div>
 {% endblock %}

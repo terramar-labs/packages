@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Terramar\Packages\Entity\Package;
 use Terramar\Packages\Event\PackageEvent;
 use Terramar\Packages\Events;
+use Terramar\Packages\Plugin\Actions;
 
 class PackageController
 {
@@ -66,7 +67,7 @@ class PackageController
 
         /** @var \Terramar\Packages\Helper\PluginHelper $helper */
         $helper = $app->get('packages.helper.plugin');
-        $helper->invokeAction($request, 'package.update', array_merge($request->request->all(), array(
+        $helper->invokeAction($request, Actions::PACKAGE_UPDATE, array_merge($request->request->all(), array(
                 'id' => $id
             )));
 
