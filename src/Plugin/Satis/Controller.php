@@ -33,7 +33,5 @@ class Controller
         
         $config->setEnabled($request->get('satis_enabled') ? true : false);
         $entityManager->persist($config);
-
-        return new Response($app->get('twig')->render('Plugin/Satis/edit.html.twig'));
     }
 }
