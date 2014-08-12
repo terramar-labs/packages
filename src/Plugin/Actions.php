@@ -32,10 +32,10 @@ final class Actions
     /**
      * This action should render a form to configure a existing package
      */
-    const PACKAGE_EDIT = 'remote.edit';
+    const PACKAGE_EDIT = 'package.edit';
 
     /**
      * This action is dispatched when a package is updated
      */
-    const PACKAGE_UPDATE = 'remote.update';
+    const PACKAGE_UPDATE = 'package.update';
 }
