@@ -1,7 +1,8 @@
-<div class="box-header">
-  <h3 class="box-title">Sami</h3>                                    
-</div>
-<div class="box-body">
+{% extends 'Plugin/_box.html.twig' %}
+
+{% block title %}Sami{% endblock %}
+
+{% block body %}
   <div class="form-group">
     Automatically generate documentation for this project using Sami
   </div>
@@ -13,28 +14,31 @@
   <div id="sami_error" class="callout callout-danger" style="display: none">
     The Clone Project plugin is disabled for this package. Sami will not function properly. <a href="#" id="fix_cloneproject">Fix the problem</a>.
   </div>
-</div>
-<script type="text/javascript">
-$(function() {
-  var $error = $(document.getElementById('sami_error'));
-  var $enabled = $(document.getElementById('sami_enabled'));
-  var $cloneEnabled = $(document.getElementById('cloneproject_enabled'));
-  var $fix = $(document.getElementById('fix_cloneproject'));
+{% endblock %}
 
-  $cloneEnabled.add($enabled).on('change', function() {
-    if ($enabled.is(':checked') && !$cloneEnabled.is(':checked')) {
-      $error.slideDown();
-    } else {
-      $error.slideUp();
-    }
+{% block javascripts %}
+  <script type="text/javascript">
+  $(function() {
+    var $error = $(document.getElementById('sami_error'));
+    var $enabled = $(document.getElementById('sami_enabled'));
+    var $cloneEnabled = $(document.getElementById('cloneproject_enabled'));
+    var $fix = $(document.getElementById('fix_cloneproject'));
+
+    $cloneEnabled.add($enabled).on('change', function() {
+      if ($enabled.is(':checked') && !$cloneEnabled.is(':checked')) {
+        $error.slideDown();
+      } else {
+        $error.slideUp();
+      }
+    });
+
+    $enabled.trigger('change');
+
+    $fix.on('click', function(e) {
+      e.preventDefault();
+
+      $cloneEnabled.prop('checked', true).trigger('change');
+    });
   });
-  
-  $enabled.trigger('change');
-  
-  $fix.on('click', function(e) {
-    e.preventDefault();
-    
-    $cloneEnabled.prop('checked', true).trigger('change');
-  });
-});
-</script>
+  </script>
+{% endblock %}

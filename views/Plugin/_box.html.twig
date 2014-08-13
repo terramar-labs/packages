@@ -1,0 +1,9 @@
+<div class="box {{ box_type|default('box-success') }}">
+  <div class="box-header">
+    <h3 class="box-title">{% block title %}{% endblock %}</h3>
+  </div>
+  <div class="box-body">
+    {% block body %}{% endblock %}
+  </div>
+  {% block javascripts %}{% endblock %}
+</div>
