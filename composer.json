@@ -18,7 +18,8 @@
     "composer/composer": "1.0.x-dev",
     "sami/sami": "dev-master",
     "m4tthumphrey/php-gitlab-api": "dev-master",
-    "knplabs/github-api": "~1.2"
+    "knplabs/github-api": "~1.2",
+    "kzykhys/git": "1.0.x-dev"
   },
   "require-dev": {
     "phpunit/phpunit": "~3.7"
