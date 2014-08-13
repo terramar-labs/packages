@@ -55,6 +55,7 @@ class PackageController
 
         $package->setName($request->request->get('name'));
         $package->setDescription($request->request->get('description'));
+        $package->setEnabled($enabledAfter);
 
         if ($enabledBefore !== $enabledAfter) {
             $eventName = $enabledAfter ? Events::PACKAGE_ENABLE : Events::PACKAGE_DISABLE;
@@ -87,6 +88,8 @@ class PackageController
         }
 
         $enabledAfter = !$package->isEnabled();
+        $package->setEnabled($enabledAfter);
+        
         $eventName = $enabledAfter ? Events::PACKAGE_ENABLE : Events::PACKAGE_DISABLE;
         $event = new PackageEvent($package);
 
