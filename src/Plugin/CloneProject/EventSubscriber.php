@@ -42,7 +42,7 @@ class EventSubscriber implements EventSubscriberInterface
         $config = $this->entityManager->getRepository('Terramar\Packages\Plugin\CloneProject\PackageConfiguration')
             ->findOneBy(array('package' => $package));
         
-        if (!$config || !$config->isEnabled()) {
+        if (!$config || !$config->isEnabled() || !$package->isEnabled()) {
             return;
         }
 

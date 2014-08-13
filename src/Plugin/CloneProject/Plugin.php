@@ -4,6 +4,7 @@ namespace Terramar\Packages\Plugin\CloneProject;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
+use Terramar\Packages\Plugin\Actions;
 use Terramar\Packages\Plugin\PluginInterface;
 
 class Plugin implements PluginInterface
@@ -29,6 +30,10 @@ class Plugin implements PluginInterface
             ->addArgument(new Reference('packages.helper.resque'))
             ->addArgument(new Reference('doctrine.orm.entity_manager'))
             ->addTag('kernel.event_subscriber');
+
+        $container->getDefinition('packages.controller_manager')
+            ->addMethodCall('registerController', array(Actions::PACKAGE_EDIT, 'Terramar\Packages\Plugin\CloneProject\Controller::editAction'))
+            ->addMethodCall('registerController', array(Actions::PACKAGE_UPDATE, 'Terramar\Packages\Plugin\CloneProject\Controller::updateAction'));
     }
 
     /**
