@@ -30,8 +30,25 @@ class EventSubscriber implements EventSubscriberInterface
      */
     public function __construct(SyncAdapter $adapter, EntityManager $entityManager)
     {
-        $this->adapter  = $adapter;
+        $this->adapter       = $adapter;
         $this->entityManager = $entityManager;
+    }
+
+    /**
+     * @param PackageEvent $event
+     */
+    public function onCreatePackage(PackageEvent $event)
+    {
+        $package = $event->getPackage();
+        $config = $this->entityManager->getRepository('Terramar\Packages\Plugin\GitLab\PackageConfiguration')
+            ->findOneBy(array('package' => $package));
+
+        if (!$config) {
+            $config = new PackageConfiguration();
+            $config->setPackage($package);
+        }
+
+        $this->entityManager->persist($config);
     }
 
     /**
@@ -40,18 +57,11 @@ class EventSubscriber implements EventSubscriberInterface
     public function onEnablePackage(PackageEvent $event)
     {
         $package = $event->getPackage();
-        $config = $this->entityManager->getRepository('Terramar\Packages\Plugin\GitLab\PackageConfiguration')
-            ->findOneBy(array('package' => $package));
-        
-        if (!$config) {
-            $config = new PackageConfiguration();
-            $config->setPackage($package);
+        if ($package->getRemote()->getAdapter() !== 'GitLab') {
+            return;
         }
-        
-        $config->setEnabled(true);
+
         $this->adapter->enableHook($package);
-        
-        $this->entityManager->persist($config);
     }
 
     /**
@@ -60,18 +70,11 @@ class EventSubscriber implements EventSubscriberInterface
     public function onDisablePackage(PackageEvent $event)
     {
         $package = $event->getPackage();
-        $config = $this->entityManager->getRepository('Terramar\Packages\Plugin\GitLab\PackageConfiguration')
-            ->findOneBy(array('package' => $package));
-
-        if (!$config) {
-            $config = new PackageConfiguration();
-            $config->setPackage($package);
+        if ($package->getRemote()->getAdapter() !== 'GitLab') {
+            return;
         }
 
-        $config->setEnabled(false);
         $this->adapter->disableHook($package);
-
-        $this->entityManager->persist($config);
     }
 
     /**
@@ -80,6 +83,7 @@ class EventSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
+            Events::PACKAGE_CREATE  => array('onCreatePackage', 255),
             Events::PACKAGE_ENABLE  => array('onEnablePackage', 255),
             Events::PACKAGE_DISABLE => array('onDisablePackage', 255)
         );

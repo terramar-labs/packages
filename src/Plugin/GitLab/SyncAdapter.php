@@ -91,15 +91,16 @@ class SyncAdapter implements SyncAdapterInterface
      */
     public function enableHook(Package $package)
     {
-        if ($package->isEnabled()) {
+        $config = $this->getConfig($package);
+        if ($config->isEnabled()) {
             return true;
         }
-
+        
         $client = $this->getClient($package->getRemote());
         $project = Project::fromArray($client, (array) $client->api('projects')->show($package->getExternalId()));
         $hook = $project->addHook($this->urlGenerator->generate('webhook_receive', array('id' => $package->getId()), true));
         $package->setHookExternalId($hook->id);
-        $package->setEnabled(true);
+        $config->setEnabled(true);
 
         return true;
     }
@@ -113,7 +114,8 @@ class SyncAdapter implements SyncAdapterInterface
      */
     public function disableHook(Package $package)
     {
-        if (!$package->isEnabled()) {
+        $config = $this->getConfig($package);
+        if (!$config->isEnabled()) {
             return true;
         }
 
@@ -124,9 +126,14 @@ class SyncAdapter implements SyncAdapterInterface
         }
 
         $package->setHookExternalId('');
-        $package->setEnabled(false);
+        $config->setEnabled(false);
 
         return true;
+    }
+    
+    private function getConfig(Package $package)
+    {
+        return $this->entityManager->getRepository('Terramar\Packages\Plugin\GitLab\PackageConfiguration')->findOneBy(array('package' => $package));
     }
 
     private function getAllProjects(Remote $remote)
