@@ -35,7 +35,7 @@ class Package
     /**
      * @ORM\Column(name="description", type="string")
      */
-    private $description;
+    private $description = '';
 
     /**
      * @ORM\Column(name="enabled", type="boolean")
@@ -50,7 +50,7 @@ class Package
     /**
      * @ORM\Column(name="web_url", type="string")
      */
-    private $webUrl;
+    private $webUrl = '';
 
     /**
      * @ORM\Column(name="fqn", type="string")
