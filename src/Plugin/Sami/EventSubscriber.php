@@ -24,8 +24,9 @@ class EventSubscriber implements EventSubscriberInterface
 
     /**
      * Constructor
-     * 
-     * @param ResqueHelper $resqueHelper
+     *
+     * @param ResqueHelper  $resqueHelper
+     * @param EntityManager $entityManager
      */
     public function __construct(ResqueHelper $resqueHelper, EntityManager $entityManager)
     {
@@ -42,7 +43,7 @@ class EventSubscriber implements EventSubscriberInterface
         $config = $this->entityManager->getRepository('Terramar\Packages\Plugin\Sami\PackageConfiguration')
             ->findOneBy(array('package' => $package));
         
-        if (!$config || !$config->isEnabled()) {
+        if (!$config || !$config->isEnabled() || !$package->isEnabled()) {
             return;
         }
         
@@ -57,26 +58,7 @@ class EventSubscriber implements EventSubscriberInterface
     /**
      * @param PackageEvent $event
      */
-    public function onEnablePackage(PackageEvent $event)
-    {
-        $package = $event->getPackage();
-        $config = $this->entityManager->getRepository('Terramar\Packages\Plugin\Sami\PackageConfiguration')
-            ->findOneBy(array('package' => $package));
-        
-        if (!$config) {
-            $config = new PackageConfiguration();
-            $config->setPackage($package);
-        }
-        
-        $config->setEnabled(true);
-        
-        $this->entityManager->persist($config);
-    }
-
-    /**
-     * @param PackageEvent $event
-     */
-    public function onDisablePackage(PackageEvent $event)
+    public function onCreatePackage(PackageEvent $event)
     {
         $package = $event->getPackage();
         $config = $this->entityManager->getRepository('Terramar\Packages\Plugin\Sami\PackageConfiguration')
@@ -86,8 +68,6 @@ class EventSubscriber implements EventSubscriberInterface
             $config = new PackageConfiguration();
             $config->setPackage($package);
         }
-
-        $config->setEnabled(false);
 
         $this->entityManager->persist($config);
     }
@@ -98,8 +78,7 @@ class EventSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            Events::PACKAGE_ENABLE             => array('onEnablePackage', 0),
-            Events::PACKAGE_DISABLE            => array('onDisablePackage', 0),
+            Events::PACKAGE_CREATE             => array('onCreatePackage', 0),
             CloneProjectEvents::PACKAGE_CLONED => array('onClonePackage', 0)
         );
     }
