@@ -11,6 +11,7 @@ use Symfony\Component\Yaml\Yaml;
 use Terramar\Packages\DependencyInjection\Compiler\TwigExtensionPass;
 use Terramar\Packages\DependencyInjection\PackagesExtension;
 use Terramar\Packages\Plugin\CloneProject\Plugin as CloneProjectPlugin;
+use Terramar\Packages\Plugin\Git\Plugin as GitPlugin;
 use Terramar\Packages\Plugin\GitLab\Plugin as GitLabPlugin;
 use Terramar\Packages\Plugin\Sami\Plugin as SamiPlugin;
 use Terramar\Packages\Plugin\Satis\Plugin as SatisPlugin;
@@ -63,6 +64,7 @@ class Application extends BaseApplication
      */
     protected function registerDefaultPlugins()
     {
+        $this->registerPlugin(new GitPlugin());
         $this->registerPlugin(new GitLabPlugin());
         $this->registerPlugin(new GitHubPlugin());
         $this->registerPlugin(new CloneProjectPlugin());
