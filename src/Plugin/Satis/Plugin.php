@@ -5,6 +5,7 @@ namespace Terramar\Packages\Plugin\Satis;
 use Composer\Satis\Satis;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
+use Terramar\Packages\Plugin\Actions;
 use Terramar\Packages\Plugin\PluginInterface;
 
 class Plugin implements PluginInterface
@@ -32,8 +33,8 @@ class Plugin implements PluginInterface
             ->addArgument('%app.cache_dir%');
 
         $container->getDefinition('packages.controller_manager')
-            ->addMethodCall('registerController', array('package.edit', 'Terramar\Packages\Plugin\Satis\Controller::editAction'))
-            ->addMethodCall('registerController', array('package.update', 'Terramar\Packages\Plugin\Satis\Controller::updateAction'));
+            ->addMethodCall('registerController', array(Actions::PACKAGE_EDIT, 'Terramar\Packages\Plugin\Satis\Controller::editAction'))
+            ->addMethodCall('registerController', array(Actions::PACKAGE_UPDATE, 'Terramar\Packages\Plugin\Satis\Controller::updateAction'));
     }
 
     /**

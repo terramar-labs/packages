@@ -33,5 +33,7 @@ class Controller
         
         $config->setEnabled($request->get('satis_enabled') ? true : false);
         $entityManager->persist($config);
+
+        return new Response();
     }
 }
