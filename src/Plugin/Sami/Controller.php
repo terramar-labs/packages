@@ -18,13 +18,8 @@ class Controller
                 'package' => $id
             ));
 
-        $gitConfig = $entityManager->getRepository('Terramar\Packages\Plugin\CloneProject\PackageConfiguration')->findOneBy(array(
-            'package' => $id
-        ));
-        
         return new Response($app->get('twig')->render('Plugin/Sami/edit.html.twig', array(
                     'config' => $config,
-                    'gitConfig' => $gitConfig
                 )));
     }
 
@@ -39,16 +34,6 @@ class Controller
         $config->setEnabled($request->get('sami_enabled') ? true : false);
         
         $entityManager->persist($config);
-        
-        if ($config->isEnabled()) {
-            $gitConfig = $entityManager->getRepository('Terramar\Packages\Plugin\CloneProject\PackageConfiguration')->findOneBy(array(
-                'package' => $id
-            ));
-            
-            $gitConfig->setEnabled(true);
-            
-            $entityManager->persist($gitConfig);
-        }
         
         return new Response();
     }
