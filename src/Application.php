@@ -3,12 +3,12 @@
 namespace Terramar\Packages;
 
 use Nice\Application as BaseApplication;
+use Nice\Extension\DoctrineOrmExtension;
 use Nice\Extension\SecurityExtension;
 use Nice\Extension\SessionExtension;
 use Nice\Extension\TwigExtension;
 use Symfony\Component\Yaml\Yaml;
 use Terramar\Packages\DependencyInjection\Compiler\TwigExtensionPass;
-use Terramar\Packages\DependencyInjection\DoctrineOrmExtension;
 use Terramar\Packages\DependencyInjection\PackagesExtension;
 use Terramar\Packages\Plugin\CloneProject\Plugin as CloneProjectPlugin;
 use Terramar\Packages\Plugin\GitLab\Plugin as GitLabPlugin;
