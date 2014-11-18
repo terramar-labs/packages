@@ -65,8 +65,8 @@ class SyncAdapter implements SyncAdapterInterface
                 $package->setFqn($project['path_with_namespace']);
                 $package->setWebUrl($project['web_url']);
                 $package->setSshUrl($project['ssh_url_to_repo']);
+                $package->setHookExternalId('');
                 $package->setRemote($remote);
-
                 $packages[] = $package;
             }
         }
