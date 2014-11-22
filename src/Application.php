@@ -45,8 +45,11 @@ class Application extends BaseApplication
         $this->appendExtension(new SessionExtension());
         $this->appendExtension(new TwigExtension($this->getRootDir() . '/views'));
         $this->appendExtension(new SecurityExtension(array(
-                'username' => isset($security['username']) ? $security['username'] : null,
-                'password' => isset($security['password']) ? $security['password'] : null,
+                'authenticator' => array(
+                    'type' => 'username',
+                    'username' => isset($security['username']) ? $security['username'] : null,
+                    'password' => isset($security['password']) ? $security['password'] : null,
+                ),
                 'firewall' => '^/manage',
                 'success_path' => '/manage'
             )));
