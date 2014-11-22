@@ -13,24 +13,24 @@ class RouteCollector extends BaseCollector
      */
     protected function collectRoutes()
     {
-        $this->addNamedRoute('home', 'GET', '/', 'Terramar\Packages\Controller\DefaultController::indexAction');
-        $this->addNamedRoute('login', 'GET', '/login', 'Terramar\Packages\Controller\DefaultController::loginAction');
-        $this->addNamedRoute('logout', 'GET', '/logout', '');
+        $this->map('/', 'home', 'Terramar\Packages\Controller\DefaultController::indexAction');
+        $this->map('/login', 'login', 'Terramar\Packages\Controller\DefaultController::loginAction');
+        $this->map('/logout', 'logout', '');
 
-        $this->addNamedRoute('webhook_receive', 'POST', '/webhook/{id}/receive', 'Terramar\Packages\Controller\WebHookController::receiveAction');
+        $this->map('/webhook/{id}/receive', 'webhook_receive', 'Terramar\Packages\Controller\WebHookController::receiveAction', ['POST']);
         
-        $this->addNamedRoute('manage', 'GET', '/manage', 'Terramar\Packages\Controller\ManageController::indexAction');
+        $this->map('/manage', 'manage', 'Terramar\Packages\Controller\ManageController::indexAction');
 
-        $this->addNamedRoute('manage_packages', 'GET', '/manage/packages', 'Terramar\Packages\Controller\PackageController::indexAction');
-        $this->addNamedRoute('manage_package_edit', 'GET', '/manage/package/{id}/edit', 'Terramar\Packages\Controller\PackageController::editAction');
-        $this->addNamedRoute('manage_package_update', 'POST', '/manage/package/{id}/update', 'Terramar\Packages\Controller\PackageController::updateAction');
-        $this->addNamedRoute('manage_package_toggle', 'GET', '/manage/package/{id}/toggle', 'Terramar\Packages\Controller\PackageController::toggleAction');
+        $this->map('/manage/packages', 'manage_packages', 'Terramar\Packages\Controller\PackageController::indexAction');
+        $this->map('/manage/package/{id}/edit', 'manage_package_edit', 'Terramar\Packages\Controller\PackageController::editAction');
+        $this->map('/manage/package/{id}/update', 'manage_package_update', 'Terramar\Packages\Controller\PackageController::updateAction', ['POST']);
+        $this->map('/manage/package/{id}/toggle', 'manage_package_toggle', 'Terramar\Packages\Controller\PackageController::toggleAction');
 
-        $this->addNamedRoute('manage_remotes', 'GET', '/manage/remotes', 'Terramar\Packages\Controller\RemoteController::indexAction');
-        $this->addNamedRoute('manage_remote_new', 'GET', '/manage/remote/new', 'Terramar\Packages\Controller\RemoteController::newAction');
-        $this->addNamedRoute('manage_remote_create', 'POST', '/manage/remote/create', 'Terramar\Packages\Controller\RemoteController::createAction');
-        $this->addNamedRoute('manage_remote_edit', 'GET', '/manage/remote/{id}/edit', 'Terramar\Packages\Controller\RemoteController::editAction');
-        $this->addNamedRoute('manage_remote_update', 'POST', '/manage/remote/{id}/update', 'Terramar\Packages\Controller\RemoteController::updateAction');
-        $this->addNamedRoute('manage_remote_sync', 'GET', '/manage/remote/{id}/sync', 'Terramar\Packages\Controller\RemoteController::syncAction');
+        $this->map('/manage/remotes', 'manage_remotes', 'Terramar\Packages\Controller\RemoteController::indexAction');
+        $this->map('/manage/remote/new', 'manage_remote_new', 'Terramar\Packages\Controller\RemoteController::newAction');
+        $this->map('/manage/remote/create', 'manage_remote_create', 'Terramar\Packages\Controller\RemoteController::createAction', ['POST']);
+        $this->map('/manage/remote/{id}/edit', 'manage_remote_edit', 'Terramar\Packages\Controller\RemoteController::editAction');
+        $this->map('/manage/remote/{id}/update', 'manage_remote_update', 'Terramar\Packages\Controller\RemoteController::updateAction', ['POST']);
+        $this->map('/manage/remote/{id}/sync', 'manage_remote_sync', 'Terramar\Packages\Controller\RemoteController::syncAction');
     }
 }
