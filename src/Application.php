@@ -14,6 +14,7 @@ use Terramar\Packages\Plugin\CloneProject\Plugin as CloneProjectPlugin;
 use Terramar\Packages\Plugin\GitLab\Plugin as GitLabPlugin;
 use Terramar\Packages\Plugin\Sami\Plugin as SamiPlugin;
 use Terramar\Packages\Plugin\Satis\Plugin as SatisPlugin;
+use Terramar\Packages\Plugin\GitHub\Plugin as GitHubPlugin;
 use Terramar\Packages\Plugin\PluginInterface;
 
 class Application extends BaseApplication
@@ -63,6 +64,7 @@ class Application extends BaseApplication
     protected function registerDefaultPlugins()
     {
         $this->registerPlugin(new GitLabPlugin());
+        $this->registerPlugin(new GitHubPlugin());
         $this->registerPlugin(new CloneProjectPlugin());
         $this->registerPlugin(new SamiPlugin());
         $this->registerPlugin(new SatisPlugin());
