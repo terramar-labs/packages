@@ -10,7 +10,7 @@ use Terramar\Packages\Events;
 use Terramar\Packages\Helper\ResqueHelper;
 use Terramar\Packages\Helper\SyncHelper;
 
-class EventSubscriber implements EventSubscriberInterface
+class PackageSubscriber implements EventSubscriberInterface
 {
     /**
      * @var SyncAdapter

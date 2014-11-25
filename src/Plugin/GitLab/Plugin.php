@@ -27,7 +27,7 @@ class Plugin implements PluginInterface
         $container->getDefinition('packages.helper.sync')
             ->addMethodCall('registerAdapter', array(new Reference('packages.plugin.gitlab.adapter')));
 
-        $container->register('packages.plugin.gitlab.subscriber', 'Terramar\Packages\Plugin\GitLab\EventSubscriber')
+        $container->register('packages.plugin.gitlab.subscriber', 'Terramar\Packages\Plugin\GitLab\PackageSubscriber')
             ->addArgument(new Reference('packages.plugin.gitlab.adapter'))
             ->addArgument(new Reference('doctrine.orm.entity_manager'))
             ->addTag('kernel.event_subscriber');
