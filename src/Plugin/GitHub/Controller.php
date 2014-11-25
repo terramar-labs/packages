@@ -1,6 +1,6 @@
 <?php
 
-namespace Terramar\Packages\Plugin\GitLab;
+namespace Terramar\Packages\Plugin\GitHub;
 
 use Nice\Application;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,13 +10,13 @@ class Controller
 {
     public function newAction(Application $app, Request $request)
     {
-        return new Response($app->get('twig')->render('Plugin/GitLab/new.html.twig'));
+        return new Response($app->get('twig')->render('Plugin/GitHub/new.html.twig'));
     }
 
     public function createAction(Application $app, Request $request)
     {
         $remote = $request->get('remote');
-        if ($remote->getAdapter() !== 'GitLab') {
+        if ($remote->getAdapter() !== 'GitHub') {
             return new Response();
         }
 
@@ -24,8 +24,8 @@ class Controller
         $entityManager = $app->get('doctrine.orm.entity_manager');
         $config = new RemoteConfiguration();
         $config->setRemote($remote);
-        $config->setToken($request->get('gitlab_token'));
-        $config->setUrl($request->get('gitlab_url'));
+        $config->setToken($request->get('github_token'));
+        $config->setUsername($request->get('github_username'));
         $config->setEnabled($remote->isEnabled());
 
         $entityManager->persist($config);
@@ -37,11 +37,11 @@ class Controller
     {
         /** @var \Doctrine\ORM\EntityManager $entityManager */
         $entityManager = $app->get('doctrine.orm.entity_manager');
-        $config = $entityManager->getRepository('Terramar\Packages\Plugin\GitLab\RemoteConfiguration')->findOneBy(array(
+        $config = $entityManager->getRepository('Terramar\Packages\Plugin\GitHub\RemoteConfiguration')->findOneBy(array(
             'remote' => $id
         ));
 
-        return new Response($app->get('twig')->render('Plugin/GitLab/edit.html.twig', array(
+        return new Response($app->get('twig')->render('Plugin/GitHub/edit.html.twig', array(
             'config' => $config ?: new RemoteConfiguration(),
         )));
     }
@@ -50,7 +50,7 @@ class Controller
     {
         /** @var \Doctrine\ORM\EntityManager $entityManager */
         $entityManager = $app->get('doctrine.orm.entity_manager');
-        $config = $entityManager->getRepository('Terramar\Packages\Plugin\GitLab\RemoteConfiguration')->findOneBy(array(
+        $config = $entityManager->getRepository('Terramar\Packages\Plugin\GitHub\RemoteConfiguration')->findOneBy(array(
             'remote' => $id
         ));
 
@@ -58,8 +58,8 @@ class Controller
             return new Response();
         }
 
-        $config->setToken($request->get('gitlab_token'));
-        $config->setUrl($request->get('gitlab_url'));
+        $config->setToken($request->get('github_token'));
+        $config->setUsername($request->get('github_username'));
         $config->setEnabled($config->getRemote()->isEnabled());
 
         $entityManager->persist($config);

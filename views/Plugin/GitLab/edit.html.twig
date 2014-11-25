@@ -23,12 +23,15 @@
     $(function() {
       var $adapter = $(document.getElementById('adapter'));
       var $pluginBox = $(document.getElementById('gitlab_plugin')).closest('.plugin-box');
+      var $required = $('[required]', $pluginBox);
 
       $adapter.change(function() {
         if ($(this).val() === 'GitLab') {
           $pluginBox.fadeIn();
+          $required.prop('required', true);
         } else {
-          $pluginBox.fadeOut();
+          $pluginBox.hide();
+          $required.prop('required', false);
         }
       }).change();
     });

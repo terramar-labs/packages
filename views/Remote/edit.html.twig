@@ -35,15 +35,11 @@
             </div>
         </div>
     </div>
-    <div class="col-xs-12 col-sm-8 col-md-3 plugin-box"{% if not remote.enabled %} style="display: none"{% endif %}>
     {% for controller in plugin_controllers(constant('Terramar\\Packages\\Plugin\\Actions::REMOTE_EDIT'), { id: remote.id }) %}
-        {{ render(controller) }}
-        {% if loop.index % 2 == 0 %}
-    </div>
     <div class="col-xs-12 col-sm-8 col-md-3 plugin-box"{% if not remote.enabled %} style="display: none"{% endif %}>
-        {% endif %}
-    {% endfor %}
+        {{ render(controller) }}
     </div>
+    {% endfor %}
 </div>
 </form>
 {% endblock %}
