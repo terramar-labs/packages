@@ -144,21 +144,31 @@ class SyncAdapter implements SyncAdapterInterface
         return $this->entityManager->getRepository('Terramar\Packages\Plugin\GitHub\PackageConfiguration')->findOneBy(array('package' => $package));
     }
 
+    /**
+     * @param Remote $remote
+     * @return RemoteConfiguration
+     */
+    private function getRemoteConfig(Remote $remote)
+    {
+        return $this->entityManager->getRepository('Terramar\Packages\Plugin\GitHub\RemoteConfiguration')->findOneBy(array('remote' => $remote));
+    }
+
     private function getAllProjects(Remote $remote)
     {
+        $config = $this->getRemoteConfig($remote);
         $client = $this->getClient($remote);
 
-        $user = basename($remote->getUrl());
-
-        $projects = $client->api('user')->repositories($user);
+        $projects = $client->api('user')->repositories($config->getUsername());
 
         return $projects;
     }
     
     private function getClient(Remote $remote)
     {
+        $config = $this->getRemoteConfig($remote);
+
         $client = new Client();
-        $client->authenticate($remote->getToken(), Client::AUTH_HTTP_TOKEN);
+        $client->authenticate($config->getToken(), Client::AUTH_HTTP_TOKEN);
 
         return $client;
     }
