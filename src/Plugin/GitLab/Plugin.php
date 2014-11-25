@@ -4,6 +4,7 @@ namespace Terramar\Packages\Plugin\GitLab;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
+use Terramar\Packages\Plugin\Actions;
 use Terramar\Packages\Plugin\PluginInterface;
 
 class Plugin implements PluginInterface
@@ -31,6 +32,13 @@ class Plugin implements PluginInterface
             ->addArgument(new Reference('packages.plugin.gitlab.adapter'))
             ->addArgument(new Reference('doctrine.orm.entity_manager'))
             ->addTag('kernel.event_subscriber');
+
+        $container->getDefinition('packages.controller_manager')
+            ->addMethodCall('registerController', array(Actions::REMOTE_NEW, 'Terramar\Packages\Plugin\GitLab\Controller::newAction'))
+            ->addMethodCall('registerController', array(Actions::REMOTE_CREATE, 'Terramar\Packages\Plugin\GitLab\Controller::createAction'))
+            ->addMethodCall('registerController', array(Actions::REMOTE_EDIT, 'Terramar\Packages\Plugin\GitLab\Controller::editAction'))
+            ->addMethodCall('registerController', array(Actions::REMOTE_UPDATE, 'Terramar\Packages\Plugin\GitLab\Controller::updateAction'));
+
     }
 
     /**

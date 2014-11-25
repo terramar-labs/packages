@@ -1,0 +1,36 @@
+{% extends 'Plugin/_box.html.twig' %}
+
+{% set box_type = 'box-warning' %}
+
+{% block title %}GitLab{% endblock %}
+
+{% block body %}
+  <div class="form-group" id="gitlab_plugin">
+    Configure GitLab settings for this remote
+  </div>
+  <div class="form-group">
+    <label for="url">URL</label>
+    <input type="url" name="gitlab_url" value="{{ config.url }}" placeholder="Enter GitLab URL" id="gitlab_url" class="form-control" required>
+  </div>
+  <div class="form-group">
+    <label for="token">Token</label>
+    <input type="text" name="gitlab_token" value="{{ config.token }}" placeholder="Enter Auth Token" id="gitlab_token" class="form-control" required>
+  </div>
+{% endblock %}
+
+{% block javascripts %}
+  <script type="text/javascript">
+    $(function() {
+      var $adapter = $(document.getElementById('adapter'));
+      var $pluginBox = $(document.getElementById('gitlab_plugin')).closest('.plugin-box');
+
+      $adapter.change(function() {
+        if ($(this).val() === 'GitLab') {
+          $pluginBox.fadeIn();
+        } else {
+          $pluginBox.fadeOut();
+        }
+      }).change();
+    });
+  </script>
+{% endblock %}
