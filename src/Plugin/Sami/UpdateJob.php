@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * Copyright (c) Terramar Labs
+ *
+ * For the full copyright and license information, please view the LICENSE file
+ * that was distributed with this source code.
+ */
+
 namespace Terramar\Packages\Plugin\Sami;
 
 use Doctrine\ORM\EntityManager;
@@ -67,6 +74,13 @@ class UpdateJob extends ContainerAwareJob
         
         $code = <<<END
 <?php
+
+/*
+ * Copyright (c) Terramar Labs
+ *
+ * For the full copyright and license information, please view the LICENSE file
+ * that was distributed with this source code.
+ */
 
 \$versions = Sami\Version\GitVersionCollection::create('{$config->getRepositoryPath()}')
     ->addFromTags()
