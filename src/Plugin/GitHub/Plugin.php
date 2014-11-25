@@ -27,7 +27,7 @@ class Plugin implements PluginInterface
         $container->getDefinition('packages.helper.sync')
             ->addMethodCall('registerAdapter', array(new Reference('packages.plugin.github.adapter')));
 
-        $container->register('packages.plugin.github.subscriber', 'Terramar\Packages\Plugin\GitHub\EventSubscriber')
+        $container->register('packages.plugin.github.subscriber', 'Terramar\Packages\Plugin\GitHub\PackageSubscriber')
             ->addArgument(new Reference('packages.plugin.github.adapter'))
             ->addArgument(new Reference('doctrine.orm.entity_manager'))
             ->addTag('kernel.event_subscriber');
