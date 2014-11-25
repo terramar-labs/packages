@@ -37,13 +37,12 @@ class RemoteController
     {
         $remote = new Remote();
         $remote->setName($request->get('name'));
-        $remote->setUrl($request->get('url'));
-        $remote->setToken($request->get('token'));
         $remote->setAdapter($request->get('adapter'));
         $remote->setEnabled($request->get('enabled', false));
 
         /** @var \Terramar\Packages\Helper\PluginHelper $helper */
         $helper = $app->get('packages.helper.plugin');
+        $request->request->set('remote', $remote);
         $helper->invokeAction($request, Actions::REMOTE_CREATE, $request->request->all());
 
         /** @var \Doctrine\ORM\EntityManager $entityManager */
@@ -74,8 +73,6 @@ class RemoteController
         $entityManager = $app->get('doctrine.orm.entity_manager');
         $remote = $entityManager->getRepository('Terramar\Packages\Entity\Remote')->find($id);
         $remote->setName($request->get('name'));
-        $remote->setUrl($request->get('url'));
-        $remote->setToken($request->get('token'));
         $remote->setEnabled($request->get('enabled', false));
 
         /** @var \Terramar\Packages\Helper\PluginHelper $helper */

@@ -24,11 +24,6 @@ class Remote
     private $name;
 
     /**
-     * @ORM\Column(name="url", type="string")
-     */
-    private $url;
-
-    /**
      * @ORM\Column(name="adapter", type="string", nullable=true)
      */
     private $adapter;
@@ -37,11 +32,6 @@ class Remote
      * @ORM\Column(name="enabled", type="boolean")
      */
     private $enabled = true;
-
-    /**
-     * @ORM\Column(name="token", type="string")
-     */
-    private $token;
 
     /**
      * @return boolean
@@ -81,38 +71,6 @@ class Remote
     public function setName($name)
     {
         $this->name = (string) $name;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getToken()
-    {
-        return $this->token;
-    }
-
-    /**
-     * @param mixed $token
-     */
-    public function setToken($token)
-    {
-        $this->token = (string) $token;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getUrl()
-    {
-        return $this->url;
-    }
-
-    /**
-     * @param mixed $url
-     */
-    public function setUrl($url)
-    {
-        $this->url = (string) $url;
     }
 
     /**
