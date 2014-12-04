@@ -3,7 +3,7 @@ packages
 
 Packages extends [Satis](https://github.com/composer/satis), adding useful management functionality.
 
-Packages automatically registers GitLab project web hooks to keep Satis up to date. Packages also 
+Packages automatically registers GitLab and GitHub project web hooks to keep Satis up to date. Packages also
 features a web management interface that allows for easy management of exposed packages and configured source 
 control repositories.
 
@@ -14,16 +14,13 @@ analysis. The simple event-based architecture allows easy creation of new automa
 Currently implemented plugins:
 
 * **GitLab integration plugin**
-  Provides project sync support and automatic webhook registration.
-  
+  Provides project sync support and automatic webhook registration within GitLab.
+
+* **GitHub integration plugin**
+  Provides project sync support and automatic webhook registration within GitHub.
+
 * **Satis plugin**
   Updates Satis when source code is updated.
-
-* **git-clone plugin**
-  Clones a project's source code after every update.
-  
-* **Sami plugin**
-  Depends on git-clone plugin. Runs `sami update` after a project's source code is cloned.
 
 
 Installation
