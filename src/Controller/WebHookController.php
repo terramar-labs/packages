@@ -29,10 +29,6 @@ class WebHookController
         }
 
         $receivedData = json_decode($request->getContent());
-        if (!is_object($receivedData) || $package->getExternalId() != $receivedData->project_id) {
-            return new Response('Project identifier does not match', 400);
-        }
-
         $event = new PackageUpdateEvent($package, $receivedData);
 
         /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher */
