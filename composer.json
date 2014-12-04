@@ -6,6 +6,7 @@
   "require": {
     "php": ">=5.4.0",
     "nice/framework": "1.0.x-dev",
+    "nice/security": "1.0.x-dev",
     "nice/doctrine-orm": "1.0.x-dev",
     "nice/twig": "1.0.x-dev",
     "chrisboulton/php-resque": "dev-master",
