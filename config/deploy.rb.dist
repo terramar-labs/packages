@@ -20,15 +20,16 @@ namespace :deploy do
     task :finalize_update do
         data = File.read "config.yml"
         put data, "#{release_path}/config.yml"
-        
+
         run "#{try_sudo} chown -R apache:apache #{release_path}"
     end
 
     task :restart do
         run "#{try_sudo} service httpd restart"
         run "#{try_sudo} service php-fpm restart"
-        run "cd #{release_path} && sudo ./bin/console update"
-        run "cd #{release_path} && sudo ./bin/console build --no-html-output"
+        run "cd #{release_path} && sudo rm -rf ./cache/*"
+        run "cd #{release_path} && sudo ./bin/console -n migrations:migrate"
+        run "cd #{release_path} && sudo ./bin/console -n satis:update --build"
     end
 end
 
@@ -37,9 +38,9 @@ namespace :composer do
     task :copy_vendors, :except => { :no_release => true } do
         run "if [ -d #{previous_release}/vendor ]; then sudo cp -a #{previous_release}/vendor #{latest_release}/vendor; fi"
     end
-    
+
     task :install do
-        run "cd #{release_path} && sudo composer update --dev -o"
+        run "cd #{release_path} && sudo composer install --no-dev -o"
     end
 end
 

@@ -10,3 +10,4 @@
 /config.yml
 /cache/*
 /logs/*
+/config/deploy.rb
