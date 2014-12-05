@@ -42,6 +42,10 @@ class Plugin implements PluginInterface
         $container->getDefinition('packages.controller_manager')
             ->addMethodCall('registerController', array(Actions::PACKAGE_EDIT, 'Terramar\Packages\Plugin\Satis\Controller::editAction'))
             ->addMethodCall('registerController', array(Actions::PACKAGE_UPDATE, 'Terramar\Packages\Plugin\Satis\Controller::updateAction'));
+
+        $container->getDefinition('packages.command_registry')
+            ->addMethodCall('addCommand', array('Terramar\Packages\Plugin\Satis\Command\BuildCommand'))
+            ->addMethodCall('addCommand', array('Terramar\Packages\Plugin\Satis\Command\UpdateCommand'));
     }
 
     /**

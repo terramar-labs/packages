@@ -69,6 +69,8 @@ class PackagesExtension extends Extension
             ->addArgument(new Reference('router.parser'))
             ->addArgument(new Reference('router.data_generator'));
 
+        $container->register('packages.command_registry', 'Terramar\Packages\Console\CommandRegistry');
+
         $container->register('packages.helper.sync', 'Terramar\Packages\Helper\SyncHelper')
             ->addArgument(new Reference('event_dispatcher'));
 

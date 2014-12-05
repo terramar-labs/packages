@@ -12,10 +12,9 @@ namespace Terramar\Packages\Console;
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\DialogHelper;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Terramar\Packages\Application as AppKernel;
-use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Composer\IO\ConsoleIO;
@@ -50,7 +49,7 @@ class Application extends BaseApplication
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         $this->setHelperSet(ConsoleRunner::createHelperSet($this->app->get('doctrine.orm.entity_manager')));
-        $this->getHelperSet()->set(new DialogHelper());
+        $this->getHelperSet()->set(new QuestionHelper());
         $this->registerCommands();
         $this->io = new ConsoleIO($input, $output, $this->getHelperSet());
 
@@ -117,6 +116,10 @@ class Application extends BaseApplication
             new \Doctrine\DBAL\Migrations\Tools\Console\Command\StatusCommand(),
             new \Doctrine\DBAL\Migrations\Tools\Console\Command\VersionCommand()
         ));
+        $registry = $this->app->get('packages.command_registry');
+        foreach ($registry->getCommands() as $commandClass) {
+            $this->add(new $commandClass());
+        }
     }
 
     /**
