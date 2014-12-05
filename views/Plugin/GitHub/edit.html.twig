@@ -1,0 +1,39 @@
+{% extends 'Plugin/_box.html.twig' %}
+
+{% set box_type = 'box-warning' %}
+
+{% block title %}GitHub{% endblock %}
+
+{% block body %}
+  <div class="form-group" id="github_plugin">
+    Configure GitHub settings for this remote
+  </div>
+  <div class="form-group">
+    <label for="url">Username</label>
+    <input type="text" name="github_username" value="{{ config.username }}" placeholder="Enter User or Organization" id="github_username" class="form-control" required>
+  </div>
+  <div class="form-group">
+    <label for="token">Token</label>
+    <input type="text" name="github_token" value="{{ config.token }}" placeholder="Enter Auth Token" id="github_token" class="form-control" required>
+  </div>
+{% endblock %}
+
+{% block javascripts %}
+  <script type="text/javascript">
+    $(function() {
+      var $adapter = $(document.getElementById('adapter'));
+      var $pluginBox = $(document.getElementById('github_plugin')).closest('.plugin-box');
+      var $required = $('[required]', $pluginBox);
+
+      $adapter.change(function() {
+        if ($(this).val() === 'GitHub') {
+          $pluginBox.fadeIn();
+          $required.prop('required', true);
+        } else {
+          $pluginBox.hide();
+          $required.prop('required', false);
+        }
+      }).change();
+    });
+  </script>
+{% endblock %}

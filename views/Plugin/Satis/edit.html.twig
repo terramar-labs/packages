@@ -1,0 +1,14 @@
+{% extends 'Plugin/_box.html.twig' %}
+
+{% block title %}Composer Satis{% endblock %}
+
+{% block body %}
+  <div class="form-group">
+    Expose this package via Satis
+  </div>
+  <div class="form-group">
+    <label for="satis_enabled">
+      <input type="checkbox" name="satis_enabled" value="1" {% if config.enabled %}checked="checked" {% endif %}id="satis_enabled"> &nbsp; Enabled
+    </label>
+  </div>
+{% endblock %}

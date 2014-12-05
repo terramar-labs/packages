@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Edit Remote' %}
+
+{% block alt_title 'Edit an existing remote repository configuration' %}
+
+{% block content %}
+<form action="{{ path('manage_remote_update', { id: remote.id }) }}" method="post">
+<div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-3">
+        <div class="box box-warning">
+            <div class="box-header">
+                <h3 class="box-title">Configure Remote</h3>
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" value="{{ remote.name }}" placeholder="Enter name" id="name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="adapter">Adapter</label>
+                    <select id="adapter" disabled="disabled" name="adapter" class="form-control">
+                        <option>{{ remote.adapter }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="enabled">
+                        <input type="checkbox" name="enabled" value="1" {% if remote.enabled %}checked="checked" {% endif %}id="enabled"> &nbsp; Enabled
+                    </label>
+                </div>
+            </div>
+
+            <div class="box-footer">
+                <button class="btn btn-primary" type="submit">Update Remote</button>
+            </div>
+        </div>
+    </div>
+    {% for controller in plugin_controllers(constant('Terramar\\Packages\\Plugin\\Actions::REMOTE_EDIT'), { id: remote.id }) %}
+    <div class="col-xs-12 col-sm-8 col-md-3 plugin-box"{% if not remote.enabled %} style="display: none"{% endif %}>
+        {{ render(controller) }}
+    </div>
+    {% endfor %}
+</div>
+</form>
+{% endblock %}
