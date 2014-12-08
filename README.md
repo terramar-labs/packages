@@ -12,4 +12,4 @@ Packages 3.0 works on a plugin based system based around source code repositorie
 can trigger, with each code push, many automated tasks like documentation generation or code 
 analysis. The simple event-based architecture allows easy creation of new automation tasks.
 
-[View the docs online](http://docs.terramarlabs.com/packages)
+[View the docs online](http://docs.terramarlabs.com/packages/3.0)
