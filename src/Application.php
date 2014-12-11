@@ -54,7 +54,9 @@ class Application extends BaseApplication
                 'authenticator' => array(
                     'type' => 'username',
                     'username' => isset($security['username']) ? $security['username'] : null,
-                    'password' => isset($security['password']) ? $security['password'] : null,
+                    'password' => isset($security['password'])
+                        ? password_hash($security['password'], PASSWORD_DEFAULT)
+                        : null,
                 ),
                 'firewall' => '^/manage',
                 'success_path' => '/manage'
