@@ -5,7 +5,9 @@ security:
 
 doctrine:
   mapping: 
-    paths: [ '%app.root_dir%/src/Terramar/Packages/Entity', '%app.root_dir%/src/Terramar/Packages/Plugin' ]
+    default:
+      paths: [ '%app.root_dir%/src/Entity', '%app.root_dir%/src/Plugin' ]
+      namespace: Terramar
     
   database:
     # Any Doctrine driver

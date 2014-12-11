@@ -10,6 +10,7 @@
 namespace Terramar\Packages\Controller;
 
 use Nice\Application;
+use Nice\Security\AuthenticationFailureSubscriber;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Yaml\Yaml;
@@ -29,6 +30,13 @@ class DefaultController
 
     public function loginAction(Application $app, Request $request)
     {
-        return new Response($app->get('twig')->render('Default/login.html.twig'));
+        $error = false;
+        $session = $request->getSession();
+        if ($session->get(AuthenticationFailureSubscriber::AUTHENTICATION_ERROR)) {
+            $error = true;
+            $session->remove(AuthenticationFailureSubscriber::AUTHENTICATION_ERROR);
+        }
+
+        return new Response($app->get('twig')->render('Default/login.html.twig', array('error' => $error)));
     }
 }
