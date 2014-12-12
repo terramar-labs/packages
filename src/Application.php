@@ -15,7 +15,6 @@ use Nice\Extension\SecurityExtension;
 use Nice\Extension\SessionExtension;
 use Nice\Extension\TwigExtension;
 use Symfony\Component\Yaml\Yaml;
-use Terramar\Packages\DependencyInjection\Compiler\TwigExtensionPass;
 use Terramar\Packages\DependencyInjection\PackagesExtension;
 use Terramar\Packages\Plugin\GitLab\Plugin as GitLabPlugin;
 use Terramar\Packages\Plugin\Satis\Plugin as SatisPlugin;
@@ -61,8 +60,6 @@ class Application extends BaseApplication
                 'firewall' => '^/manage',
                 'success_path' => '/manage'
             )));
-
-        $this->addCompilerPass(new TwigExtensionPass());
     }
 
     /**
