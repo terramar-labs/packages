@@ -107,7 +107,8 @@ class PackagesExtension extends Extension
                     'request',
                     ContainerInterface::NULL_ON_INVALID_REFERENCE,
                     false
-                )));
+                )))
+            ->addTag('twig.extension');
 
         $container->register('packages.fragment_handler.uri_signer', 'Symfony\Component\HttpKernel\UriSigner')
             ->addArgument('');

@@ -31,7 +31,8 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-develop": "3.0-dev"
+      "dev-develop": "3.0-dev",
+      "dev-2-1-develop": "2.1-dev"
     }
   },
   "minimum-stability": "beta",
