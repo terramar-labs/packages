@@ -20,7 +20,11 @@ class DefaultController
     public function indexAction(Application $app, Request $request)
     {
         $rootDir = $app->getRootDir();
-        $mtime = new \DateTime('@' . filemtime($rootDir . '/web/packages.json'));
+        $packagesJson = $rootDir . '/web/packages.json';
+        $mtime = null;
+        if (file_exists($packagesJson)) {
+            $mtime = new \DateTime('@' . filemtime($packagesJson));
+        }
 
         return new Response(
             $app->get('twig')->render('Default/index.html.twig', array(
