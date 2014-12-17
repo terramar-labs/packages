@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c1cad496c53bf4050366b41d4c0b5064",
+    "hash": "b307747da63319219273976b606b6169",
     "packages": [
         {
             "name": "chrisboulton/php-resque",
@@ -107,12 +107,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "4a3bc58adfd501fa6e82c82fdd9e8d4036898fa1"
+                "reference": "e0291f3a30fe8959884b433c47abfdb99797dd53"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/4a3bc58adfd501fa6e82c82fdd9e8d4036898fa1",
-                "reference": "4a3bc58adfd501fa6e82c82fdd9e8d4036898fa1",
+                "url": "https://api.github.com/repos/composer/composer/zipball/e0291f3a30fe8959884b433c47abfdb99797dd53",
+                "reference": "e0291f3a30fe8959884b433c47abfdb99797dd53",
                 "shasum": ""
             },
             "require": {
@@ -167,7 +167,7 @@
                 "dependency",
                 "package"
             ],
-            "time": "2014-12-10 15:36:16"
+            "time": "2014-12-17 15:25:22"
         },
         {
             "name": "composer/satis",
@@ -753,16 +753,16 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "v2.4.6",
+            "version": "v2.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/doctrine2.git",
-                "reference": "bebacf79d8d4dae9168f0f9bc6811e6c2cb6a4d9"
+                "reference": "2bc4ff3cab2ae297bcd05f2e619d42e6a7ca9e68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/bebacf79d8d4dae9168f0f9bc6811e6c2cb6a4d9",
-                "reference": "bebacf79d8d4dae9168f0f9bc6811e6c2cb6a4d9",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/2bc4ff3cab2ae297bcd05f2e619d42e6a7ca9e68",
+                "reference": "2bc4ff3cab2ae297bcd05f2e619d42e6a7ca9e68",
                 "shasum": ""
             },
             "require": {
@@ -822,7 +822,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2014-10-06 13:22:50"
+            "time": "2014-12-16 13:45:01"
         },
         {
             "name": "guzzle/guzzle",
@@ -1026,16 +1026,16 @@
         },
         {
             "name": "knplabs/github-api",
-            "version": "1.3.1",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/php-github-api.git",
-                "reference": "fc2bd5531d221f1f9e7d49238a680e50570bf60b"
+                "reference": "eac0ecce6faac7cdfccc8aff3b21902765df3368"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/php-github-api/zipball/fc2bd5531d221f1f9e7d49238a680e50570bf60b",
-                "reference": "fc2bd5531d221f1f9e7d49238a680e50570bf60b",
+                "url": "https://api.github.com/repos/KnpLabs/php-github-api/zipball/eac0ecce6faac7cdfccc8aff3b21902765df3368",
+                "reference": "eac0ecce6faac7cdfccc8aff3b21902765df3368",
                 "shasum": ""
             },
             "require": {
@@ -1083,7 +1083,7 @@
                 "gist",
                 "github"
             ],
-            "time": "2014-09-23 05:58:10"
+            "time": "2014-12-13 22:04:00"
         },
         {
             "name": "kriswallsmith/buzz",
@@ -1242,12 +1242,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nice-php/doctrine-orm.git",
-                "reference": "36d37a6a395fc24ca144265fb83510b1b589ccf0"
+                "reference": "82415deff901dd977cbbe181cdc923ba2dcd2396"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nice-php/doctrine-orm/zipball/36d37a6a395fc24ca144265fb83510b1b589ccf0",
-                "reference": "36d37a6a395fc24ca144265fb83510b1b589ccf0",
+                "url": "https://api.github.com/repos/nice-php/doctrine-orm/zipball/82415deff901dd977cbbe181cdc923ba2dcd2396",
+                "reference": "82415deff901dd977cbbe181cdc923ba2dcd2396",
                 "shasum": ""
             },
             "require": {
@@ -1276,7 +1276,7 @@
                 "MIT"
             ],
             "description": "Integrates Doctrine ORM with Nice PHP framework",
-            "time": "2014-12-10 18:37:08"
+            "time": "2014-12-11 16:07:11"
         },
         {
             "name": "nice/framework",
@@ -1284,12 +1284,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nice-php/framework.git",
-                "reference": "b964de2503b845a149accd9b85ce7060701257e4"
+                "reference": "01226a7e6ae59b7d7e95abf4cc86f59baf1aeb82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nice-php/framework/zipball/b964de2503b845a149accd9b85ce7060701257e4",
-                "reference": "b964de2503b845a149accd9b85ce7060701257e4",
+                "url": "https://api.github.com/repos/nice-php/framework/zipball/01226a7e6ae59b7d7e95abf4cc86f59baf1aeb82",
+                "reference": "01226a7e6ae59b7d7e95abf4cc86f59baf1aeb82",
                 "shasum": ""
             },
             "require": {
@@ -1325,7 +1325,7 @@
                 "MIT"
             ],
             "description": "A nice PHP microframework",
-            "time": "2014-12-09 18:00:53"
+            "time": "2014-12-13 17:09:38"
         },
         {
             "name": "nice/security",
@@ -1380,12 +1380,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nice-php/twig.git",
-                "reference": "15fbd3a741a5ebbe76a241ee9266ebc4a6a15356"
+                "reference": "449e0bf006ee4b6c7cee60e5775ab42be223fab1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nice-php/twig/zipball/15fbd3a741a5ebbe76a241ee9266ebc4a6a15356",
-                "reference": "15fbd3a741a5ebbe76a241ee9266ebc4a6a15356",
+                "url": "https://api.github.com/repos/nice-php/twig/zipball/449e0bf006ee4b6c7cee60e5775ab42be223fab1",
+                "reference": "449e0bf006ee4b6c7cee60e5775ab42be223fab1",
                 "shasum": ""
             },
             "require": {
@@ -1416,7 +1416,7 @@
                 "MIT"
             ],
             "description": "Integrates Twig with Nice PHP framework",
-            "time": "2014-11-22 20:04:52"
+            "time": "2014-12-13 17:22:29"
         },
         {
             "name": "nikic/fast-route",
