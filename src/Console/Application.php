@@ -136,7 +136,7 @@ class Application extends BaseApplication
     public function add(Command $command)
     {
         if ($command instanceof ContainerAwareInterface) {
-            $command->setContainer($this->app);
+            $command->setContainer($this->app->getContainer());
         }
 
         return parent::add($command);
@@ -147,6 +147,6 @@ class Application extends BaseApplication
      */
     public function getConfiguration()
     {
-        return $this->app->getParameter('packages.configuration');
+        return $this->app->getContainer()->getParameter('packages.configuration');
     }
 }
