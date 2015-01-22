@@ -25,7 +25,7 @@ class RemoteController
         
         $remotes = $entityManager->getRepository('Terramar\Packages\Entity\Remote')->findAll();
         
-        return new Response($app->get('twig')->render('Remote/index.html.twig', array(
+        return new Response($app->get('templating')->render('Remote/index.html.twig', array(
                     'remotes' => $remotes
                 )));
     }
@@ -34,7 +34,7 @@ class RemoteController
     {
         $adapters = $app->get('packages.helper.sync')->getAdapters();
         
-        return new Response($app->get('twig')->render('Remote/new.html.twig', array(
+        return new Response($app->get('templating')->render('Remote/new.html.twig', array(
                     'adapters'      => $adapters,
                     'remote' => new Remote()
                 )));
@@ -69,7 +69,7 @@ class RemoteController
             throw new \RuntimeException('Oops');
         }
 
-        return new Response($app->get('twig')->render('Remote/edit.html.twig', array(
+        return new Response($app->get('templating')->render('Remote/edit.html.twig', array(
                 'remote' => $remote
             )));
     }

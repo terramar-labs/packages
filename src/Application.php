@@ -13,6 +13,7 @@ use Nice\Application as BaseApplication;
 use Nice\Extension\DoctrineOrmExtension;
 use Nice\Extension\SecurityExtension;
 use Nice\Extension\SessionExtension;
+use Nice\Extension\TemplatingExtension;
 use Nice\Extension\TwigExtension;
 use Symfony\Component\Yaml\Yaml;
 use Terramar\Packages\DependencyInjection\PackagesExtension;
@@ -48,6 +49,7 @@ class Application extends BaseApplication
             )));
         $this->appendExtension(new DoctrineOrmExtension($doctrine));
         $this->appendExtension(new SessionExtension());
+        $this->appendExtension(new TemplatingExtension());
         $this->appendExtension(new TwigExtension($this->getRootDir() . '/views'));
         $this->appendExtension(new SecurityExtension(array(
                 'authenticator' => array(

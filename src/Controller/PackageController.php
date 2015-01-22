@@ -28,7 +28,7 @@ class PackageController
 
         $packages = $entityManager->getRepository('Terramar\Packages\Entity\Package')->findAll();
 
-        return new Response($app->get('twig')->render('Package/index.html.twig', array(
+        return new Response($app->get('templating')->render('Package/index.html.twig', array(
                     'packages' => $packages
                 )));
     }
@@ -42,7 +42,7 @@ class PackageController
             throw new \RuntimeException('Oops');
         }
 
-        return new Response($app->get('twig')->render('Package/edit.html.twig', array(
+        return new Response($app->get('templating')->render('Package/edit.html.twig', array(
                 'package' => $package,
                 'remotes' => $this->getRemotes($app->get('doctrine.orm.entity_manager'))
             )));
