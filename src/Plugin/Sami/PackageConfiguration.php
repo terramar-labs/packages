@@ -36,6 +36,31 @@ class PackageConfiguration
     private $repositoryPath = '';
 
     /**
+     * @ORM\Column(name="remote_repo_path", type="string")
+     */
+    private $remoteRepoPath = '';
+
+    /**
+     * @ORM\Column(name="title", type="string")
+     */
+    private $title = '';
+
+    /**
+     * @ORM\Column(name="theme", type="string")
+     */
+    private $theme = 'symfony';
+
+    /**
+     * @ORM\Column(name="tags", type="string")
+     */
+    private $tags = '';
+
+    /**
+     * @ORM\Column(name="refs", type="string")
+     */
+    private $refs = '';
+
+    /**
      * @ORM\ManyToOne(targetEntity="Terramar\Packages\Entity\Package")
      * @ORM\JoinColumn(name="package_id", referencedColumnName="id")
      */
@@ -95,5 +120,85 @@ class PackageConfiguration
     public function setRepositoryPath($repositoryPath)
     {
         $this->repositoryPath = (string) $repositoryPath;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRemoteRepoPath()
+    {
+        return $this->remoteRepoPath;
+    }
+
+    /**
+     * @param mixed $remoteRepoPath
+     */
+    public function setRemoteRepoPath($remoteRepoPath)
+    {
+        $this->remoteRepoPath = (string) $remoteRepoPath;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param mixed $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = (string) $title;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTheme()
+    {
+        return $this->theme;
+    }
+
+    /**
+     * @param mixed $theme
+     */
+    public function setTheme($theme)
+    {
+        $this->theme = (string) $theme;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    /**
+     * @param mixed $tags
+     */
+    public function setTags($tags)
+    {
+        $this->tags = (string) $tags;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRefs()
+    {
+        return $this->refs;
+    }
+
+    /**
+     * @param mixed $refs
+     */
+    public function setRefs($refs)
+    {
+        $this->refs = (string) $refs;
     }
 }

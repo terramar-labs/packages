@@ -52,7 +52,7 @@ class Application extends BaseApplication
         $this->appendExtension(new DoctrineOrmExtension($doctrine));
         $this->appendExtension(new SessionExtension());
         $this->appendExtension(new TemplatingExtension());
-        $this->appendExtension(new TwigExtension($this->getRootDir() . '/views'));
+        $this->appendExtension(new TwigExtension());
         $this->appendExtension(new SecurityExtension(array(
                 'authenticator' => array(
                     'type' => 'username',

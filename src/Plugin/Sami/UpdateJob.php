@@ -71,7 +71,13 @@ class UpdateJob extends ContainerAwareJob
     private function writeConfig($configFilePath, Package $package, PackageConfiguration $config) 
     {
         $cachePath = $this->getCacheDir($package);
-        
+        $tagsCode = $config->getTags() ? '    ->addFromTags(\'' . implode('\',\'', explode(',', $config->getTags())) . '\)'.PHP_EOL : '';
+        $refsCode = '';
+        foreach (explode(',', $config->getRefs()) as $ref) {
+            $parts = explode(':', $ref);
+            $refsCode .= '    ->add(\'' . $parts[0] . '\', \'' . $parts[1] . '\')'.PHP_EOL;
+        }
+
         $code = <<<END
 <?php
 
@@ -83,17 +89,14 @@ class UpdateJob extends ContainerAwareJob
  */
 
 \$versions = Sami\Version\GitVersionCollection::create('{$config->getRepositoryPath()}')
-    ->addFromTags()
-    ->add('master', 'master branch')
-    ->add('develop', 'develop branch')
-;
+$tagsCode$refsCode;
 
 return new Sami\Sami('{$config->getRepositoryPath()}', array(
-    'title' => '{$package->getName()}',
+    'title' => '{$config->getTitle()}',
     'build_dir' => '$cachePath/build/%version%',
     'cache_dir' => '$cachePath/cache/%version%',
     'default_opened_level' => 2,
-    'theme' => 'enhanced',
+    'theme' => '{$config->getTheme()}',
     'versions' => \$versions
 ));
 END;
