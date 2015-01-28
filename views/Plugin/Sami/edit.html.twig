@@ -1,0 +1,44 @@
+{% extends 'Plugin/_box.html.twig' %}
+
+{% block title %}Sami{% endblock %}
+
+{% block body %}
+  <div class="form-group">
+    Automatically generate documentation for this project using Sami
+  </div>
+  <div class="form-group">
+    <label for="sami_enabled">
+      <input type="checkbox" name="sami_enabled" value="1" {% if config.enabled %}checked="checked" {% endif %}id="sami_enabled"> &nbsp; Enabled
+    </label>
+  </div>
+  <div id="sami_error" class="callout callout-danger" style="display: none">
+    The Clone Project plugin is disabled for this package. Sami will not function properly. <a href="#" id="fix_cloneproject">Fix the problem</a>.
+  </div>
+{% endblock %}
+
+{% block javascripts %}
+  <script type="text/javascript">
+  $(function() {
+    var $error = $(document.getElementById('sami_error'));
+    var $enabled = $(document.getElementById('sami_enabled'));
+    var $cloneEnabled = $(document.getElementById('cloneproject_enabled'));
+    var $fix = $(document.getElementById('fix_cloneproject'));
+
+    $cloneEnabled.add($enabled).on('change', function() {
+      if ($enabled.is(':checked') && !$cloneEnabled.is(':checked')) {
+        $error.slideDown();
+      } else {
+        $error.slideUp();
+      }
+    });
+
+    $enabled.trigger('change');
+
+    $fix.on('click', function(e) {
+      e.preventDefault();
+
+      $cloneEnabled.prop('checked', true).trigger('change');
+    });
+  });
+  </script>
+{% endblock %}
