@@ -1,0 +1,74 @@
+{% extends 'Plugin/_box.html.twig' %}
+
+{% block title %}Sami{% endblock %}
+
+{% block body %}
+  <div class="form-group">
+    Automatically generate documentation for this project using Sami
+  </div>
+  <div class="form-group">
+    <label for="sami_enabled">
+      <input type="checkbox" name="sami_enabled" value="1" {% if config.enabled %}checked="checked" {% endif %}id="sami_enabled"> &nbsp; Enabled
+    </label>
+  </div>
+  <div id="sami_error" class="callout callout-danger" style="display: none">
+    The Clone Project plugin is disabled for this package. Sami will not function properly. <a href="#" id="fix_cloneproject">Fix the problem</a>.
+  </div>
+  <div class="sami-enabled form-group" style="display: none;">
+    <label for="sami_title">Title</label>
+    <input type="text" name="sami_title" value="{{ config.title }}" placeholder="Enter Docs Title" id="sami_title" class="form-control" required>
+  </div>
+  <div class="sami-enabled form-group" style="display: none;">
+    <label for="sami_theme">Theme</label>
+    <input type="text" name="sami_theme" value="{{ config.theme }}" placeholder="symfony" id="sami_theme" class="form-control" required>
+  </div>
+  <div class="sami-enabled form-group" style="display: none;">
+    <label for="sami_tags">Tags</label>
+    <input type="text" name="sami_tags" value="{{ config.tags }}" placeholder="v2.0.*,v3.0.*" id="sami_tags" class="form-control">
+  </div>
+  <div class="sami-enabled form-group" style="display: none;">
+    <label for="sami_refs">Refs</label>
+    <input type="text" name="sami_refs" value="{{ config.refs }}" placeholder="2.0:2.0 branch,master:master branch" id="same_refs" class="form-control">
+  </div>
+  <div class="sami-enabled form-group" style="display: none;">
+    <label for="sami_docs_path">Docs Path</label>
+    <input type="text" name="sami_docs_path" value="{{ config.docsPath }}" placeholder="Relative path to docs" id="sami_docs_path" class="form-control">
+  </div>
+  <div class="sami-enabled form-group" style="display: none;">
+    <label for="sami_remote_repo_path">Remote Repo</label>
+    <input type="text" name="sami_remote_repo_path" value="{{ config.remoteRepoPath }}" placeholder="Enter Remote URL" id="sami_remote_repo_path" class="form-control">
+  </div>
+{% endblock %}
+
+{% block javascripts %}
+  <script type="text/javascript">
+  $(function() {
+    var $error = $(document.getElementById('sami_error'));
+    var $enabled = $(document.getElementById('sami_enabled'));
+    var $cloneEnabled = $(document.getElementById('cloneproject_enabled'));
+    var $fix = $(document.getElementById('fix_cloneproject'));
+    var $fields = $('.sami-enabled');
+
+    $cloneEnabled.add($enabled).on('change', function() {
+      if ($enabled.is(':checked')) {
+        $fields.slideDown();
+        if (!$cloneEnabled.is(':checked')) {
+          $error.slideDown();
+        } else {
+          $error.slideUp();
+        }
+      } else {
+        $fields.slideUp();
+      }
+    });
+
+    $enabled.trigger('change');
+
+    $fix.on('click', function(e) {
+      e.preventDefault();
+
+      $cloneEnabled.prop('checked', true).trigger('change');
+    });
+  });
+  </script>
+{% endblock %}
