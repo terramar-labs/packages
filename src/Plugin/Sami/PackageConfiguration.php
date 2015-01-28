@@ -41,6 +41,11 @@ class PackageConfiguration
     private $remoteRepoPath = '';
 
     /**
+     * @ORM\Column(name="docs_path", type="string")
+     */
+    private $docsPath = 'src/';
+
+    /**
      * @ORM\Column(name="title", type="string")
      */
     private $title = '';
@@ -200,5 +205,21 @@ class PackageConfiguration
     public function setRefs($refs)
     {
         $this->refs = (string) $refs;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDocsPath()
+    {
+        return $this->docsPath;
+    }
+
+    /**
+     * @param mixed $docsPath
+     */
+    public function setDocsPath($docsPath)
+    {
+        $this->docsPath = (string) $docsPath;
     }
 }

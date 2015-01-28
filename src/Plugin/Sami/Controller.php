@@ -44,6 +44,7 @@ class Controller
         $config->setRemoteRepoPath($request->get('sami_remote_repo_path'));
         $config->setTags($request->get('sami_tags'));
         $config->setRefs($request->get('sami_refs'));
+        $config->setDocsPath($request->get('sami_docs_path'));
         
         $entityManager->persist($config);
         

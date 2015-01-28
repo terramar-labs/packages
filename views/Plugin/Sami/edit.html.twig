@@ -31,6 +31,10 @@
     <input type="text" name="sami_refs" value="{{ config.refs }}" placeholder="2.0:2.0 branch,master:master branch" id="same_refs" class="form-control">
   </div>
   <div class="sami-enabled form-group" style="display: none;">
+    <label for="sami_docs_path">Docs Path</label>
+    <input type="text" name="sami_docs_path" value="{{ config.docsPath }}" placeholder="Relative path to docs" id="sami_docs_path" class="form-control">
+  </div>
+  <div class="sami-enabled form-group" style="display: none;">
     <label for="sami_remote_repo_path">Remote Repo</label>
     <input type="text" name="sami_remote_repo_path" value="{{ config.remoteRepoPath }}" placeholder="Enter Remote URL" id="sami_remote_repo_path" class="form-control">
   </div>
