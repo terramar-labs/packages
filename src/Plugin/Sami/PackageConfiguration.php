@@ -66,6 +66,11 @@ class PackageConfiguration
     private $refs = '';
 
     /**
+     * @ORM\Column(name="templates_dir", type="string")
+     */
+    private $templatesDir = '';
+
+    /**
      * @ORM\ManyToOne(targetEntity="Terramar\Packages\Entity\Package")
      * @ORM\JoinColumn(name="package_id", referencedColumnName="id")
      */
@@ -221,5 +226,21 @@ class PackageConfiguration
     public function setDocsPath($docsPath)
     {
         $this->docsPath = (string) $docsPath;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTemplatesDir()
+    {
+        return $this->templatesDir;
+    }
+
+    /**
+     * @param mixed $templatesDir
+     */
+    public function setTemplatesDir($templatesDir)
+    {
+        $this->templatesDir = (string) $templatesDir;
     }
 }

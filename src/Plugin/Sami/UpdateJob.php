@@ -56,6 +56,7 @@ class UpdateJob extends ContainerAwareJob
 
         $configFilePath = $cachePath . '/config.php';
         $this->writeConfig($configFilePath, $package, $config);
+        echo "Wrote config file to: $configFilePath\n";
 
         $finder = new PhpExecutableFinder();
         $builder = new ProcessBuilder(array('vendor/bin/sami.php', 'update', $configFilePath));
@@ -64,10 +65,15 @@ class UpdateJob extends ContainerAwareJob
 
         $process = $builder->getProcess();
         $process->run(function($type, $message) {
-                echo $message;
-            });
+            echo $message;
+        });
+
+        if (!$process->isSuccessful()) {
+            throw new \RuntimeException("Unable to generate sami documentation\n");
+        }
 
         if ($config->getRemoteRepoPath()) {
+            echo "Updating configured remote with doc changes...\n";
             $localRepoPath = $cachePath . '/remote';
             $this->emptyAndRemoveDirectory($localRepoPath);
             $buildPath = $cachePath . '/build';
@@ -83,65 +89,60 @@ class UpdateJob extends ContainerAwareJob
                 echo $message;
             });
 
-            foreach ($this->getRefs($config) as $ref) {
-                $builder = new ProcessBuilder(array(
-                    'checkout',
-                    $ref[0]
-                ));
-                $builder->setPrefix('git');
-                $process = $builder->getProcess();
-                $process->setWorkingDirectory($localRepoPath);
-                $process->run(function ($type, $message) {
-                    echo $message;
-                });
-
-                $builder = new ProcessBuilder(array(
-                    '-R',
-                    $buildPath.'/'.$ref[0].'/',
-                    '.'
-                ));
-                $builder->setPrefix('cp');
-                $process = $builder->getProcess();
-                $process->setWorkingDirectory($localRepoPath);
-                $process->run(function ($type, $message) {
-                    echo $message;
-                });
-
-                $builder = new ProcessBuilder(array(
-                    'add',
-                    '.'
-                ));
-                $builder->setPrefix('git');
-                $process = $builder->getProcess();
-                $process->setWorkingDirectory($localRepoPath);
-                $process->run(function ($type, $message) {
-                    echo $message;
-                });
-
-                $builder = new ProcessBuilder(array(
-                    'commit',
-                    '-m',
-                    'Automated commit'
-                ));
-                $builder->setPrefix('git');
-                $process = $builder->getProcess();
-                $process->setWorkingDirectory($localRepoPath);
-                $process->run(function ($type, $message) {
-                    echo $message;
-                });
-
-                $builder = new ProcessBuilder(array(
-                    'push',
-                    'origin',
-                    $ref[0]
-                ));
-                $builder->setPrefix('git');
-                $process = $builder->getProcess();
-                $process->setWorkingDirectory($localRepoPath);
-                $process->run(function ($type, $message) {
-                    echo $message;
-                });
+            if (!$process->isSuccessful()) {
+                throw new \RuntimeException("Unable to clone remote repository \"" . $config->getRemoteRepoPath() . "\"\n");
             }
+
+            echo "Copying generated files into repository...\n";
+            $builder = new ProcessBuilder(array(
+                '-R',
+                $buildPath.'/',
+                '.'
+            ));
+            $builder->setPrefix('cp');
+            $process = $builder->getProcess();
+            $process->setWorkingDirectory($localRepoPath);
+            $process->run(function ($type, $message) {
+                echo $message;
+            });
+
+
+            echo "Adding all files...\n";
+            $builder = new ProcessBuilder(array(
+                'add',
+                '.'
+            ));
+            $builder->setPrefix('git');
+            $process = $builder->getProcess();
+            $process->setWorkingDirectory($localRepoPath);
+            $process->run(function ($type, $message) {
+                echo $message;
+            });
+
+            echo "Committing...\n";
+            $builder = new ProcessBuilder(array(
+                'commit',
+                '-m',
+                'Automated commit'
+            ));
+            $builder->setPrefix('git');
+            $process = $builder->getProcess();
+            $process->setWorkingDirectory($localRepoPath);
+            $process->run(function ($type, $message) {
+                echo $message;
+            });
+
+            echo "Pushing...\n";
+            $builder = new ProcessBuilder(array(
+                'push',
+                'origin'
+            ));
+            $builder->setPrefix('git');
+            $process = $builder->getProcess();
+            $process->setWorkingDirectory($localRepoPath);
+            $process->run(function ($type, $message) {
+                echo $message;
+            });
         }
     }
 
@@ -161,26 +162,31 @@ class UpdateJob extends ContainerAwareJob
             $refsCode .= '    ->add(\'' . $ref[0] . '\', \'' . $ref[1] . '\')'.PHP_EOL;
         }
 
+        $templatesCode = '';
+        if ($templatesDir = $config->getTemplatesDir()) {
+            $templatesCode =  '    \'templates_dir\' => array(\'' . $templatesDir .'\'),'."\n";
+        }
+
         $code = <<<END
 <?php
 
-/*
- * Copyright (c) Terramar Labs
- *
- * For the full copyright and license information, please view the LICENSE file
- * that was distributed with this source code.
- */
+\$iterator = Symfony\Component\Finder\Finder::create()
+    ->files()
+    ->name('*.php')
+    ->exclude('Resources')
+    ->exclude('Tests')
+    ->in(\$dir = '{$config->getRepositoryPath()}/{$config->getDocsPath()}');
 
-\$versions = Sami\Version\GitVersionCollection::create('{$config->getRepositoryPath()}/{$config->getDocsPath()}')
+\$versions = Sami\Version\GitVersionCollection::create(\$dir)
 $tagsCode$refsCode;
 
-return new Sami\Sami('{$config->getRepositoryPath()}/{$config->getDocsPath()}', array(
+return new Sami\Sami(\$iterator, array(
     'title' => '{$config->getTitle()}',
     'build_dir' => '$cachePath/build/%version%',
     'cache_dir' => '$cachePath/cache/%version%',
     'default_opened_level' => 2,
     'theme' => '{$config->getTheme()}',
-    'versions' => \$versions
+$templatesCode    'versions' => \$versions
 ));
 END;
         

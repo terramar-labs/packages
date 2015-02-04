@@ -6,6 +6,10 @@ use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
+ * Migration script for 3.0->3.1
+ *
+ * Only necessary if upgrading from 3.0 to 3.1.
+ *
  * @version 3.1.0
  */
 class Version3100 extends AbstractMigration
@@ -24,6 +28,7 @@ class Version3100 extends AbstractMigration
         $table->addColumn('theme', 'string');
         $table->addColumn('tags', 'string');
         $table->addColumn('refs', 'string');
+        $table->addColumn('templates_dir', 'string');
         $table->addForeignKeyConstraint('packages', array('package_id'), array('id'));
 
         $table = $schema->createTable('packages_cloneproject_configurations');
@@ -32,6 +37,12 @@ class Version3100 extends AbstractMigration
         $table->addColumn('enabled', 'boolean');
         $table->addColumn('package_id', 'integer');
         $table->addForeignKeyConstraint('packages', array('package_id'), array('id'));
+    }
+
+    public function postUp(Schema $schema)
+    {
+        $this->connection->executeQuery('INSERT INTO packages_sami_configurations (package_id, enabled) (SELECT id, enabled FROM packages)');
+        $this->connection->executeQuery('INSERT INTO packages_cloneproject_configurations (package_id, enabled) (SELECT id, enabled FROM packages)');
     }
 
     public function down(Schema $schema)
