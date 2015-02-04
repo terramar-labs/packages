@@ -23,6 +23,10 @@
     <input type="text" name="sami_theme" value="{{ config.theme }}" placeholder="symfony" id="sami_theme" class="form-control" required>
   </div>
   <div class="sami-enabled form-group" style="display: none;">
+    <label for="sami_templates_dir">Templates Directory</label>
+    <input type="text" name="sami_templates_dir" value="{{ config.templatesDir }}" placeholder="/var/sami/themes" id="sami_templates_dir" class="form-control" required>
+  </div>
+  <div class="sami-enabled form-group" style="display: none;">
     <label for="sami_tags">Tags</label>
     <input type="text" name="sami_tags" value="{{ config.tags }}" placeholder="v2.0.*,v3.0.*" id="sami_tags" class="form-control">
   </div>

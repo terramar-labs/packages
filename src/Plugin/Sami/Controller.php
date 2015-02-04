@@ -41,6 +41,7 @@ class Controller
         $config->setEnabled($request->get('sami_enabled') ? true : false);
         $config->setTitle($request->get('sami_title'));
         $config->setTheme($request->get('sami_theme'));
+        $config->setTemplatesDir($request->get('sami_templates_dir'));
         $config->setRemoteRepoPath($request->get('sami_remote_repo_path'));
         $config->setTags($request->get('sami_tags'));
         $config->setRefs($request->get('sami_refs'));
