@@ -30,4 +30,14 @@ final class Events
      * Dispatched when a package is disabled
      */
     const PACKAGE_DISABLE = 'package.disable';
+
+    /**
+     * Dispatched when a remote is enabled
+     */
+    const REMOTE_ENABLE = 'remote.enable';
+
+    /**
+     * Dispatched when a remote is disabled
+     */
+    const REMOTE_DISABLE = 'remote.disable';
 }
