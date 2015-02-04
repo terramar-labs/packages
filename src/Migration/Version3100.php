@@ -41,8 +41,8 @@ class Version3100 extends AbstractMigration
 
     public function postUp(Schema $schema)
     {
-        $this->connection->executeQuery('INSERT INTO packages_sami_configurations (package_id, enabled) (SELECT id, enabled FROM packages)');
-        $this->connection->executeQuery('INSERT INTO packages_cloneproject_configurations (package_id, enabled) (SELECT id, enabled FROM packages)');
+        $this->connection->executeQuery('INSERT INTO packages_sami_configurations (package_id, enabled, docs_path, repo_path, remote_repo_path, title, theme, tags, refs, templates_dir) SELECT id, 0, "", "", "", "", "", "", "", "" FROM packages');
+        $this->connection->executeQuery('INSERT INTO packages_cloneproject_configurations (package_id, enabled) SELECT id, 0 FROM packages');
     }
 
     public function down(Schema $schema)
