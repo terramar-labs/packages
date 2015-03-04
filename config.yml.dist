@@ -18,7 +18,7 @@ doctrine:
     # host: 127.0.0.1
     # user: root
     # password:
-    # database: packages
+    # dbname: packages
    
 resque:
   host:     'unix:/tmp/redis.sock'
