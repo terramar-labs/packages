@@ -159,7 +159,7 @@ class SyncAdapter implements SyncAdapterInterface
         $projects = array();
         $page = 1;
         while (true) {
-            $projects = array_merge($projects, $client->api('projects')->all($page, 100));
+            $projects = array_merge($projects, $client->api('projects')->accessible($page, 100));
             $linkHeader = $client->getHttpClient()->getLastResponse()->getHeader('Link');
             if (strpos($linkHeader, 'rel="next"') === false) {
                 break;
