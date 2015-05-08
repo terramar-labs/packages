@@ -48,6 +48,11 @@ class RemoteConfiguration
     private $remote;
 
     /**
+     * @ORM\Column(name="fqn_prefix", type="string", nullable=true)
+     */
+    private $fqn_prefix;
+
+    /**
      * @param mixed $enabled
      */
     public function setEnabled($enabled)
@@ -117,5 +122,21 @@ class RemoteConfiguration
     public function setToken($token)
     {
         $this->token = (string) $token;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFqnPrefix()
+    {
+        return $this->fqn_prefix;
+    }
+
+    /**
+     * @param mixed $prefix
+     */
+    public function setFqnPrefix($prefix)
+    {
+        $this->fqn_prefix = (string) $prefix;
     }
 }

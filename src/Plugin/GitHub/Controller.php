@@ -31,6 +31,7 @@ class Controller
         $entityManager = $app->get('doctrine.orm.entity_manager');
         $config = new RemoteConfiguration();
         $config->setRemote($remote);
+        $config->setFqnPrefix($request->get('fqn_prefix'));
         $config->setToken($request->get('github_token'));
         $config->setUsername($request->get('github_username'));
         $config->setEnabled($remote->isEnabled());
@@ -65,6 +66,7 @@ class Controller
             return new Response();
         }
 
+        $config->setFqnPrefix($request->get('fqn_prefix'));
         $config->setToken($request->get('github_token'));
         $config->setUsername($request->get('github_username'));
         $config->setEnabled($config->getRemote()->isEnabled());

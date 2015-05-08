@@ -31,6 +31,7 @@ class Controller
         $entityManager = $app->get('doctrine.orm.entity_manager');
         $config = new RemoteConfiguration();
         $config->setRemote($remote);
+        $config->setFqnPrefix($request->get('fqn_prefix'));
         $config->setToken($request->get('gitlab_token'));
         $config->setUrl($request->get('gitlab_url'));
         $config->setEnabled($remote->isEnabled());
@@ -65,6 +66,7 @@ class Controller
             return new Response();
         }
 
+        $config->setFqnPrefix($request->get('gitlab_token'));
         $config->setToken($request->get('gitlab_token'));
         $config->setUrl($request->get('gitlab_url'));
         $config->setEnabled($config->getRemote()->isEnabled());
