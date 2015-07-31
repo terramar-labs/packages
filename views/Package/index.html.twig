@@ -13,7 +13,7 @@
             </div>
             <div class="box-body table-responsive">
                 {% if packages|length %}
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="package-list">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -50,4 +50,12 @@
     </div>
 
 </div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    $(document).ready( function () {
+        $('#package-list').DataTable();
+    } );
+</script>
 {% endblock %}
