@@ -19,7 +19,7 @@
                             <th>Name</th>
                             <th>Instance</th>
                             <th>Last activity</th>
-                            <th></th>
+                            <th>Enabled</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -55,7 +55,9 @@
 {% block javascripts %}
 <script>
     $(document).ready( function () {
-        $('#package-list').DataTable();
+        $('#package-list').DataTable( {
+            "pageLength": 100
+        });
     } );
 </script>
 {% endblock %}
