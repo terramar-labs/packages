@@ -162,10 +162,23 @@ class SyncAdapter implements SyncAdapterInterface
 
     private function getAllProjects(Remote $remote)
     {
-        $config = $this->getRemoteConfig($remote);
         $client = $this->getClient($remote);
 
-        $projects = $client->api('user')->repositories($config->getUsername());
+        $projects = array();
+        $page = 1;
+        while (true) {
+            $response = $client->getHttpClient()->get('/user/repos', array(
+                'page' => $page,
+                'per_page' => 100
+            ));
+            $projects = array_merge($projects, ResponseMediator::getContent($response));
+            $linkHeader = $client->getHttpClient()->getLastResponse()->getHeader('Link');
+            if (strpos($linkHeader, 'rel="next"') === false) {
+                break;
+            }
+
+            $page++;
+        }
 
         return $projects;
     }
