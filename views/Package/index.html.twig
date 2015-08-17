@@ -13,13 +13,13 @@
             </div>
             <div class="box-body table-responsive">
                 {% if packages|length %}
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="package-list">
                     <thead>
                         <tr>
                             <th>Name</th>
                             <th>Instance</th>
                             <th>Last activity</th>
-                            <th></th>
+                            <th>Enabled</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,4 +50,16 @@
     </div>
 
 </div>
+{% endblock %}
+
+{% block javascripts %}
+<!-- DataTables -->
+<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready( function () {
+        $('#package-list').DataTable( {
+            "pageLength": 100
+        });
+    } );
+</script>
 {% endblock %}
