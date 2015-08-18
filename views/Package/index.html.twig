@@ -18,16 +18,16 @@
                         <tr>
                             <th>Name</th>
                             <th>Instance</th>
-                            <th>Last activity</th>
                             <th>Enabled</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for package in packages %}
                         <tr>
-                            <td>{{ package.name }} (<a href="{{ package.webUrl }}">{{ package.fqn }}</a>){% if not package.enabled %} <label class="label label-warning">Disabled</label>{% endif %}</td>
+                            <td>{{ package.name }} (<a href="{{ package.webUrl }}">{{ package.fqn }}</a>)</td>
                             <td>{{ package.remote.name }}</td>
-                            <td></td>
+                            <td>{{ package.enabled ? 'Enabled' : 'Disabled' }}</td>
                             <td>
                                 <div class="btn-group">
                                     <a class="btn btn-default" href="{{ path('manage_package_edit', { id: package.id }) }}"><i class="fa fa-edit"></i> Edit</a>
@@ -53,13 +53,14 @@
 {% endblock %}
 
 {% block javascripts %}
-<!-- DataTables -->
-<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.js"></script>
-<script>
-    $(document).ready( function () {
-        $('#package-list').DataTable( {
-            "pageLength": 100
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#package-list').DataTable({
+            "pageLength": 100,
+            "stateSave": true,
+            "drawCallback": window.fixContainerHeights,
+            "order": [[2, 'desc'], [0, 'asc']]
         });
-    } );
+    });
 </script>
 {% endblock %}

@@ -11,13 +11,14 @@
         <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,300italic,400italic,600italic" type="text/css" rel="stylesheet">
         <link href="{{ asset("css/AdminLTE.css") }}" type="text/css" rel="stylesheet">
 
-        <script src="//cdn.jsdelivr.net/jquery/1.11.0/jquery.min.js" type="text/javascript"></script>
-
         <!-- DataTables CSS -->
         <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.css">
 
         <!-- jQuery -->
-        <script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="//cdn.jsdelivr.net/jquery/1.11.0/jquery.min.js"></script>
+
+        <!-- DataTables -->
+        <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.js"></script>
 
         <!--[if lt IE 9]>
         <script src="//cdn.jsdelivr.net/html5shiv/3.7.0/html5shiv.js"></script>
@@ -81,7 +82,7 @@
 
                 <section class="plugin-list">
                     <dl>
-                        {% for plugin,version in app.parameter('packages.registered_plugins') %}
+                        {% for plugin,version in app.container.parameter('packages.registered_plugins') %}
                             <dt>{{ plugin }}{% if version %} ({{ version }}){% endif %}</dt>
                         {% endfor %}
                     </dl>

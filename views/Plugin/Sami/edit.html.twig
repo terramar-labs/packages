@@ -52,10 +52,12 @@
     var $cloneEnabled = $(document.getElementById('cloneproject_enabled'));
     var $fix = $(document.getElementById('fix_cloneproject'));
     var $fields = $('.sami-enabled');
+    var $requiredFields = $fields.find('[required]');
 
     $cloneEnabled.add($enabled).on('change', function() {
       if ($enabled.is(':checked')) {
         $fields.slideDown();
+        $requiredFields.attr('required', true);
         if (!$cloneEnabled.is(':checked')) {
           $error.slideDown();
         } else {
@@ -63,6 +65,8 @@
         }
       } else {
         $fields.slideUp();
+        $error.slideUp();
+        $requiredFields.removeAttr('required');
       }
     });
 
