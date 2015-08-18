@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f94c39e6fc64da8b2a77a30b87097280",
+    "hash": "2d7c14d9a651c74c229d2cb8e6598f3b",
     "packages": [
         {
             "name": "chrisboulton/php-resque",
@@ -2770,7 +2770,9 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.4.0"
+        "php": ">=5.4.0",
+        "ext-pcntl": "*",
+        "ext-posix": "*"
     },
     "platform-dev": []
 }

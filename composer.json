@@ -5,6 +5,8 @@
   "type": "application",
   "require": {
     "php": ">=5.4.0",
+    "ext-pcntl": "*",
+    "ext-posix": "*",
     "nice/framework": "~1.1",
     "nice/security": "~1.0",
     "nice/doctrine-orm": "~1.0",
