@@ -105,7 +105,10 @@ class SyncAdapter implements SyncAdapterInterface
         
         $client = $this->getClient($package->getRemote());
         $project = Project::fromArray($client, (array) $client->api('projects')->show($package->getExternalId()));
-        $hook = $project->addHook($this->urlGenerator->generate('webhook_receive', array('id' => $package->getId()), true));
+        $hook = $project->addHook(
+            $this->urlGenerator->generate('webhook_receive', array('id' => $package->getId()), true),
+            array('push_events' => true, 'tag_push_events' => true)
+        );
         $package->setHookExternalId($hook->id);
         $config->setEnabled(true);
 
@@ -159,7 +162,7 @@ class SyncAdapter implements SyncAdapterInterface
         $projects = array();
         $page = 1;
         while (true) {
-            $projects = array_merge($projects, $client->api('projects')->all($page, 100));
+            $projects = array_merge($projects, $client->api('projects')->accessible($page, 100));
             $linkHeader = $client->getHttpClient()->getLastResponse()->getHeader('Link');
             if (strpos($linkHeader, 'rel="next"') === false) {
                 break;

@@ -108,8 +108,10 @@ class SyncAdapter implements SyncAdapterInterface
         $response = $client->getHttpClient()->post($url, json_encode(array(
             'name' => 'web',
             'config' => array(
-                'url' => $this->urlGenerator->generate('webhook_receive', array('id' => $package->getId()), true)
-            )
+                'url' => $this->urlGenerator->generate('webhook_receive', array('id' => $package->getId()), true),
+                'content_type' => 'json'
+            ),
+            'events' => array('push', 'create')
         )));
 
         $hook = ResponseMediator::getContent($response);
@@ -162,10 +164,23 @@ class SyncAdapter implements SyncAdapterInterface
 
     private function getAllProjects(Remote $remote)
     {
-        $config = $this->getRemoteConfig($remote);
         $client = $this->getClient($remote);
 
-        $projects = $client->api('user')->repositories($config->getUsername());
+        $projects = array();
+        $page = 1;
+        while (true) {
+            $response = $client->getHttpClient()->get('/user/repos', array(
+                'page' => $page,
+                'per_page' => 100
+            ));
+            $projects = array_merge($projects, ResponseMediator::getContent($response));
+            $pageInfo = ResponseMediator::getPagination($response);
+            if (!isset($pageInfo['next'])) {
+                break;
+            }
+
+            $page++;
+        }
 
         return $projects;
     }
