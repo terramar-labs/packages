@@ -87,7 +87,6 @@ class RemoteController
         }
 
         $remote->setName($request->get('name'));
-        $remote->setAdapter($request->get('adapter'));
 
         $enabledBefore = $remote->isEnabled();
         $enabledAfter = (bool) $request->get('enabled', false);
