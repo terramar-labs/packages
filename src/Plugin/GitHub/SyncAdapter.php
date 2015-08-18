@@ -108,8 +108,10 @@ class SyncAdapter implements SyncAdapterInterface
         $response = $client->getHttpClient()->post($url, json_encode(array(
             'name' => 'web',
             'config' => array(
-                'url' => $this->urlGenerator->generate('webhook_receive', array('id' => $package->getId()), true)
-            )
+                'url' => $this->urlGenerator->generate('webhook_receive', array('id' => $package->getId()), true),
+                'content_type' => 'json'
+            ),
+            'events' => array('push', 'create')
         )));
 
         $hook = ResponseMediator::getContent($response);
@@ -172,8 +174,8 @@ class SyncAdapter implements SyncAdapterInterface
                 'per_page' => 100
             ));
             $projects = array_merge($projects, ResponseMediator::getContent($response));
-            $linkHeader = $client->getHttpClient()->getLastResponse()->getHeader('Link');
-            if (strpos($linkHeader, 'rel="next"') === false) {
+            $pageInfo = ResponseMediator::getPagination($response);
+            if (!isset($pageInfo['next'])) {
                 break;
             }
 
