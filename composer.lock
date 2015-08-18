@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0061c77eed7abd32d214bb76120efeb1",
+    "hash": "7accb0dead3ff989a19a2a19eaa70473",
     "packages": [
         {
             "name": "chrisboulton/php-resque",
@@ -16,7 +16,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/chrisboulton/php-resque/zipball/c335bc35558e0683f95c3fd5dd11a5817c0a761f",
+                "url": "https://api.github.com/repos/chrisboulton/php-resque/zipball/df69e8980cc21652f10cd775cb6a0e8c572ffd2d",
                 "reference": "c335bc35558e0683f95c3fd5dd11a5817c0a761f",
                 "shasum": ""
             },
@@ -111,7 +111,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/2a1a963b0064ad57172d4aa0fb649f964edf6e33",
+                "url": "https://api.github.com/repos/composer/composer/zipball/9859859f1082d94e546aa75746867df127aa0d9e",
                 "reference": "2a1a963b0064ad57172d4aa0fb649f964edf6e33",
                 "shasum": ""
             },
@@ -179,7 +179,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/satis/zipball/3dc787c16f1082784808e4a09d0e9e2fb2661afc",
+                "url": "https://api.github.com/repos/composer/satis/zipball/0dd53e18696aab506504c48932a77fcd71fffc19",
                 "reference": "3dc787c16f1082784808e4a09d0e9e2fb2661afc",
                 "shasum": ""
             },
@@ -709,7 +709,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/1ac14fac3ced533047d8feae8edc7c283d5b8a67",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/c030c0ca811ff2a03615a2608f895bd89ce48b93",
                 "reference": "1ac14fac3ced533047d8feae8edc7c283d5b8a67",
                 "shasum": ""
             },
@@ -1141,22 +1141,25 @@
         },
         {
             "name": "m4tthumphrey/php-gitlab-api",
-            "version": "dev-master",
+            "version": "7.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/m4tthumphrey/php-gitlab-api.git",
-                "reference": "dfd5f17de5de216e935afdd6eccd23c5cfaafd5e"
+                "reference": "65dc67929188f26e2059e99deb56e9c5608232b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/m4tthumphrey/php-gitlab-api/zipball/dfd5f17de5de216e935afdd6eccd23c5cfaafd5e",
-                "reference": "dfd5f17de5de216e935afdd6eccd23c5cfaafd5e",
+                "url": "https://api.github.com/repos/m4tthumphrey/php-gitlab-api/zipball/65dc67929188f26e2059e99deb56e9c5608232b5",
+                "reference": "65dc67929188f26e2059e99deb56e9c5608232b5",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "kriswallsmith/buzz": ">=0.7",
                 "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.5"
             },
             "type": "library",
             "autoload": {
@@ -1189,7 +1192,7 @@
                 "api",
                 "gitlab"
             ],
-            "time": "2014-11-02 13:44:13"
+            "time": "2015-07-28 11:27:19"
         },
         {
             "name": "michelf/php-markdown",
@@ -1382,29 +1385,28 @@
             "time": "2014-12-11 00:33:06"
         },
         {
-            "name": "nice/twig",
-            "version": "1.0.0",
+            "name": "nice/templating",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/nice-php/twig.git",
-                "reference": "9ee2644ac20bd03d64c28027dcb9ae33cda5e99d"
+                "url": "https://github.com/nice-php/templating.git",
+                "reference": "2f3869e839801d0d3d99907261002a80e31d14b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nice-php/twig/zipball/9ee2644ac20bd03d64c28027dcb9ae33cda5e99d",
-                "reference": "9ee2644ac20bd03d64c28027dcb9ae33cda5e99d",
+                "url": "https://api.github.com/repos/nice-php/templating/zipball/2f3869e839801d0d3d99907261002a80e31d14b7",
+                "reference": "2f3869e839801d0d3d99907261002a80e31d14b7",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4.0",
                 "symfony/config": "~2.3",
                 "symfony/dependency-injection": "~2.3",
-                "twig/twig": "~1.15"
+                "symfony/templating": "~2.3"
             },
             "require-dev": {
                 "nice/framework": "1.0.x-dev",
-                "phpunit/phpunit": "~3.7",
-                "symfony/http-kernel": "~2.3"
+                "phpunit/phpunit": "~3.7"
             },
             "type": "library",
             "extra": {
@@ -1422,8 +1424,53 @@
             "license": [
                 "MIT"
             ],
+            "description": "Provides templating support for Nice PHP framework applications",
+            "time": "2015-01-28 00:33:51"
+        },
+        {
+            "name": "nice/twig",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nice-php/twig.git",
+                "reference": "a7a634795bebcae250d0e83de1e070b0261d85e1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nice-php/twig/zipball/a7a634795bebcae250d0e83de1e070b0261d85e1",
+                "reference": "a7a634795bebcae250d0e83de1e070b0261d85e1",
+                "shasum": ""
+            },
+            "require": {
+                "nice/templating": "1.0.x-dev",
+                "php": ">=5.4.0",
+                "symfony/config": "~2.3",
+                "symfony/dependency-injection": "~2.3",
+                "twig/twig": "~1.15"
+            },
+            "require-dev": {
+                "nice/framework": "1.0.x-dev",
+                "phpunit/phpunit": "~3.7",
+                "symfony/http-kernel": "~2.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Nice\\Tests\\": "tests/",
+                    "Nice\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "description": "Integrates Twig with Nice PHP framework",
-            "time": "2015-01-05 15:06:09"
+            "time": "2015-01-28 00:34:39"
         },
         {
             "name": "nikic/fast-route",
@@ -1656,7 +1703,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/Sami/zipball/0e70f3316920df58d903de0bf2222e49784c8317",
+                "url": "https://api.github.com/repos/FriendsOfPHP/Sami/zipball/ea26c987e08088abbcf44c5722af2fed6aea2ecb",
                 "reference": "0e70f3316920df58d903de0bf2222e49784c8317",
                 "shasum": ""
             },
@@ -2302,6 +2349,59 @@
             "time": "2015-01-06 22:47:52"
         },
         {
+            "name": "symfony/templating",
+            "version": "v2.7.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Templating.git",
+                "reference": "8e50f4d32dbbe4deedac6b92af414db8a7de2065"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Templating/zipball/8e50f4d32dbbe4deedac6b92af414db8a7de2065",
+                "reference": "8e50f4d32dbbe4deedac6b92af414db8a7de2065",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "require-dev": {
+                "psr/log": "~1.0",
+                "symfony/phpunit-bridge": "~2.7"
+            },
+            "suggest": {
+                "psr/log": "For using debug logging in loaders"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.7-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Templating\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Templating Component",
+            "homepage": "https://symfony.com",
+            "time": "2015-06-25 12:52:11"
+        },
+        {
             "name": "symfony/yaml",
             "version": "v2.6.3",
             "target-dir": "Symfony/Component/Yaml",
@@ -2777,12 +2877,13 @@
     "aliases": [],
     "minimum-stability": "beta",
     "stability-flags": {
+        "nice/twig": 20,
+        "nice/templating": 20,
         "chrisboulton/php-resque": 20,
         "doctrine/migrations": 20,
         "composer/satis": 20,
         "composer/composer": 20,
-        "sami/sami": 20,
-        "m4tthumphrey/php-gitlab-api": 20
+        "sami/sami": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
