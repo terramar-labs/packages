@@ -16,12 +16,12 @@
             </div>
             <div class="box-body table-responsive">
                 {% if remotes|length %}
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="remote-list">
                     <thead>
                         <tr>
                             <th>Name</th>
                             <th>Enabled</th>
-                            <th></th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,7 +32,9 @@
                             <td>
                                 <div class="btn-group">
                                     <a class="btn btn-default" href="{{ path('manage_remote_edit', { id: remote.id }) }}"><i class="fa fa-edit"></i> Edit</a>
+                                    {% if remote.enabled %}
                                     <a class="btn btn-default" href="{{ path('manage_remote_sync', { id: remote.id }) }}"><i class="fa fa-refresh"></i> Sync</a>
+                                    {% endif %}
                                 </div>
                             </td>
                         </tr>
@@ -47,4 +49,17 @@
     </div>
 
 </div>
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#remote-list').DataTable({
+            "pageLength": 100,
+            "stateSave": true,
+            "drawCallback": window.fixContainerHeights,
+            "order": [[1, 'desc'], [0, 'asc']]
+        });
+    });
+</script>
 {% endblock %}

@@ -27,7 +27,7 @@ class DefaultController
         }
 
         return new Response(
-            $app->get('twig')->render('Default/index.html.twig', array(
+            $app->get('templating')->render('Default/index.html.twig', array(
                     'updatedAt' => $mtime
                 )));
     }
@@ -41,6 +41,6 @@ class DefaultController
             $session->remove(AuthenticationFailureSubscriber::AUTHENTICATION_ERROR);
         }
 
-        return new Response($app->get('twig')->render('Default/login.html.twig', array('error' => $error)));
+        return new Response($app->get('templating')->render('Default/login.html.twig', array('error' => $error)));
     }
 }

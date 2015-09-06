@@ -13,7 +13,10 @@ use Nice\Application;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Terramar\Packages\Entity\Remote;
+use Terramar\Packages\Event\RemoteEvent;
+use Terramar\Packages\Events;
 use Terramar\Packages\Plugin\Actions;
 
 class RemoteController
@@ -25,19 +28,19 @@ class RemoteController
         
         $remotes = $entityManager->getRepository('Terramar\Packages\Entity\Remote')->findAll();
         
-        return new Response($app->get('twig')->render('Remote/index.html.twig', array(
-                    'remotes' => $remotes
-                )));
+        return new Response($app->get('templating')->render('Remote/index.html.twig', array(
+                'remotes' => $remotes
+            )));
     }
     
     public function newAction(Application $app)
     {
         $adapters = $app->get('packages.helper.sync')->getAdapters();
         
-        return new Response($app->get('twig')->render('Remote/new.html.twig', array(
-                    'adapters'      => $adapters,
-                    'remote' => new Remote()
-                )));
+        return new Response($app->get('templating')->render('Remote/new.html.twig', array(
+                'adapters' => $adapters,
+                'remote'   => new Remote()
+            )));
     }
 
     public function createAction(Application $app, Request $request)
@@ -66,10 +69,10 @@ class RemoteController
         $entityManager = $app->get('doctrine.orm.entity_manager');
         $remote = $entityManager->getRepository('Terramar\Packages\Entity\Remote')->find($id);
         if (!$remote) {
-            throw new \RuntimeException('Oops');
+            throw new NotFoundHttpException('Unable to locate Remote');
         }
 
-        return new Response($app->get('twig')->render('Remote/edit.html.twig', array(
+        return new Response($app->get('templating')->render('Remote/edit.html.twig', array(
                 'remote' => $remote
             )));
     }
@@ -79,8 +82,25 @@ class RemoteController
         /** @var \Doctrine\ORM\EntityManager $entityManager */
         $entityManager = $app->get('doctrine.orm.entity_manager');
         $remote = $entityManager->getRepository('Terramar\Packages\Entity\Remote')->find($id);
+        if (!$remote) {
+            throw new NotFoundHttpException('Unable to locate Remote');
+        }
+
         $remote->setName($request->get('name'));
-        $remote->setEnabled($request->get('enabled', false));
+
+        $enabledBefore = $remote->isEnabled();
+        $enabledAfter = (bool) $request->get('enabled', false);
+
+        $remote->setEnabled($enabledAfter);
+
+        if ($enabledBefore !== $enabledAfter) {
+            $eventName = $enabledAfter ? Events::REMOTE_ENABLE : Events::REMOTE_DISABLE;
+            $event = new RemoteEvent($remote);
+
+            /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher */
+            $dispatcher = $app->get('event_dispatcher');
+            $dispatcher->dispatch($eventName, $event);
+        }
 
         /** @var \Terramar\Packages\Helper\PluginHelper $helper */
         $helper = $app->get('packages.helper.plugin');
@@ -100,7 +120,7 @@ class RemoteController
         $entityManager = $app->get('doctrine.orm.entity_manager');
         $remote = $entityManager->getRepository('Terramar\Packages\Entity\Remote')->find($id);
         if (!$remote) {
-            throw new \RuntimeException('Oops');
+            throw new NotFoundHttpException('Unable to locate Remote');
         }
 
         /** @var \Terramar\Packages\Helper\SyncHelper $helper */

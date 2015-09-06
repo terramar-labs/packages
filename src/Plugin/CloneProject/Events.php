@@ -7,9 +7,9 @@
  * that was distributed with this source code.
  */
 
-namespace Terramar\Packages;
+namespace Terramar\Packages\Plugin\CloneProject;
 
-class Version
+final class Events
 {
-    const VERSION = '3.1.0';
+    const PACKAGE_CLONED = 'package.cloned';
 }

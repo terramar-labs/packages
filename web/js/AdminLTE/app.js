@@ -34,6 +34,21 @@ $(function() {
     //Activate tooltips
     $("[data-toggle='tooltip']").tooltip();
 
+    /* From underscore.js */
+    function debounce(func, wait, immediate) {
+        var timeout;
+        return function() {
+            var context = this, args = arguments;
+            var later = function() {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            };
+            var callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
+        };
+    };
 
     /* 
      * Make sure that the sidebar is streched full height
@@ -43,7 +58,7 @@ $(function() {
      * Ben Alman's method for detecting the resize event.
      **/
     //alert($(window).height());
-    function _fix() {
+    var _fix = debounce(function() {
         //Get window height and the wrapper height
         var height = $(window).height() - $("body > .header").height();
         $(".wrapper").css("min-height", height + "px");
@@ -56,13 +71,12 @@ $(function() {
             //Otherwise, set the sidebar to the height of the window
             $(".left-side, html, body").css("min-height", height + "px");
         }
-    }
-    //Fire upon load
+    }, 150);
+
     _fix();
-    //Fire when wrapper is resized
-    $(".wrapper").resize(function() {
-        _fix();
-    });
+    $(".wrapper").resize(_fix);
+
+    window.fixContainerHeights = _fix;
 });
 
 $(window).load(function(){

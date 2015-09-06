@@ -1,0 +1,14 @@
+{% extends 'Plugin/_box.html.twig' %}
+
+{% block title %}Clone Project{% endblock %}
+
+{% block body %}
+  <div class="form-group">
+    Clone this project locally after each code push.
+  </div>
+  <div class="form-group">
+    <label for="cloneproject_enabled">
+      <input type="checkbox" name="cloneproject_enabled" value="1" {% if config.enabled %}checked="checked" {% endif %}id="cloneproject_enabled"> &nbsp; Enabled
+    </label>
+  </div>
+{% endblock %}

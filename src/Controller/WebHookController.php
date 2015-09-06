@@ -24,7 +24,7 @@ class WebHookController
         /** @var \Doctrine\ORM\EntityManager $entityManager */
         $entityManager = $app->get('doctrine.orm.entity_manager');
         $package = $entityManager->getRepository('Terramar\Packages\Entity\Package')->findOneBy(array('id' => $id, 'enabled' => true));
-        if (!$package || !$package->isEnabled()) {
+        if (!$package || !$package->isEnabled() || !$package->getRemote()->isEnabled()) {
             return new Response('Project not found', 404);
         }
 

@@ -10,8 +10,8 @@
         <link href="//cdn.jsdelivr.net/ionicons/1.4.1/css/ionicons.min.css" type="text/css" rel="stylesheet">
         <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,300italic,400italic,600italic" type="text/css" rel="stylesheet">
         <link href="{{ asset("css/AdminLTE.css") }}" type="text/css" rel="stylesheet">
-
-        <script src="//cdn.jsdelivr.net/jquery/1.11.0/jquery.min.js" type="text/javascript"></script>
+        <link href="//cdn.datatables.net/r/bs/dt-1.10.9,r-1.0.7/datatables.min.css" type="text/css" rel="stylesheet">
+        <script type="text/javascript" charset="utf8" src="//cdn.jsdelivr.net/jquery/1.11.0/jquery.min.js"></script>
 
         <!--[if lt IE 9]>
         <script src="//cdn.jsdelivr.net/html5shiv/3.7.0/html5shiv.js"></script>
@@ -75,7 +75,7 @@
 
                 <section class="plugin-list">
                     <dl>
-                        {% for plugin,version in app.parameter('packages.registered_plugins') %}
+                        {% for plugin,version in app.container.parameter('packages.registered_plugins') %}
                             <dt>{{ plugin }}{% if version %} ({{ version }}){% endif %}</dt>
                         {% endfor %}
                     </dl>
@@ -97,6 +97,7 @@
             </aside>
         </div>
 
+        <script src="//cdn.datatables.net/r/bs/dt-1.10.9,r-1.0.7/datatables.min.js" type="text/javascript"></script>
         <script src="//cdn.jsdelivr.net/bootstrap/3.1.1/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="{{ asset("js/AdminLTE/app.js") }}" type="text/javascript"></script>
         {% block javascripts %}{% endblock %}

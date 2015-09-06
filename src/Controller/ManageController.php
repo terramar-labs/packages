@@ -31,7 +31,7 @@ class ManageController
             ->where('c.enabled = true')
             ->getQuery()->getSingleScalarResult();
 
-        return new Response($app->get('twig')->render('Manage/index.html.twig', array(
+        return new Response($app->get('templating')->render('Manage/index.html.twig', array(
                     'packages' => $packages,
                     'remotes'  => $remotes,
                 )));
