@@ -1,0 +1,7 @@
+language: php
+php:
+	- 5.4
+install:
+	- composer install
+script:
+	- php ./vendor/bin/phpunit
