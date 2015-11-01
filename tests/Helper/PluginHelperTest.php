@@ -58,7 +58,7 @@ class PluginHelperTest extends \PHPUnit_Framework_TestCase
 
 		$this->controllerManager->expects($this->any())->method('getControllers')
 			->with($action)
-			->willReturn($controllerList);
+			->will($this->returnValue($controllerList));
 		
 		$controllersAdded = array();
 		
