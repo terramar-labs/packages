@@ -3,7 +3,7 @@ Packages
 
 > Source code repository management made simple.
 
-[![Build Status](https://img.shields.io/travis/barbarrosa/packages/master.svg?style=flat-square)](https://travis-ci.org/barbarrosa/packages)
+[![Build Status](https://img.shields.io/travis/Barbarrosa/packages/master.svg?style=flat-square)](https://travis-ci.org/Barbarrosa/packages)
 
 Packages extends [Satis](https://github.com/composer/satis), adding useful management functionality like GitHub
 and GitLab integration.
