@@ -1,5 +1,5 @@
 <?php
-namespace Terramar\Packages\Unit\Entity;
+namespace Terramar\Packages\Tests\Entity;
 
 use Terramar\Packages\Entity\Remote;
 

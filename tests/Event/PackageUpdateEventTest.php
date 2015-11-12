@@ -1,5 +1,5 @@
 <?php
-namespace Terramar\Packages\Unit\Event;
+namespace Terramar\Packages\Tests\Event;
 
 use Terramar\Packages\Entity\Remote;
 use Terramar\Packages\Event\RemoteEvent;

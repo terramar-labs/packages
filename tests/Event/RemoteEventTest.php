@@ -1,5 +1,5 @@
 <?php
-namespace Terramar\Packages\Unit\Event;
+namespace Terramar\Packages\Tests\Event;
 
 use Terramar\Packages\Entity\Package;
 use Terramar\Packages\Event\PackageEvent;

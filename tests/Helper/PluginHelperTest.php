@@ -1,5 +1,5 @@
 <?php
-namespace Terramar\Packages\Unit\Helper;
+namespace Terramar\Packages\Tests\Helper;
 
 use Terramar\Packages\Helper\PluginHelper;
 use Symfony\Component\HttpFoundation\Request;
