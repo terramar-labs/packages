@@ -34,8 +34,8 @@ class UpdateCommand extends ContainerAwareCommand
     {
         $config = $this->getApplication()->getConfiguration();
         $data = array(
-            'name'                     => 'Packages',
-            'homepage'                 => $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'],
+            'name'                     => 'Simple static Composer repository generator',
+            'homepage'                 => 'https://github.com/composer/satis',
             'output-dir'               => realpath($config['output_dir']),
             'repositories'             => array(),
             'output-html'              => false,
