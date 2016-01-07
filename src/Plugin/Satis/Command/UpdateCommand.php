@@ -34,9 +34,11 @@ class UpdateCommand extends ContainerAwareCommand
     {
         $config = $this->getApplication()->getConfiguration();
         $data = array(
-            'output-dir'    => realpath($config['output_dir']),
-            'repositories'  => array(),
-            'output-html'   => false,
+            'name'                     => 'Packages',
+            'homepage'                 => $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'],
+            'output-dir'               => realpath($config['output_dir']),
+            'repositories'             => array(),
+            'output-html'              => false,
             'require-dependencies'     => true,
             'require-dev-dependencies' => true,
         );
