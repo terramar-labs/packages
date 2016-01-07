@@ -35,6 +35,7 @@ class WebHookController
         $dispatcher = $app->get('event_dispatcher');
         $dispatcher->dispatch(Events::PACKAGE_UPDATE, $event);
 
-        return new Response('Accepted', 202);
+//        return new Response('Accepted', 202);
+        return new Response('Ok', 200);
     }
 }
