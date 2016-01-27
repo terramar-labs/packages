@@ -33,6 +33,7 @@ class WebHookController
         $dispatcher = $app->get('event_dispatcher');
         $dispatcher->dispatch(Events::PACKAGE_UPDATE, $event);
 
-        return new Response('Accepted', 202);
+        // GitLab 8.3 accepts only "200" as a successful receipt.
+        return new Response('OK', 200);
     }
 }
