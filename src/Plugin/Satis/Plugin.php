@@ -35,7 +35,8 @@ class Plugin implements PluginInterface
         $container->register('packages.plugin.satis.config_helper', 'Terramar\Packages\Plugin\Satis\ConfigurationHelper')
             ->addArgument(new Reference('doctrine.orm.entity_manager'))
             ->addArgument('%app.root_dir%')
-            ->addArgument('%app.cache_dir%');
+            ->addArgument('%app.cache_dir%')
+            ->addArgument('%packages.configuration%');
 
         $container->getDefinition('packages.controller_manager')
             ->addMethodCall('registerController', array(Actions::PACKAGE_EDIT, 'Terramar\Packages\Plugin\Satis\Controller::editAction'))

@@ -30,25 +30,36 @@ class ConfigurationHelper
      */
     private $rootDir;
 
+    /**
+     * @var string
+     */
     private $cacheDir;
+
+    /**
+     * @var array
+     */
+    private $config;
 
     /**
      * @param EntityManager $entityManager
      * @param string        $rootDir
      * @param               $cacheDir
      */
-    public function __construct(EntityManager $entityManager, $rootDir, $cacheDir)
+    public function __construct(EntityManager $entityManager, $rootDir, $cacheDir, array $config)
     {
         $this->entityManager = $entityManager;
         $this->filesystem = new Filesystem();
         $this->rootDir = $rootDir;
         $this->cacheDir = $cacheDir;
+        $this->config = $config;
     }
 
     public function generateConfiguration(array $options = array())
     {
         $data = array_merge($options, array(
-            'output-dir' => realpath($this->rootDir.'/web'),
+            'name' => $this->config['name'],
+            'homepage' => $this->config['homepage'],
+            'output-dir' => realpath($this->config['output_dir']),
             'repositories' => array(),
             'output-html' => false,
             'require-dependencies' => true,

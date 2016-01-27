@@ -75,6 +75,8 @@ class PackagesExtension extends Extension
             ->addArgument(new Reference('event_dispatcher'));
 
         $container->setParameter('packages.configuration', array(
+                'name' => $config['site_name'],
+                'homepage' => $config['homepage'],
                 'output_dir' => $config['output_dir'],
             ));
 
