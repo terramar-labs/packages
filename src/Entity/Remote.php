@@ -10,7 +10,6 @@
 namespace Terramar\Packages\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gitlab\Client;
 
 /**
  * @ORM\Entity
@@ -41,7 +40,7 @@ class Remote
     private $enabled = true;
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isEnabled()
     {
@@ -49,7 +48,7 @@ class Remote
     }
 
     /**
-     * @param boolean $enabled
+     * @param bool $enabled
      */
     public function setEnabled($enabled)
     {

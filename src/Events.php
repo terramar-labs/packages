@@ -12,32 +12,32 @@ namespace Terramar\Packages;
 final class Events
 {
     /**
-     * Dispatched when a package is created for a project
+     * Dispatched when a package is created for a project.
      */
     const PACKAGE_CREATE = 'package.create';
-    
+
     /**
-     * Dispatched when a package's source code is updated
+     * Dispatched when a package's source code is updated.
      */
     const PACKAGE_UPDATE = 'package.update';
 
     /**
-     * Dispatched when a package is enabled
+     * Dispatched when a package is enabled.
      */
     const PACKAGE_ENABLE = 'package.enable';
 
     /**
-     * Dispatched when a package is disabled
+     * Dispatched when a package is disabled.
      */
     const PACKAGE_DISABLE = 'package.disable';
 
     /**
-     * Dispatched when a remote is enabled
+     * Dispatched when a remote is enabled.
      */
     const REMOTE_ENABLE = 'remote.enable';
 
     /**
-     * Dispatched when a remote is disabled
+     * Dispatched when a remote is disabled.
      */
     const REMOTE_DISABLE = 'remote.disable';
 }

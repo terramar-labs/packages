@@ -14,9 +14,7 @@ use Nice\Router\RouteCollector as BaseCollector;
 class RouteCollector extends BaseCollector
 {
     /**
-     * Perform any collection
-     *
-     * @return void
+     * Perform any collection.
      */
     protected function collectRoutes()
     {
@@ -25,7 +23,7 @@ class RouteCollector extends BaseCollector
         $this->map('/logout', 'logout', '');
 
         $this->map('/webhook/{id}/receive', 'webhook_receive', 'Terramar\Packages\Controller\WebHookController::receiveAction', ['POST']);
-        
+
         $this->map('/manage', 'manage', 'Terramar\Packages\Controller\ManageController::indexAction');
 
         $this->map('/manage/packages', 'manage_packages', 'Terramar\Packages\Controller\PackageController::indexAction');

@@ -27,14 +27,14 @@ class RemoteSubscriber implements EventSubscriberInterface
     private $entityManager;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param SyncAdapter $adapter
+     * @param SyncAdapter   $adapter
      * @param EntityManager $entityManager
      */
     public function __construct(SyncAdapter $adapter, EntityManager $entityManager)
     {
-        $this->adapter       = $adapter;
+        $this->adapter = $adapter;
         $this->entityManager = $entityManager;
     }
 
@@ -63,7 +63,7 @@ class RemoteSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            Events::REMOTE_DISABLE => array('onDisableRemote', 255)
+            Events::REMOTE_DISABLE => array('onDisableRemote', 255),
         );
     }
 }

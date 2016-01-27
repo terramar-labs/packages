@@ -35,11 +35,11 @@ class StartCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $env = array(
-            'QUEUE'       => $input->getArgument('queues'),
-            'VERBOSE'     => $input->getOption('verbose'),
-            'COUNT'       => $input->getOption('count'),
-            'INTERVAL'    => $input->getOption('interval'),
-            'PREFIX'      => 'resque:'
+            'QUEUE' => $input->getArgument('queues'),
+            'VERBOSE' => $input->getOption('verbose'),
+            'COUNT' => $input->getOption('count'),
+            'INTERVAL' => $input->getOption('interval'),
+            'PREFIX' => 'resque:',
         );
 
         $redisHost = $this->container->getParameter('packages.resque.host');
@@ -68,7 +68,7 @@ class StartCommand extends ContainerAwareCommand
 
         if (!$input->getOption('foreground')) {
             $workerCommand = strtr('nohup %cmd% > %logs_dir%/resque.log 2>&1 & echo $!', array(
-                '%cmd%'      => $workerCommand,
+                '%cmd%' => $workerCommand,
                 '%logs_dir%' => $this->container->getParameter('app.log_dir'),
             ));
         }
@@ -78,7 +78,7 @@ class StartCommand extends ContainerAwareCommand
         // this is a workaround where we add the vars to the existing environment.
         if (defined('PHP_WINDOWS_VERSION_BUILD')) {
             foreach ($env as $key => $value) {
-                putenv($key."=". $value);
+                putenv($key.'='.$value);
             }
             $env = null;
         }
@@ -93,7 +93,6 @@ class StartCommand extends ContainerAwareCommand
             $process->run(function ($type, $buffer) use ($output) {
                 $output->write($buffer);
             });
-
         } else {
             $process->run();
             if (function_exists('gethostname')) {

@@ -18,14 +18,12 @@ use Terramar\Packages\Plugin\PluginInterface;
 class Plugin implements PluginInterface
 {
     /**
-     * Configure the given ContainerBuilder
+     * Configure the given ContainerBuilder.
      *
      * This method allows a plugin to register additional services with the
      * service container.
      *
      * @param ContainerBuilder $container
-     *
-     * @return void
      */
     public function configure(ContainerBuilder $container)
     {
@@ -49,7 +47,7 @@ class Plugin implements PluginInterface
     }
 
     /**
-     * Get the plugin name
+     * Get the plugin name.
      *
      * @return string
      */

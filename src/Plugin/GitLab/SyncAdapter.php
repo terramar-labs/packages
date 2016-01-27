@@ -30,7 +30,7 @@ class SyncAdapter implements SyncAdapterInterface
     private $urlGenerator;
 
     /**
-     * Constructor
+     * Constructor.
      * 
      * @param EntityManager         $entityManager
      * @param UrlGeneratorInterface $urlGenerator
@@ -90,7 +90,7 @@ class SyncAdapter implements SyncAdapterInterface
     }
 
     /**
-     * Enable a GitLab webhook for the given Package
+     * Enable a GitLab webhook for the given Package.
      * 
      * @param Package $package
      *
@@ -102,7 +102,7 @@ class SyncAdapter implements SyncAdapterInterface
         if ($config->isEnabled()) {
             return true;
         }
-        
+
         $client = $this->getClient($package->getRemote());
         $project = Project::fromArray($client, (array) $client->api('projects')->show($package->getExternalId()));
         $hook = $project->addHook(
@@ -116,7 +116,7 @@ class SyncAdapter implements SyncAdapterInterface
     }
 
     /**
-     * Disable a GitLab webhook for the given Package
+     * Disable a GitLab webhook for the given Package.
      * 
      * @param Package $package
      *
@@ -140,7 +140,7 @@ class SyncAdapter implements SyncAdapterInterface
 
         return true;
     }
-    
+
     private function getConfig(Package $package)
     {
         return $this->entityManager->getRepository('Terramar\Packages\Plugin\GitLab\PackageConfiguration')->findOneBy(array('package' => $package));
@@ -148,6 +148,7 @@ class SyncAdapter implements SyncAdapterInterface
 
     /**
      * @param Remote $remote
+     *
      * @return RemoteConfiguration
      */
     private function getRemoteConfig(Remote $remote)
@@ -168,17 +169,17 @@ class SyncAdapter implements SyncAdapterInterface
                 break;
             }
 
-            $page++;
+            ++$page;
         }
 
         return $projects;
     }
-    
+
     private function getClient(Remote $remote)
     {
         $config = $this->getRemoteConfig($remote);
 
-        $client = new Client(rtrim($config->getUrl(), '/') . '/api/v3/');
+        $client = new Client(rtrim($config->getUrl(), '/').'/api/v3/');
         $client->authenticate($config->getToken(), Client::AUTH_HTTP_TOKEN);
 
         return $client;
@@ -186,7 +187,7 @@ class SyncAdapter implements SyncAdapterInterface
 
     private function packageExists($existingPackages, $gitlabId)
     {
-        return count(array_filter($existingPackages, function(Package $package) use ($gitlabId) {
+        return count(array_filter($existingPackages, function (Package $package) use ($gitlabId) {
                     return (string) $package->getExternalId() === (string) $gitlabId;
                 })) > 0;
     }

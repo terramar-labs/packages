@@ -10,10 +10,8 @@
 namespace Terramar\Packages\Plugin\Satis;
 
 use Nice\Application;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Terramar\Packages\Entity\Remote;
 
 class Controller
 {
@@ -22,11 +20,11 @@ class Controller
         /** @var \Doctrine\ORM\EntityManager $entityManager */
         $entityManager = $app->get('doctrine.orm.entity_manager');
         $config = $entityManager->getRepository('Terramar\Packages\Plugin\Satis\PackageConfiguration')->findOneBy(array(
-                'package' => $id
+                'package' => $id,
             ));
 
         return new Response($app->get('twig')->render('Plugin/Satis/edit.html.twig', array(
-                    'config' => $config
+                    'config' => $config,
                 )));
     }
 
@@ -35,9 +33,9 @@ class Controller
         /** @var \Doctrine\ORM\EntityManager $entityManager */
         $entityManager = $app->get('doctrine.orm.entity_manager');
         $config = $entityManager->getRepository('Terramar\Packages\Plugin\Satis\PackageConfiguration')->findOneBy(array(
-                'package' => $id
+                'package' => $id,
             ));
-        
+
         $config->setEnabled($request->get('satis_enabled') ? true : false);
         $entityManager->persist($config);
 

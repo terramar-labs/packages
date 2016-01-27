@@ -58,12 +58,12 @@ class PluginControllerExtension extends \Twig_Extension
     {
         return array(
             new \Twig_SimpleFunction('render', array($this, 'render'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('plugin_controllers', array($this, 'getControllers'))
+            new \Twig_SimpleFunction('plugin_controllers', array($this, 'getControllers')),
         );
     }
 
     /**
-     * Renders an action
+     * Renders an action.
      *
      * @param string|ControllerReference $uri
      *
@@ -82,7 +82,8 @@ class PluginControllerExtension extends \Twig_Extension
     public function getControllers($action, $params = array())
     {
         $params['app'] = $this->request->get('app');
-        return array_map(function($controller) use ($params) {
+
+        return array_map(function ($controller) use ($params) {
                 return new ControllerReference($controller, $params);
             }, $this->manager->getControllers($action));
     }

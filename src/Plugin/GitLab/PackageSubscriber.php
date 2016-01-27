@@ -12,10 +12,7 @@ namespace Terramar\Packages\Plugin\GitLab;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Terramar\Packages\Event\PackageEvent;
-use Terramar\Packages\Event\PackageUpdateEvent;
 use Terramar\Packages\Events;
-use Terramar\Packages\Helper\ResqueHelper;
-use Terramar\Packages\Helper\SyncHelper;
 
 class PackageSubscriber implements EventSubscriberInterface
 {
@@ -30,14 +27,14 @@ class PackageSubscriber implements EventSubscriberInterface
     private $entityManager;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param SyncAdapter $adapter
+     * @param SyncAdapter   $adapter
      * @param EntityManager $entityManager
      */
     public function __construct(SyncAdapter $adapter, EntityManager $entityManager)
     {
-        $this->adapter       = $adapter;
+        $this->adapter = $adapter;
         $this->entityManager = $entityManager;
     }
 
@@ -90,9 +87,9 @@ class PackageSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            Events::PACKAGE_CREATE  => array('onCreatePackage', 255),
-            Events::PACKAGE_ENABLE  => array('onEnablePackage', 255),
-            Events::PACKAGE_DISABLE => array('onDisablePackage', 255)
+            Events::PACKAGE_CREATE => array('onCreatePackage', 255),
+            Events::PACKAGE_ENABLE => array('onEnablePackage', 255),
+            Events::PACKAGE_DISABLE => array('onDisablePackage', 255),
         );
     }
 }

@@ -30,7 +30,6 @@ class StopCommand extends ContainerAwareCommand
     {
         if ($input->getOption('all')) {
             $workers = \Resque_Worker::all();
-
         } else {
             $worker = \Resque_Worker::find($input->getArgument('id'));
 
@@ -47,7 +46,7 @@ class StopCommand extends ContainerAwareCommand
         if (count($workers) <= 0) {
             $output->writeln(array(
                     'No workers running',
-                    ''
+                    '',
                 ));
 
             return;
@@ -56,7 +55,7 @@ class StopCommand extends ContainerAwareCommand
         $signal = $input->getOption('force') ? SIGTERM : SIGQUIT;
         foreach ($workers as $worker) {
             $output->writeln(sprintf('%s %s...', $signal === SIGTERM ? 'Force stopping' : 'Stopping', $worker));
-            list ( , $pid) = explode(':', (string) $worker);
+            list(, $pid) = explode(':', (string) $worker);
 
             posix_kill($pid, $signal);
         }

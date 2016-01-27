@@ -12,8 +12,6 @@ namespace Terramar\Packages\Controller;
 use Nice\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Terramar\Packages\Event\PackageUpdateEvent;
 use Terramar\Packages\Events;
 

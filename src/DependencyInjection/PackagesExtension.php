@@ -28,7 +28,7 @@ class PackagesExtension extends Extension
     private $plugins = array();
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $options
      */
@@ -39,7 +39,7 @@ class PackagesExtension extends Extension
     }
 
     /**
-     * Returns extension configuration
+     * Returns extension configuration.
      *
      * @param array            $config    An array of configuration values
      * @param ContainerBuilder $container A ContainerBuilder instance
@@ -75,7 +75,7 @@ class PackagesExtension extends Extension
             ->addArgument(new Reference('event_dispatcher'));
 
         $container->setParameter('packages.configuration', array(
-                'output_dir' => $config['output_dir']
+                'output_dir' => $config['output_dir'],
             ));
 
         $container->register('packages.helper.resque', 'Terramar\Packages\Helper\ResqueHelper');
@@ -91,7 +91,7 @@ class PackagesExtension extends Extension
             ->addArgument(new Reference('event_dispatcher'));
         $container->register('packages.fragment_handler', 'Symfony\Component\HttpKernel\Fragment\FragmentHandler')
             ->addArgument(array(
-                    new Reference('packages.fragment_handler.inline_renderer')
+                    new Reference('packages.fragment_handler.inline_renderer'),
                 ))
             ->addArgument(false)
             ->addMethodCall('setRequest', array(new Reference(

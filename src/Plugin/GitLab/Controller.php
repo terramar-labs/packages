@@ -45,7 +45,7 @@ class Controller
         /** @var \Doctrine\ORM\EntityManager $entityManager */
         $entityManager = $app->get('doctrine.orm.entity_manager');
         $config = $entityManager->getRepository('Terramar\Packages\Plugin\GitLab\RemoteConfiguration')->findOneBy(array(
-            'remote' => $id
+            'remote' => $id,
         ));
 
         return new Response($app->get('twig')->render('Plugin/GitLab/edit.html.twig', array(
@@ -58,7 +58,7 @@ class Controller
         /** @var \Doctrine\ORM\EntityManager $entityManager */
         $entityManager = $app->get('doctrine.orm.entity_manager');
         $config = $entityManager->getRepository('Terramar\Packages\Plugin\GitLab\RemoteConfiguration')->findOneBy(array(
-            'remote' => $id
+            'remote' => $id,
         ));
 
         if (!$config) {

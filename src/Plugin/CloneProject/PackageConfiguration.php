@@ -29,7 +29,7 @@ class PackageConfiguration
      * @ORM\Column(name="enabled", type="boolean")
      */
     private $enabled = false;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Terramar\Packages\Entity\Package")
      * @ORM\JoinColumn(name="package_id", referencedColumnName="id")
@@ -45,7 +45,7 @@ class PackageConfiguration
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isEnabled()
     {

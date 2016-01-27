@@ -12,12 +12,10 @@ namespace Terramar\Packages\Plugin;
 interface ControllerManagerInterface
 {
     /**
-     * Register a controller for the given action
+     * Register a controller for the given action.
      * 
      * @param string $action
      * @param string $controller
-     *
-     * @return void
      */
     public function registerController($action, $controller);
 

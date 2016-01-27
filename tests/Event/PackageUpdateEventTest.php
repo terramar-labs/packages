@@ -1,4 +1,5 @@
 <?php
+
 namespace Terramar\Packages\Tests\Event;
 
 use Terramar\Packages\Entity\Remote;
@@ -6,7 +7,6 @@ use Terramar\Packages\Event\RemoteEvent;
 
 class PackageUpdateEventTest extends \PHPUnit_Framework_TestCase
 {
-
     /** @var Remote */
     private $remote;
 

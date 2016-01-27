@@ -31,7 +31,6 @@ class ClearCommand extends ContainerAwareCommand
         $jobs = $helper->clearQueue($queue);
         if ($jobs <= 0) {
             $output->writeln(sprintf('Queue "%s" is empty', $queue));
-            
         } else {
             $output->writeln(sprintf('Removed %d %s from queue "%s"', $jobs, count($jobs) !== 1 ? 'jobs' : 'job', $queue));
         }

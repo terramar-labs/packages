@@ -1,4 +1,5 @@
 <?php
+
 namespace Terramar\Packages\Tests\Entity;
 
 use Terramar\Packages\Entity\Package;
@@ -6,7 +7,6 @@ use Terramar\Packages\Entity\Remote;
 
 class PackageTest extends \PHPUnit_Framework_TestCase
 {
-
     /** @var Package */
     private $sut;
 
@@ -18,7 +18,7 @@ class PackageTest extends \PHPUnit_Framework_TestCase
     public function testGetAndSetId()
     {
         $this->assertEquals(null, $this->sut->getId());
-        
+
         // XXX Doctrine uses reflection, so there's no other way
         // to unit test this
         $reflProp = new \ReflectionProperty('Terramar\Packages\Entity\Package', 'id');
@@ -52,7 +52,7 @@ class PackageTest extends \PHPUnit_Framework_TestCase
     public function testGetAndSetRemote()
     {
         $this->assertEquals(null, $this->sut->getRemote());
-        
+
         $expected = new Remote();
         $this->sut->setRemote($expected);
         $this->assertEquals($expected, $this->sut->getRemote());

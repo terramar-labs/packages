@@ -18,9 +18,9 @@ class RemoteEvent extends Event
      * @var Remote
      */
     private $remote;
-    
+
     /**
-     * Constructor
+     * Constructor.
      *
      * @param Remote $remote
      */

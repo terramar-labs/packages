@@ -44,14 +44,14 @@ class ConfigurationHelper
         $this->rootDir = $rootDir;
         $this->cacheDir = $cacheDir;
     }
-        
+
     public function generateConfiguration(array $options = array())
     {
         $data = array_merge($options, array(
-            'output-dir'    => realpath($this->rootDir . '/web'),
-            'repositories'  => array(),
-            'output-html'   => false,
-            'require-dependencies'     => true,
+            'output-dir' => realpath($this->rootDir.'/web'),
+            'repositories' => array(),
+            'output-html' => false,
+            'require-dependencies' => true,
             'require-dev-dependencies' => true,
         ));
 
@@ -63,23 +63,23 @@ class ConfigurationHelper
             ->getQuery()
             ->getResult();
 
-        $repositories = array_map(function(PackageConfiguration $config) {
+        $repositories = array_map(function (PackageConfiguration $config) {
                 return $config->getPackage()->getSshUrl();
             }, $packages);
 
         foreach ($repositories as $repository) {
             $data['repositories'][] = array(
                 'type' => 'vcs',
-                'url' => $repository
+                'url' => $repository,
             );
         }
 
-        $this->filesystem->mkdir($this->cacheDir . '/satis');
-        
-        $filename = tempnam($this->cacheDir . '/satis', 'satis_');
-        
+        $this->filesystem->mkdir($this->cacheDir.'/satis');
+
+        $filename = tempnam($this->cacheDir.'/satis', 'satis_');
+
         $this->filesystem->dumpFile($filename, json_encode($data, JSON_PRETTY_PRINT));
-        
+
         return $filename;
     }
 }

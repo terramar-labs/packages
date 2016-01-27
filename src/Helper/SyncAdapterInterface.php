@@ -15,7 +15,7 @@ use Terramar\Packages\Entity\Package;
 interface SyncAdapterInterface
 {
     /**
-     * Returns true if the adapter supports the given configuration
+     * Returns true if the adapter supports the given configuration.
      * 
      * @param Remote $remote
      *
@@ -24,7 +24,7 @@ interface SyncAdapterInterface
     public function supports(Remote $remote);
 
     /**
-     * Synchronizes the given adapter, returning any new Packages
+     * Synchronizes the given adapter, returning any new Packages.
      * 
      * @param Remote $remote
      *
@@ -33,7 +33,7 @@ interface SyncAdapterInterface
     public function synchronizePackages(Remote $remote);
 
     /**
-     * Gets the name of the adapter
+     * Gets the name of the adapter.
      * 
      * @return string
      */

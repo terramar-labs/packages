@@ -25,21 +25,21 @@ class RemoteController
     {
         /** @var \Doctrine\ORM\EntityManager $entityManager */
         $entityManager = $app->get('doctrine.orm.entity_manager');
-        
+
         $remotes = $entityManager->getRepository('Terramar\Packages\Entity\Remote')->findAll();
-        
+
         return new Response($app->get('templating')->render('Remote/index.html.twig', array(
-                'remotes' => $remotes
+                'remotes' => $remotes,
             )));
     }
-    
+
     public function newAction(Application $app)
     {
         $adapters = $app->get('packages.helper.sync')->getAdapters();
-        
+
         return new Response($app->get('templating')->render('Remote/new.html.twig', array(
                 'adapters' => $adapters,
-                'remote'   => new Remote()
+                'remote' => new Remote(),
             )));
     }
 
@@ -59,7 +59,7 @@ class RemoteController
         $entityManager = $app->get('doctrine.orm.entity_manager');
         $entityManager->persist($remote);
         $entityManager->flush();
-        
+
         return new RedirectResponse($app->get('router.url_generator')->generate('manage_remotes'));
     }
 
@@ -73,7 +73,7 @@ class RemoteController
         }
 
         return new Response($app->get('templating')->render('Remote/edit.html.twig', array(
-                'remote' => $remote
+                'remote' => $remote,
             )));
     }
 
@@ -105,7 +105,7 @@ class RemoteController
         /** @var \Terramar\Packages\Helper\PluginHelper $helper */
         $helper = $app->get('packages.helper.plugin');
         $helper->invokeAction($request, Actions::REMOTE_UPDATE, array_merge($request->request->all(), array(
-                'id' => $id
+                'id' => $id,
             )));
 
         $entityManager->persist($remote);
@@ -126,7 +126,7 @@ class RemoteController
         /** @var \Terramar\Packages\Helper\SyncHelper $helper */
         $helper = $app->get('packages.helper.sync');
         $packages = $helper->synchronizePackages($remote);
-        foreach($packages as $package) {
+        foreach ($packages as $package) {
             $entityManager->persist($package);
         }
 
