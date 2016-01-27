@@ -30,7 +30,7 @@ class ListCommand extends ContainerAwareCommand
         if (count($workers) <= 0) {
             $output->writeln(array(
                 'No workers running',
-                ''
+                '',
             ));
 
             return 0;
@@ -53,11 +53,11 @@ class ListCommand extends ContainerAwareCommand
 
             $name = (string) $worker;
             $job = ($job = $worker->job())
-                ? 'Processing ' . json_encode($job)
+                ? 'Processing '.json_encode($job)
                 : 'Waiting for job';
 
             if (strlen($job) > 20) {
-                $job = substr($job, 0, 20) . '...';
+                $job = substr($job, 0, 20).'...';
             }
 
             $workerOutput[] = array($name, $job);
@@ -67,8 +67,8 @@ class ListCommand extends ContainerAwareCommand
             }
         }
 
-        $output->writeln(sprintf("%-" . $longestName . "s\t%s", 'Worker ID', 'Current Job'));
-        $loopFormat = "%-" . $longestName . "s\t<info>%s</info>";
+        $output->writeln(sprintf('%-'.$longestName."s\t%s", 'Worker ID', 'Current Job'));
+        $loopFormat = '%-'.$longestName."s\t<info>%s</info>";
         foreach ($workerOutput as $worker) {
             $output->writeln(sprintf($loopFormat, $worker[0], $worker[1]));
         }

@@ -30,28 +30,39 @@ class ConfigurationHelper
      */
     private $rootDir;
 
+    /**
+     * @var string
+     */
     private $cacheDir;
+
+    /**
+     * @var array
+     */
+    private $config;
 
     /**
      * @param EntityManager $entityManager
      * @param string        $rootDir
      * @param               $cacheDir
      */
-    public function __construct(EntityManager $entityManager, $rootDir, $cacheDir)
+    public function __construct(EntityManager $entityManager, $rootDir, $cacheDir, array $config)
     {
         $this->entityManager = $entityManager;
         $this->filesystem = new Filesystem();
         $this->rootDir = $rootDir;
         $this->cacheDir = $cacheDir;
+        $this->config = $config;
     }
-        
+
     public function generateConfiguration(array $options = array())
     {
         $data = array_merge($options, array(
-            'output-dir'    => realpath($this->rootDir . '/web'),
-            'repositories'  => array(),
-            'output-html'   => false,
-            'require-dependencies'     => true,
+            'name' => $this->config['name'],
+            'homepage' => $this->config['homepage'],
+            'output-dir' => realpath($this->config['output_dir']),
+            'repositories' => array(),
+            'output-html' => false,
+            'require-dependencies' => true,
             'require-dev-dependencies' => true,
         ));
 
@@ -63,23 +74,23 @@ class ConfigurationHelper
             ->getQuery()
             ->getResult();
 
-        $repositories = array_map(function(PackageConfiguration $config) {
+        $repositories = array_map(function (PackageConfiguration $config) {
                 return $config->getPackage()->getSshUrl();
             }, $packages);
 
         foreach ($repositories as $repository) {
             $data['repositories'][] = array(
                 'type' => 'vcs',
-                'url' => $repository
+                'url' => $repository,
             );
         }
 
-        $this->filesystem->mkdir($this->cacheDir . '/satis');
-        
-        $filename = tempnam($this->cacheDir . '/satis', 'satis_');
-        
+        $this->filesystem->mkdir($this->cacheDir.'/satis');
+
+        $filename = tempnam($this->cacheDir.'/satis', 'satis_');
+
         $this->filesystem->dumpFile($filename, json_encode($data, JSON_PRETTY_PRINT));
-        
+
         return $filename;
     }
 }

@@ -17,14 +17,12 @@ use Terramar\Packages\Plugin\PluginInterface;
 class Plugin implements PluginInterface
 {
     /**
-     * Configure the given ContainerBuilder
+     * Configure the given ContainerBuilder.
      *
      * This method allows a plugin to register additional services with the
      * service container.
      *
      * @param ContainerBuilder $container
-     *
-     * @return void
      */
     public function configure(ContainerBuilder $container)
     {
@@ -50,11 +48,10 @@ class Plugin implements PluginInterface
             ->addMethodCall('registerController', array(Actions::REMOTE_CREATE, 'Terramar\Packages\Plugin\GitLab\Controller::createAction'))
             ->addMethodCall('registerController', array(Actions::REMOTE_EDIT, 'Terramar\Packages\Plugin\GitLab\Controller::editAction'))
             ->addMethodCall('registerController', array(Actions::REMOTE_UPDATE, 'Terramar\Packages\Plugin\GitLab\Controller::updateAction'));
-
     }
 
     /**
-     * Get the plugin name
+     * Get the plugin name.
      *
      * @return string
      */
@@ -64,10 +61,9 @@ class Plugin implements PluginInterface
     }
 
     /**
-     * @return null
      */
     public function getVersion()
     {
-        return null;
+        return;
     }
 }

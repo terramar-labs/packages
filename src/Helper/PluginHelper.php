@@ -11,13 +11,11 @@ namespace Terramar\Packages\Helper;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
-use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
 use Terramar\Packages\Plugin\ControllerManagerInterface;
 
 class PluginHelper
 {
-
     /**
      * @var ControllerManagerInterface
      */
@@ -54,7 +52,7 @@ class PluginHelper
     }
 
     /**
-     * Invoke the given action using the given Request
+     * Invoke the given action using the given Request.
      * 
      * @param Request $request
      * @param string  $action
@@ -62,7 +60,7 @@ class PluginHelper
     public function invokeAction(Request $request, $action, $params = array())
     {
         $controllers = $this->getControllers($action, $params, array_merge($request->query->all(), $request->request->all()));
-        
+
         foreach ($controllers as $controller) {
             $this->handler->render($controller);
         }
@@ -76,7 +74,8 @@ class PluginHelper
     private function getControllers($action, $params = array(), $query = array())
     {
         $params['app'] = $this->request->get('app');
-        return array_map(function($controller) use ($params, $query) {
+
+        return array_map(function ($controller) use ($params, $query) {
                 return new ControllerReference($controller, $params, $query);
             }, $this->manager->getControllers($action));
     }

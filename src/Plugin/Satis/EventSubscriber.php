@@ -29,14 +29,14 @@ class EventSubscriber implements EventSubscriberInterface
     private $entityManager;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param ResqueHelper  $resqueHelper
      * @param EntityManager $entityManager
      */
     public function __construct(ResqueHelper $resqueHelper, EntityManager $entityManager)
     {
-        $this->resqueHelper  = $resqueHelper;
+        $this->resqueHelper = $resqueHelper;
         $this->entityManager = $entityManager;
     }
 
@@ -80,7 +80,7 @@ class EventSubscriber implements EventSubscriberInterface
     {
         return array(
             Events::PACKAGE_UPDATE => array('onUpdatePackage', 0),
-            Events::PACKAGE_CREATE => array('onCreatePackage', 0)
+            Events::PACKAGE_CREATE => array('onCreatePackage', 0),
         );
     }
 }

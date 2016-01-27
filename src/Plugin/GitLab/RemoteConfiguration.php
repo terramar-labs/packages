@@ -10,7 +10,6 @@
 namespace Terramar\Packages\Plugin\GitLab;
 
 use Doctrine\ORM\Mapping as ORM;
-use Terramar\Packages\Entity\Package;
 use Terramar\Packages\Entity\Remote;
 
 /**
@@ -40,7 +39,7 @@ class RemoteConfiguration
      * @ORM\Column(name="url", type="string")
      */
     private $url;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Terramar\Packages\Entity\Remote")
      * @ORM\JoinColumn(name="remote_id", referencedColumnName="id")
@@ -56,7 +55,7 @@ class RemoteConfiguration
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isEnabled()
     {

@@ -15,25 +15,15 @@ use Terramar\Packages\Job\ContainerAwareJob;
 
 class UpdateAndBuildJob extends ContainerAwareJob
 {
-    /**
-     * @return ConfigurationHelper
-     */
-    private function getConfigurationHelper()
-    {
-        return $this->getContainer()->get('packages.plugin.satis.config_helper');
-    }
-    
     public function run($args)
     {
-        $configFile = $this->getConfigurationHelper()->generateConfiguration();
-        
         $finder = new PhpExecutableFinder();
-        $builder = new ProcessBuilder(array('vendor/bin/satis', 'build', $configFile));
+        $builder = new ProcessBuilder(array('bin/console', 'satis:update', '--build'));
         $builder->setEnv('HOME', $this->getContainer()->getParameter('app.root_dir'));
         $builder->setPrefix($finder->find());
-        
+
         $process = $builder->getProcess();
-        $process->run(function($type, $message) {
+        $process->run(function ($type, $message) {
             echo $message;
         });
     }

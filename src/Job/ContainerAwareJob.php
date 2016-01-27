@@ -12,7 +12,7 @@ namespace Terramar\Packages\Job;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Terramar\Packages\Application;
 
-abstract class ContainerAwareJob 
+abstract class ContainerAwareJob
 {
     /**
      * @var \Resque_Job
@@ -28,7 +28,7 @@ abstract class ContainerAwareJob
      * @var array The job args
      */
     public $args = array();
-    
+
     /**
      * @var Application
      */
@@ -60,7 +60,7 @@ abstract class ContainerAwareJob
     }
 
     /**
-     * Perform the work
+     * Perform the work.
      */
     public function perform()
     {

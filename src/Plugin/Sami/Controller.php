@@ -10,10 +10,8 @@
 namespace Terramar\Packages\Plugin\Sami;
 
 use Nice\Application;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Terramar\Packages\Entity\Remote;
 
 class Controller
 {
@@ -22,7 +20,7 @@ class Controller
         /** @var \Doctrine\ORM\EntityManager $entityManager */
         $entityManager = $app->get('doctrine.orm.entity_manager');
         $config = $entityManager->getRepository('Terramar\Packages\Plugin\Sami\PackageConfiguration')->findOneBy(array(
-                'package' => $id
+                'package' => $id,
             ));
 
         return new Response($app->get('twig')->render('Plugin/Sami/edit.html.twig', array(
@@ -35,9 +33,9 @@ class Controller
         /** @var \Doctrine\ORM\EntityManager $entityManager */
         $entityManager = $app->get('doctrine.orm.entity_manager');
         $config = $entityManager->getRepository('Terramar\Packages\Plugin\Sami\PackageConfiguration')->findOneBy(array(
-                'package' => $id
+                'package' => $id,
             ));
-        
+
         $config->setEnabled($request->get('sami_enabled') ? true : false);
         $config->setTitle($request->get('sami_title'));
         $config->setTheme($request->get('sami_theme'));
@@ -46,9 +44,9 @@ class Controller
         $config->setTags($request->get('sami_tags'));
         $config->setRefs($request->get('sami_refs'));
         $config->setDocsPath($request->get('sami_docs_path'));
-        
+
         $entityManager->persist($config);
-        
+
         return new Response();
     }
 }

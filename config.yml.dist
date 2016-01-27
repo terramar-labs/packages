@@ -20,7 +20,10 @@ doctrine:
     # password:
     # dbname: packages
    
-resque:
-  host:     'unix:/tmp/redis.sock'
-  port:     ~
-  database: 0
+packages:
+  site_name:  'Private Composer Repository'
+  homepage:   'https://github.com/terramar-labs/packages'
+  resque:
+    host:     'unix:/tmp/redis.sock'
+    port:     ~
+    database: 4

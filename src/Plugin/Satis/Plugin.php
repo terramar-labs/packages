@@ -18,14 +18,12 @@ use Terramar\Packages\Plugin\PluginInterface;
 class Plugin implements PluginInterface
 {
     /**
-     * Configure the given ContainerBuilder
+     * Configure the given ContainerBuilder.
      *
      * This method allows a plugin to register additional services with the
      * service container.
      *
      * @param ContainerBuilder $container
-     *
-     * @return void
      */
     public function configure(ContainerBuilder $container)
     {
@@ -37,7 +35,8 @@ class Plugin implements PluginInterface
         $container->register('packages.plugin.satis.config_helper', 'Terramar\Packages\Plugin\Satis\ConfigurationHelper')
             ->addArgument(new Reference('doctrine.orm.entity_manager'))
             ->addArgument('%app.root_dir%')
-            ->addArgument('%app.cache_dir%');
+            ->addArgument('%app.cache_dir%')
+            ->addArgument('%packages.configuration%');
 
         $container->getDefinition('packages.controller_manager')
             ->addMethodCall('registerController', array(Actions::PACKAGE_EDIT, 'Terramar\Packages\Plugin\Satis\Controller::editAction'))
@@ -49,7 +48,7 @@ class Plugin implements PluginInterface
     }
 
     /**
-     * Get the plugin name
+     * Get the plugin name.
      *
      * @return string
      */

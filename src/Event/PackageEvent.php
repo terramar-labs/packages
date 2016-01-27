@@ -18,9 +18,9 @@ class PackageEvent extends Event
      * @var Package
      */
     private $package;
-    
+
     /**
-     * Constructor
+     * Constructor.
      *
      * @param Package $package
      */

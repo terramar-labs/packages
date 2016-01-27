@@ -30,14 +30,14 @@ class EventSubscriber implements EventSubscriberInterface
     private $entityManager;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param ResqueHelper  $resqueHelper
      * @param EntityManager $entityManager
      */
     public function __construct(ResqueHelper $resqueHelper, EntityManager $entityManager)
     {
-        $this->resqueHelper  = $resqueHelper;
+        $this->resqueHelper = $resqueHelper;
         $this->entityManager = $entityManager;
     }
 
@@ -49,16 +49,16 @@ class EventSubscriber implements EventSubscriberInterface
         $package = $event->getPackage();
         $config = $this->entityManager->getRepository('Terramar\Packages\Plugin\Sami\PackageConfiguration')
             ->findOneBy(array('package' => $package));
-        
+
         if (!$config || !$config->isEnabled() || !$package->isEnabled()) {
             return;
         }
-        
+
         $config->setRepositoryPath($event->getRepositoryPath());
 
         $this->entityManager->persist($config);
         $this->entityManager->flush($config);
-        
+
         $this->resqueHelper->enqueue('default', 'Terramar\Packages\Plugin\Sami\UpdateJob', array('id' => $package->getId()));
     }
 
@@ -85,8 +85,8 @@ class EventSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            Events::PACKAGE_CREATE             => array('onCreatePackage', 0),
-            CloneProjectEvents::PACKAGE_CLONED => array('onClonePackage', 0)
+            Events::PACKAGE_CREATE => array('onCreatePackage', 0),
+            CloneProjectEvents::PACKAGE_CLONED => array('onClonePackage', 0),
         );
     }
 }

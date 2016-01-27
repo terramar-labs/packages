@@ -85,7 +85,7 @@ class PackageConfiguration
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isEnabled()
     {

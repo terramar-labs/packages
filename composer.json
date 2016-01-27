@@ -1,6 +1,6 @@
 {
   "name": "terramar/packages",
-  "description": "Packages extends Composer Satis with a management interface and GitLab integration",
+  "description": "Packages extends Composer Satis with a management interface and integrations for GitLab and GitHub",
   "license": "MIT",
   "type": "application",
   "require": {

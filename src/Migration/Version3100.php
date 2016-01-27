@@ -6,7 +6,7 @@ use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
- * Migration script for 3.0->3.1
+ * Migration script for 3.0->3.1.
  *
  * Only necessary if upgrading from 3.0 to 3.1.
  *

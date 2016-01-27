@@ -32,16 +32,15 @@ class ListCommand extends ContainerAwareCommand
         if (count($jobs) <= 0) {
             if ($queue === '*') {
                 $output->writeln(sprintf('All queues empty', $queue));
-                
             } else {
                 $output->writeln(sprintf('Queue "%s" is empty', $queue));
             }
-            
+
             $output->writeln('');
-            
+
             return;
         }
-        
+
         $count = count($jobs);
         $output->writeln(sprintf('Queue %s contains %d %s:', $queue, $count, $count !== 1 ? 'entries' : 'entry'));
         foreach ($jobs as $job) {

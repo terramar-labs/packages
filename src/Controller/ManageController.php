@@ -12,8 +12,6 @@ namespace Terramar\Packages\Controller;
 use Nice\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Yaml\Yaml;
-use Terramar\Packages\Repository\PackageRepository;
 
 class ManageController
 {
@@ -25,7 +23,7 @@ class ManageController
             ->select('COUNT(p)')
             ->where('p.enabled = true')
             ->getQuery()->getSingleScalarResult();
-        
+
         $remotes = $entityManager->getRepository('Terramar\Packages\Entity\Remote')->createQueryBuilder('c')
             ->select('COUNT(c)')
             ->where('c.enabled = true')
@@ -33,7 +31,7 @@ class ManageController
 
         return new Response($app->get('templating')->render('Manage/index.html.twig', array(
                     'packages' => $packages,
-                    'remotes'  => $remotes,
+                    'remotes' => $remotes,
                 )));
     }
 }

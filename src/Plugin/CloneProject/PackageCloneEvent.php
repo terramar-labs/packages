@@ -20,7 +20,7 @@ class PackageCloneEvent extends PackageEvent
     private $repositoryPath;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param Package $package        The updated package
      * @param string  $repositoryPath The path to the cloned repository

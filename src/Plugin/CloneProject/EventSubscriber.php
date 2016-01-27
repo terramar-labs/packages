@@ -29,14 +29,14 @@ class EventSubscriber implements EventSubscriberInterface
     private $entityManager;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param ResqueHelper  $resqueHelper
      * @param EntityManager $entityManager
      */
     public function __construct(ResqueHelper $resqueHelper, EntityManager $entityManager)
     {
-        $this->resqueHelper  = $resqueHelper;
+        $this->resqueHelper = $resqueHelper;
         $this->entityManager = $entityManager;
     }
 
@@ -48,7 +48,7 @@ class EventSubscriber implements EventSubscriberInterface
         $package = $event->getPackage();
         $config = $this->entityManager->getRepository('Terramar\Packages\Plugin\CloneProject\PackageConfiguration')
             ->findOneBy(array('package' => $package));
-        
+
         if (!$config || !$config->isEnabled() || !$package->isEnabled()) {
             return;
         }
@@ -79,8 +79,8 @@ class EventSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            Events::PACKAGE_CREATE  => array('onCreatePackage', 0),
-            Events::PACKAGE_UPDATE  => array('onUpdatePackage', 0)
+            Events::PACKAGE_CREATE => array('onCreatePackage', 0),
+            Events::PACKAGE_UPDATE => array('onUpdatePackage', 0),
         );
     }
 }

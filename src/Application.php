@@ -32,7 +32,7 @@ class Application extends BaseApplication
     private $plugins = array();
 
     /**
-     * Register default extensions
+     * Register default extensions.
      */
     protected function registerDefaultExtensions()
     {
@@ -40,14 +40,14 @@ class Application extends BaseApplication
 
         $this->registerDefaultPlugins();
 
-        $config = Yaml::parse(file_get_contents($this->getRootDir() . '/config.yml'));
+        $config = Yaml::parse(file_get_contents($this->getRootDir().'/config.yml'));
         $security = isset($config['security']) ? $config['security'] : array();
         $doctrine = isset($config['doctrine']) ? $config['doctrine'] : array();
         $resque = isset($config['resque']) ? $config['resque'] : null;
 
         $this->appendExtension(new PackagesExtension($this->plugins, array(
-                'output_dir' => $this->getRootDir() . '/web',
-                'resque' => $resque
+                'output_dir' => $this->getRootDir().'/web',
+                'resque' => $resque,
             )));
         $this->appendExtension(new DoctrineOrmExtension($doctrine));
         $this->appendExtension(new SessionExtension());
@@ -62,12 +62,12 @@ class Application extends BaseApplication
                         : null,
                 ),
                 'firewall' => '^/manage',
-                'success_path' => '/manage'
+                'success_path' => '/manage',
             )));
     }
 
     /**
-     * Register default plugins
+     * Register default plugins.
      */
     protected function registerDefaultPlugins()
     {
@@ -79,7 +79,7 @@ class Application extends BaseApplication
     }
 
     /**
-     * Register a Plugin with the Application
+     * Register a Plugin with the Application.
      *
      * @param PluginInterface $plugin
      */

@@ -12,7 +12,7 @@ namespace Terramar\Packages\Helper;
 class ResqueHelper
 {
     /**
-     * Get jobs for the given queue
+     * Get jobs for the given queue.
      * 
      * @param string $queue The name of the queue or "*" for all queues
      *
@@ -26,17 +26,17 @@ class ResqueHelper
             foreach ($queues as $queue) {
                 $jobs = array_merge($jobs, $this->getJobs($queue));
             }
-            
+
             return $jobs;
         }
-        
-        return array_map(function($job) use ($queue) {
+
+        return array_map(function ($job) use ($queue) {
                 return new \Resque_Job($queue, json_decode($job, true));
-            }, \Resque::redis()->lrange('queue:' . $queue, 0, -1));
+            }, \Resque::redis()->lrange('queue:'.$queue, 0, -1));
     }
 
     /**
-     * Clear the given queue
+     * Clear the given queue.
      * 
      * @param string $queue The name of the queue
      *
@@ -44,14 +44,14 @@ class ResqueHelper
      */
     public function clearQueue($queue)
     {
-        $length = \Resque::redis()->llen('queue:' . $queue);
-        \Resque::redis()->del('queue:' . $queue);
-        
+        $length = \Resque::redis()->llen('queue:'.$queue);
+        \Resque::redis()->del('queue:'.$queue);
+
         return $length;
     }
 
     /**
-     * Enqueue a job, but only if it is not already in the queue
+     * Enqueue a job, but only if it is not already in the queue.
      * 
      * @param string $queue
      * @param string $class
@@ -72,7 +72,7 @@ class ResqueHelper
     }
 
     /**
-     * Enqueue a job
+     * Enqueue a job.
      * 
      * @param string $queue
      * @param string $class

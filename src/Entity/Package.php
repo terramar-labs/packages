@@ -79,13 +79,13 @@ class Package
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isEnabled()
     {
         return $this->enabled;
     }
-    
+
     /**
      * @return mixed
      */

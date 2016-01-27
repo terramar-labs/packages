@@ -39,13 +39,13 @@ class Application extends BaseApplication
     public function __construct(AppKernel $app)
     {
         parent::__construct('Terramar Labs Packages', Version::VERSION);
-        
+
         ErrorHandler::register();
         $this->app = $app;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
@@ -76,7 +76,7 @@ class Application extends BaseApplication
     }
 
     /**
-     * Initializes all the composer commands
+     * Initializes all the composer commands.
      */
     protected function registerCommands()
     {
@@ -108,7 +108,7 @@ class Application extends BaseApplication
             new \Doctrine\ORM\Tools\Console\Command\RunDqlCommand(),
             new \Doctrine\ORM\Tools\Console\Command\ValidateSchemaCommand(),
             new \Doctrine\ORM\Tools\Console\Command\InfoCommand(),
-                
+
             // Migrations Commands
             new \Doctrine\DBAL\Migrations\Tools\Console\Command\DiffCommand(),
             new \Doctrine\DBAL\Migrations\Tools\Console\Command\ExecuteCommand(),
@@ -116,7 +116,7 @@ class Application extends BaseApplication
             new \Doctrine\DBAL\Migrations\Tools\Console\Command\LatestCommand(),
             new \Doctrine\DBAL\Migrations\Tools\Console\Command\MigrateCommand(),
             new \Doctrine\DBAL\Migrations\Tools\Console\Command\StatusCommand(),
-            new \Doctrine\DBAL\Migrations\Tools\Console\Command\VersionCommand()
+            new \Doctrine\DBAL\Migrations\Tools\Console\Command\VersionCommand(),
         ));
         $registry = $this->app->get('packages.command_registry');
         foreach ($registry->getCommands() as $commandClass) {

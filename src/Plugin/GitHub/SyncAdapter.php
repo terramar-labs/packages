@@ -30,7 +30,7 @@ class SyncAdapter implements SyncAdapterInterface
     private $urlGenerator;
 
     /**
-     * Constructor
+     * Constructor.
      * 
      * @param EntityManager         $entityManager
      * @param UrlGeneratorInterface $urlGenerator
@@ -90,7 +90,7 @@ class SyncAdapter implements SyncAdapterInterface
     }
 
     /**
-     * Enable a GitHub webhook for the given Package
+     * Enable a GitHub webhook for the given Package.
      * 
      * @param Package $package
      *
@@ -109,9 +109,9 @@ class SyncAdapter implements SyncAdapterInterface
             'name' => 'web',
             'config' => array(
                 'url' => $this->urlGenerator->generate('webhook_receive', array('id' => $package->getId()), true),
-                'content_type' => 'json'
+                'content_type' => 'json',
             ),
-            'events' => array('push', 'create')
+            'events' => array('push', 'create'),
         )));
 
         $hook = ResponseMediator::getContent($response);
@@ -123,7 +123,7 @@ class SyncAdapter implements SyncAdapterInterface
     }
 
     /**
-     * Disable a GitHub webhook for the given Package
+     * Disable a GitHub webhook for the given Package.
      * 
      * @param Package $package
      *
@@ -138,7 +138,7 @@ class SyncAdapter implements SyncAdapterInterface
 
         if ($package->getHookExternalId()) {
             $client = $this->getClient($package->getRemote());
-            $url = 'repos/'.$package->getFqn().'/hooks/' . $package->getHookExternalId();
+            $url = 'repos/'.$package->getFqn().'/hooks/'.$package->getHookExternalId();
             $client->getHttpClient()->delete($url);
         }
 
@@ -147,7 +147,7 @@ class SyncAdapter implements SyncAdapterInterface
 
         return true;
     }
-    
+
     private function getConfig(Package $package)
     {
         return $this->entityManager->getRepository('Terramar\Packages\Plugin\GitHub\PackageConfiguration')->findOneBy(array('package' => $package));
@@ -155,6 +155,7 @@ class SyncAdapter implements SyncAdapterInterface
 
     /**
      * @param Remote $remote
+     *
      * @return RemoteConfiguration
      */
     private function getRemoteConfig(Remote $remote)
@@ -171,7 +172,7 @@ class SyncAdapter implements SyncAdapterInterface
         while (true) {
             $response = $client->getHttpClient()->get('/user/repos', array(
                 'page' => $page,
-                'per_page' => 100
+                'per_page' => 100,
             ));
             $projects = array_merge($projects, ResponseMediator::getContent($response));
             $pageInfo = ResponseMediator::getPagination($response);
@@ -179,12 +180,12 @@ class SyncAdapter implements SyncAdapterInterface
                 break;
             }
 
-            $page++;
+            ++$page;
         }
 
         return $projects;
     }
-    
+
     private function getClient(Remote $remote)
     {
         $config = $this->getRemoteConfig($remote);
@@ -197,7 +198,7 @@ class SyncAdapter implements SyncAdapterInterface
 
     private function packageExists($existingPackages, $githubId)
     {
-        return count(array_filter($existingPackages, function(Package $package) use ($githubId) {
+        return count(array_filter($existingPackages, function (Package $package) use ($githubId) {
                     return (string) $package->getExternalId() === (string) $githubId;
                 })) > 0;
     }

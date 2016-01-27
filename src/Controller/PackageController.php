@@ -32,7 +32,7 @@ class PackageController
             ->getQuery()->getResult();
 
         return new Response($app->get('templating')->render('Package/index.html.twig', array(
-                'packages' => $packages
+                'packages' => $packages,
             )));
     }
 
@@ -47,7 +47,7 @@ class PackageController
 
         return new Response($app->get('templating')->render('Package/edit.html.twig', array(
                 'package' => $package,
-                'remotes' => $this->getRemotes($app->get('doctrine.orm.entity_manager'))
+                'remotes' => $this->getRemotes($app->get('doctrine.orm.entity_manager')),
             )));
     }
 
@@ -79,7 +79,7 @@ class PackageController
         /** @var \Terramar\Packages\Helper\PluginHelper $helper */
         $helper = $app->get('packages.helper.plugin');
         $helper->invokeAction($request, Actions::PACKAGE_UPDATE, array_merge($request->request->all(), array(
-                'id' => $id
+                'id' => $id,
             )));
 
         $entityManager->persist($package);
@@ -99,7 +99,7 @@ class PackageController
 
         $enabledAfter = !$package->isEnabled();
         $package->setEnabled($enabledAfter);
-        
+
         $eventName = $enabledAfter ? Events::PACKAGE_ENABLE : Events::PACKAGE_DISABLE;
         $event = new PackageEvent($package);
 
