@@ -3,6 +3,8 @@ Packages
 
 > Source code repository management made simple.
 
+[![Build Status](https://img.shields.io/travis/terramar-labs/packages/master.svg?style=flat-square)](https://travis-ci.org/terramar-labs/packages)
+
 Packages extends [Satis](https://github.com/composer/satis), adding useful management functionality like GitHub
 and GitLab integration.
 
