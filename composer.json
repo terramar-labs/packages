@@ -13,7 +13,7 @@
     "nice/twig": "2.0.x-dev",
     "nice/templating": "1.0.x-dev",
     "chrisboulton/php-resque": "dev-master",
-    "doctrine/migrations": "1.0.x-dev",
+    "doctrine/migrations": "~1.2",
     "symfony/debug": "~2.7",
     "symfony/console": "~2.7",
     "symfony/process": "~2.7",
