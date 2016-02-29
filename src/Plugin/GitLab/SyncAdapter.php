@@ -160,10 +160,22 @@ class SyncAdapter implements SyncAdapterInterface
     {
         $client = $this->getClient($remote);
 
+        $isAdmin = $client->api('users')->me()['is_admin'];
         $projects = array();
         $page = 1;
         while (true) {
-            $projects = array_merge($projects, $client->api('projects')->accessible($page, 100));
+
+            /**
+             * there is a difference when accessing /projects (accessible) and /projects/all (all)
+             * http://doc.gitlab.com/ce/api/projects.html
+             */
+            if ($isAdmin) {
+                $visibleProjects = $client->api('projects')->all($page, 100);
+            } else {
+                $visibleProjects = $client->api('projects')->accessible($page, 100);
+            }
+
+            $projects = array_merge($projects, $visibleProjects);
             $linkHeader = $client->getHttpClient()->getLastResponse()->getHeader('Link');
             if (strpos($linkHeader, 'rel="next"') === false) {
                 break;
