@@ -43,7 +43,9 @@ class Application extends BaseApplication
         $config = Yaml::parse(file_get_contents($this->getRootDir().'/config.yml'));
         $security = isset($config['security']) ? $config['security'] : array();
         $doctrine = isset($config['doctrine']) ? $config['doctrine'] : array();
-        $resque = isset($config['resque']) ? $config['resque'] : null;
+        $resque = isset($config['packages'])
+			? (isset($config['packages']['resque']) ? $config['packages']['resque'] : null)
+			: null;
 
         $this->appendExtension(new PackagesExtension($this->plugins, array(
                 'output_dir' => $this->getRootDir().'/web',
