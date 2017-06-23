@@ -14,11 +14,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Terramar\Packages\Event\PackageUpdateEvent;
 use Terramar\Packages\Events;
+use Terramar\Packages\Helper\ResqueHelper;
 
-class WebHookController
+class WebHookController extends ContainerAwareController
 {
     public function receiveAction(Application $app, Request $request, $id)
     {
+    	ResqueHelper::autoConfigure($this->container);
+
         /** @var \Doctrine\ORM\EntityManager $entityManager */
         $entityManager = $app->get('doctrine.orm.entity_manager');
         $package = $entityManager->getRepository('Terramar\Packages\Entity\Package')->findOneBy(array('id' => $id, 'enabled' => true));

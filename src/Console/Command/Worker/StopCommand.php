@@ -14,6 +14,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Terramar\Packages\Helper\ResqueHelper;
 
 class StopCommand extends ContainerAwareCommand
 {
@@ -28,6 +29,8 @@ class StopCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+		ResqueHelper::autoConfigure($this->container);
+
         if ($input->getOption('all')) {
             $workers = \Resque_Worker::all();
         } else {

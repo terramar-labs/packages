@@ -9,8 +9,36 @@
 
 namespace Terramar\Packages\Helper;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 class ResqueHelper
 {
+	/**
+	 * Configure Resque
+	 *
+	 * @param ContainerInterface $container
+	 * @return array
+	 */
+	public static function autoConfigure(ContainerInterface $container)
+	{
+		$redisHost = $container->getParameter('packages.resque.host');
+		$redisPort = $container->getParameter('packages.resque.port');
+		$redisDatabase = $container->getParameter('packages.resque.database');
+
+		if (!isset($redisDatabase)) {
+			$redisDatabase = 0;
+		}
+
+		$backend = strpos($redisHost, 'unix:') === false ? $redisHost.':'.$redisPort : $redisHost;
+
+		\Resque::setBackend($backend, $redisDatabase);
+
+		return array(
+			'backend' => $backend,
+			'database' => $redisDatabase
+		);
+	}
+
     /**
      * Get jobs for the given queue.
      * 
