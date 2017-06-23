@@ -16,6 +16,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Terramar\Packages\Console\Command\ContainerAwareCommand;
+use Terramar\Packages\Helper\ResqueHelper;
 
 class StartCommand extends ContainerAwareCommand
 {
@@ -42,18 +43,9 @@ class StartCommand extends ContainerAwareCommand
             'PREFIX' => 'resque:',
         );
 
-        $redisHost = $this->container->getParameter('packages.resque.host');
-        $redisPort = $this->container->getParameter('packages.resque.port');
-        $redisDatabase = $this->container->getParameter('packages.resque.database');
-        if ($redisHost != null && $redisPort != null) {
-            $backend = strpos($redisHost, 'unix:') === false ? $redisHost.':'.$redisPort : $redisHost;
-
-            $env['REDIS_BACKEND'] = $backend;
-        }
-
-        if (isset($redisDatabase)) {
-            $env['REDIS_BACKEND_DB'] = $redisDatabase;
-        }
+        $resqueConfig = ResqueHelper::autoConfigure($this->container);
+        $env['REDIS_BACKEND'] = $resqueConfig['backend'];
+        $env['REDIS_BACKEND_DB'] = $resqueConfig['database'];
 
         $opt = '';
         if (0 !== $m = (int) $input->getOption('memory-limit')) {
