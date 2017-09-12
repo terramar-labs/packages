@@ -23,6 +23,7 @@ class UpdateCommand extends ContainerAwareCommand
             ->setDefinition(array(
                 new InputArgument('scan-dir', InputArgument::OPTIONAL, 'Directory to look for git repositories'),
                 new InputOption('build', 'b', InputOption::VALUE_NONE, 'Build packages.json after update'),
+                new InputOption('skip-errors', null, InputOption::VALUE_NONE, 'Skip Download or Archive errors'),
             ));
     }
 
@@ -34,6 +35,7 @@ class UpdateCommand extends ContainerAwareCommand
     {
         $configHelper = $this->container->get('packages.plugin.satis.config_helper');
         $configFile = $configHelper->generateConfiguration();
+        $skipErrors = (bool) $input->getOption('skip-errors');
 
         $data = json_decode(file_get_contents($configFile), true);
 
@@ -51,8 +53,7 @@ class UpdateCommand extends ContainerAwareCommand
 
         if ($input->getOption('build')) {
             $command = $this->getApplication()->find('satis:build');
-
-            $input = new ArrayInput(array($configFile));
+            $input = new ArrayInput(['file' => $configFile, '--skip-errors' => $skipErrors]);
             $command->run($input, $output);
         }
     }
