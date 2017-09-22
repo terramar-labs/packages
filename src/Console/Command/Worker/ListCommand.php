@@ -26,7 +26,7 @@ class ListCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-		ResqueHelper::autoConfigure($this->container);
+        ResqueHelper::autoConfigure($this->container);
 
         $workers = \Resque_Worker::all();
 
