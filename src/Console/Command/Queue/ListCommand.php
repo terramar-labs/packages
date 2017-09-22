@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Terramar\Packages\Console\Command\ContainerAwareCommand;
+use Terramar\Packages\Helper\ResqueHelper;
 
 class ListCommand extends ContainerAwareCommand
 {
@@ -25,6 +26,8 @@ class ListCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        ResqueHelper::autoConfigure($this->container);
+
         /** @var \Terramar\Packages\Helper\ResqueHelper $helper */
         $helper = $this->container->get('packages.helper.resque');
         $queue = $input->getArgument('queue');

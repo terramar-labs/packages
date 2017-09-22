@@ -29,7 +29,7 @@ class StopCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-		ResqueHelper::autoConfigure($this->container);
+        ResqueHelper::autoConfigure($this->container);
 
         if ($input->getOption('all')) {
             $workers = \Resque_Worker::all();
