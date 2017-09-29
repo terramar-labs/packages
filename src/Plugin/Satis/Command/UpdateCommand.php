@@ -40,6 +40,8 @@ class UpdateCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->writeln(array('<comment>WARNING:</comment> The satis:update command is deprecated. It does not do anything functional but remains for backwards compatibility.', ''));
+
         $configHelper = $this->container->get('packages.plugin.satis.config_helper');
         $configFile = $configHelper->generateConfiguration();
         $skipErrors = (bool) $input->getOption('skip-errors');
