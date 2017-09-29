@@ -29,7 +29,7 @@ Other considerations
 
 * The master branch contains active development.
 * Create or a feature branch or don't-- whatever you prefer!
-* The project follows PSR-0 and, somewhat loosely, PSR-2.
+* The project follows PSR-4 and, somewhat loosely, PSR-2.
 * Consider writing unit tests for your change.
 
 ### And don't be afraid to ask for help!
