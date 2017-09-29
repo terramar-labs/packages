@@ -62,6 +62,8 @@ class SyncAdapter implements SyncAdapterInterface
 
         $projects = $this->getAllProjects($remote);
 
+        $config = $this->getApplication()->getConfiguration();
+
         $packages = array();
         foreach ($projects as $project) {
             if (!$this->packageExists($existingPackages, $project['id'])) {
@@ -69,7 +71,7 @@ class SyncAdapter implements SyncAdapterInterface
                 $package->setExternalId($project['id']);
                 $package->setName($project['name']);
                 $package->setDescription($project['description']);
-                $package->setFqn($project['path_with_namespace']);
+                $package->setFqn($config->getFqnPrefix() . $project['path_with_namespace']);
                 $package->setWebUrl($project['web_url']);
                 $package->setSshUrl($project['ssh_url_to_repo']);
                 $package->setHookExternalId('');
