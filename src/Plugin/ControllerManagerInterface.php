@@ -9,6 +9,9 @@
 
 namespace Terramar\Packages\Plugin;
 
+/**
+ * A ControllerManager provides a registry for a set of controllers.
+ */
 interface ControllerManagerInterface
 {
     /**

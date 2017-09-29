@@ -14,6 +14,9 @@ use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Terramar\Packages\Plugin\ControllerManagerInterface;
 
+/**
+ * The PluginControllerExtension provides plugin related functionality to twig.
+ */
 class PluginControllerExtension extends \Twig_Extension
 {
     /**
@@ -77,6 +80,7 @@ class PluginControllerExtension extends \Twig_Extension
     /**
      * @param $action
      *
+     * @param array $params
      * @return array|ControllerReference
      */
     public function getControllers($action, $params = array())

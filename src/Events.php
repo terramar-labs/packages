@@ -9,6 +9,11 @@
 
 namespace Terramar\Packages;
 
+/**
+ * Events defines constants describing the possible events to subscribe to.
+ *
+ * @see http://docs.terramarlabs.com/packages/3.1/plugins/event-reference
+ */
 final class Events
 {
     /**
