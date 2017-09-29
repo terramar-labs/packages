@@ -9,6 +9,8 @@
 
 namespace Terramar\Packages\Console;
 
+use Composer\Composer;
+use Composer\IO\IOInterface;
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Command\Command;
@@ -28,7 +30,9 @@ use Terramar\Packages\Version;
  */
 class Application extends BaseApplication
 {
+    /** @var IOInterface */
     protected $io;
+    /** @var Composer */
     protected $composer;
 
     /**
@@ -73,6 +77,14 @@ class Application extends BaseApplication
         }
 
         return $this->composer;
+    }
+
+    /**
+     * @return IOInterface
+     */
+    public function getIO()
+    {
+        return $this->io;
     }
 
     /**

@@ -15,6 +15,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Terramar\Packages\Console\Application;
 
 /**
  * Wraps Satis build command.
@@ -47,6 +48,11 @@ class BuildCommand extends BaseCommand implements ContainerAwareInterface
             $configHelper = $this->container->get('packages.plugin.satis.config_helper');
             $configFile = $configHelper->generateConfiguration();
             $input->setArgument('file', $configFile);
+        }
+
+        $app = $this->getApplication();
+        if ($app instanceof Application) {
+            $this->setIO($app->getIO());
         }
 
         parent::execute($input, $output);

@@ -12,6 +12,7 @@ namespace Terramar\Packages\Plugin\Satis;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Filesystem\Filesystem;
 use Terramar\Packages\Entity\Package;
+use Terramar\Packages\Plugin\GitHub\RemoteConfiguration;
 
 class ConfigurationHelper
 {
@@ -65,6 +66,7 @@ class ConfigurationHelper
             'output-html' => false,
             'require-dependencies' => true,
             'require-dev-dependencies' => true,
+            'config' => array(),
         ));
 
         $packages = $this->entityManager->getRepository('Terramar\Packages\Plugin\Satis\PackageConfiguration')
@@ -75,16 +77,48 @@ class ConfigurationHelper
             ->getQuery()
             ->getResult();
 
-        $repositories = array_map(function (PackageConfiguration $config) {
-                return $config->getPackage()->getSshUrl();
+        $gitlabDomains = array();
+
+        $data['repositories'] = array_map(function (PackageConfiguration $config) use (&$gitlabDomains) {
+                $options = array(
+                    'type' => 'vcs',
+                    'url' => $config->getPackage()->getSshUrl(),
+                );
+                $remote = $config->getPackage()->getRemote();
+                switch ($remote->getAdapter()) {
+                    case "GitHub":
+                        /** @var \Terramar\Packages\Plugin\GitHub\RemoteConfiguration $remoteConfig */
+                        $remoteConfig = $this->entityManager->getRepository('Terramar\Packages\Plugin\GitHub\RemoteConfiguration')
+                            ->findOneBy(array('remote' => $remote));
+                        if (!$remoteConfig) {
+                            throw new \RuntimeException('Unable to find RemoteConfiguration for ' . $remote->getAdapter() . ' ' . $remote->getName());
+                        }
+
+                        $options['github-token'] = $remoteConfig->getToken();
+
+                        break;
+
+                    case "GitLab":
+                        /** @var \Terramar\Packages\Plugin\GitLab\RemoteConfiguration $remoteConfig */
+                        $remoteConfig = $this->entityManager->getRepository('Terramar\Packages\Plugin\GitLab\RemoteConfiguration')
+                            ->findOneBy(array('remote' => $remote));
+                        if (!$remoteConfig) {
+                            throw new \RuntimeException('Unable to find RemoteConfiguration for ' . $remote->getAdapter() . ' ' . $remote->getName());
+                        }
+
+                        $url = parse_url($remoteConfig->getUrl(), PHP_URL_HOST);
+                        if (!in_array($url, $gitlabDomains)) {
+                            $gitlabDomains[] = $url;
+                        }
+
+                        $options['gitlab-token'] = $remoteConfig->getToken();
+
+                        break;
+                }
+                return $options;
             }, $packages);
 
-        foreach ($repositories as $repository) {
-            $data['repositories'][] = array(
-                'type' => 'vcs',
-                'url' => $repository,
-            );
-        }
+        $data['config']['gitlab-domains'] = $gitlabDomains;
 
         $this->filesystem->mkdir($this->cacheDir.'/satis');
 
