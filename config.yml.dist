@@ -24,6 +24,6 @@ packages:
   site_name:  'Private Composer Repository'
   homepage:   'https://github.com/terramar-labs/packages'
   resque:
-    host:     'unix:/tmp/redis.sock'
+    host:     'unix:///tmp/redis.sock'
     port:     ~
     database: 4
