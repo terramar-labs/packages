@@ -58,7 +58,7 @@ class Plugin implements PluginInterface
     {
         if (!$this->version) {
             $matches = array();
-            preg_match('/version (\d\.\d\.\d(\.\d)?)/', exec('git --version'), $matches);
+            preg_match('/version (\d\.\d{1,2}\.\d{1,2})/', exec('git --version'), $matches);
             $this->version = $matches[1];
         }
 
