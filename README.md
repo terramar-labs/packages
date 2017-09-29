@@ -1,6 +1,8 @@
 packages
 ========
 
+#### This is version 2.1 of Packages and is no longer maintained or supported.
+
 Packages extends [Satis](https://github.com/composer/satis), adding useful management functionality.
 
 Packages automatically registers GitLab project web hooks to keep references up to date. The latest version 
