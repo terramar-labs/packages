@@ -30,6 +30,7 @@ class PackagesExtension extends Extension
     /**
      * Constructor.
      *
+     * @param array $plugins
      * @param array $options
      */
     public function __construct(array $plugins = array(), array $options = array())
@@ -75,10 +76,11 @@ class PackagesExtension extends Extension
             ->addArgument(new Reference('event_dispatcher'));
 
         $container->setParameter('packages.configuration', array(
-                'name' => $config['site_name'],
-                'homepage' => $config['homepage'],
-                'output_dir' => $config['output_dir'],
-            ));
+            'name'          => empty($config['name']) ? $config['site_name'] : $config['name'],
+            'homepage'      => $config['homepage'],
+            'output_dir'    => $container->getParameterBag()->resolveValue($config['output_dir']),
+            'contact_email' => $config['contact_email'],
+        ));
 
         $container->register('packages.helper.resque', 'Terramar\Packages\Helper\ResqueHelper');
 
@@ -101,6 +103,10 @@ class PackagesExtension extends Extension
                     ContainerInterface::NULL_ON_INVALID_REFERENCE,
                     false
                 )));
+
+        $container->register('packages.twig_extension.packages_conf', 'Terramar\Packages\Twig\PackagesConfigExtension')
+            ->addArgument('%packages.configuration%')
+            ->addTag('twig.extension');
 
         $container->register('packages.twig_extension.plugin', 'Terramar\Packages\Twig\PluginControllerExtension')
             ->addArgument(new Reference('packages.controller_manager'))

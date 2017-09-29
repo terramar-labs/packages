@@ -42,8 +42,9 @@ class ConfigurationHelper
 
     /**
      * @param EntityManager $entityManager
-     * @param string        $rootDir
-     * @param               $cacheDir
+     * @param string $rootDir
+     * @param string $cacheDir
+     * @param array $config
      */
     public function __construct(EntityManager $entityManager, $rootDir, $cacheDir, array $config)
     {

@@ -27,7 +27,9 @@ class PackagesConfiguration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('site_name')->defaultValue('Private Composer Repository')->end()
-                ->scalarNode('homepage')->defaultValue('https://github.com/terramar-labs/packages')->end()
+                ->scalarNode('name')->defaultNull()->end()
+                ->scalarNode('homepage')->defaultValue('')->end()
+                ->scalarNode('contact_email')->defaultValue('')->end()
                 ->scalarNode('output_dir')->defaultValue('%app.root_dir%/web')->end()
                 ->arrayNode('resque')
                     ->addDefaultsIfNotSet()

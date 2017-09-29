@@ -21,9 +21,20 @@ doctrine:
     # dbname: packages
    
 packages:
-  site_name:  'Private Composer Repository'
-  homepage:   'https://github.com/terramar-labs/packages'
+  # Defines the name used in the page titles and landing page.
+  name:     'Terramar Labs'
+
+  # If set, the homepage will be linked to from the landing page.
+  homepage:      'https://github.com/terramar-labs/packages'
+
+  # If set, the contact email is displayed on the landing page.
+  contact_email: 'contact@terramarlabs.com'
+
   resque:
+    # Redis server host.
+    # Format as either unix:///path/to/socket (note the 3 slashes) or tcp://host
     host:     'unix:///tmp/redis.sock'
+    # Redis TCP port.
     port:     ~
+    # Redis database index where jobs will be stored.
     database: 4

@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Packages - Terramar Labs</title>
+        <title>Packages - {{ packages_conf.name }}</title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
         <link href="{{ asset('favicon.ico') }}" rel="shortcut icon">
         <link href="//cdn.jsdelivr.net/bootstrap/3.1.1/css/bootstrap.min.css" type="text/css" rel="stylesheet">
@@ -22,7 +22,7 @@
             <section class="content-header">
                 <h1>
                     Composer Repository
-                    <small>for Terramar Labs</small>
+                    <small>for {{ packages_conf.name }}</small>
                 </h1>
                 {% block login_link %}
                 <div class="login-link">
@@ -35,14 +35,19 @@
                 {% block body %}
                 {% endblock %}
             </section>
-            
+            {% if packages_conf.homepage is not empty %}
             <section class="content-footer">
-                <p><small>Proudly powered by <a href="https://github.com/composer/satis">Satis</a> {{ constant('Composer\\Satis\\Satis::VERSION') }} 
-                        and <a href="https://github.com/terramar-labs/packages">Packages</a> {{ constant('Terramar\\Packages\\Version::VERSION') }}
-                        {% if updatedAt %}<span class="last-update">Last updated: {{ updatedAt|date('Y-m-d H:i:s') }}</span>{% endif %}
-                </small></p>
-                <p id="copy">&copy; {{ "now"|date('Y') }} Terramar Labs.</p>
+                <p id="copy">
+                    <a href="{{ packages_conf.homepage }}">{{ packages_conf.name }}</a>
+                </p>
             </section>
+            {% endif %}
+        </div>
+        <div class="text-center col-md-8 col-md-offset-2 powered-by">
+            <p><small>Proudly powered by <a href="https://github.com/composer/satis">Satis</a> {{ constant('Composer\\Satis\\Satis::VERSION') }}
+                    and <a href="https://github.com/terramar-labs/packages">Packages</a> {{ constant('Terramar\\Packages\\Version::VERSION') }}
+                    {% if updatedAt %}<span class="last-update">Last updated: {{ updatedAt|date('Y-m-d H:i:s') }}</span>{% endif %}
+            </small></p>
         </div>
 
 

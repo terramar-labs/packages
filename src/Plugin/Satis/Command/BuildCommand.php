@@ -11,7 +11,6 @@ namespace Terramar\Packages\Plugin\Satis\Command;
 
 use Composer\Satis\Console\Command\BuildCommand as BaseCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;

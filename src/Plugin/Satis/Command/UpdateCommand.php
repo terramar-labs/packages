@@ -19,6 +19,9 @@ use Terramar\Packages\Entity\Package;
 
 /**
  * Updates the projects satis.json.
+ *
+ * @deprecated
+ * @see BuildCommand
  */
 class UpdateCommand extends ContainerAwareCommand
 {

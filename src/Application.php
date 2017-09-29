@@ -43,14 +43,12 @@ class Application extends BaseApplication
         $config = Yaml::parse(file_get_contents($this->getRootDir().'/config.yml'));
         $security = isset($config['security']) ? $config['security'] : array();
         $doctrine = isset($config['doctrine']) ? $config['doctrine'] : array();
-        $resque = isset($config['packages'])
-			? (isset($config['packages']['resque']) ? $config['packages']['resque'] : null)
-			: null;
+        $packages = isset($config['packages']) ? $config['packages'] : array();
+        if (!isset($packages['resque'])) {
+            $packages['resque'] = array();
+        }
 
-        $this->appendExtension(new PackagesExtension($this->plugins, array(
-                'output_dir' => $this->getRootDir().'/web',
-                'resque' => $resque,
-            )));
+        $this->appendExtension(new PackagesExtension($this->plugins, $packages));
         $this->appendExtension(new DoctrineOrmExtension($doctrine));
         $this->appendExtension(new SessionExtension());
         $this->appendExtension(new TemplatingExtension());
