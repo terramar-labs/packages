@@ -27,6 +27,12 @@
                         <input type="checkbox" name="enabled" value="1" {% if package.enabled %}checked="checked" {% endif %}id="enabled"> &nbsp; Enabled
                     </label>
                 </div>
+                {% if package.enabled and package.hookExternalId is empty %}
+                <div id="package_error" class="callout callout-danger">
+                    The Package is enabled, but no webhook is installed on the Remote.<br>
+                    <strong>Pushing code will not trigger updates within this application.</strong>
+                </div>
+                {% endif %}
                 <div class="form-group">
                     <label for="fqn">Fully-qualified Name</label>
                     <input type="text" name="fqn" value="{{ package.fqn }}" id="fqn" class="form-control" disabled>

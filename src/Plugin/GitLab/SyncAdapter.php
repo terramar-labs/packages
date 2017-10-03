@@ -102,17 +102,22 @@ class SyncAdapter implements SyncAdapterInterface
         if ($config->isEnabled()) {
             return true;
         }
+        try {
+            $client = $this->getClient($package->getRemote());
+            $project = Project::fromArray($client, (array)$client->api('projects')->show($package->getExternalId()));
+            $hook = $project->addHook(
+                $this->urlGenerator->generate('webhook_receive', array('id' => $package->getId()), true),
+                array('push_events' => true, 'tag_push_events' => true)
+            );
+            $package->setHookExternalId($hook->id);
+            $config->setEnabled(true);
 
-        $client = $this->getClient($package->getRemote());
-        $project = Project::fromArray($client, (array) $client->api('projects')->show($package->getExternalId()));
-        $hook = $project->addHook(
-            $this->urlGenerator->generate('webhook_receive', array('id' => $package->getId()), true),
-            array('push_events' => true, 'tag_push_events' => true)
-        );
-        $package->setHookExternalId($hook->id);
-        $config->setEnabled(true);
+            return true;
 
-        return true;
+        } catch (\Exception $e) {
+            // TODO: Log the exception
+            return false;
+        }
     }
 
     /**
@@ -129,16 +134,24 @@ class SyncAdapter implements SyncAdapterInterface
             return true;
         }
 
-        if ($package->getHookExternalId()) {
-            $client = $this->getClient($package->getRemote());
-            $project = Project::fromArray($client, (array) $client->api('projects')->show($package->getExternalId()));
-            $project->removeHook($package->getHookExternalId());
+        try {
+            if ($package->getHookExternalId()) {
+                $client = $this->getClient($package->getRemote());
+                $project = Project::fromArray($client, (array) $client->api('projects')->show($package->getExternalId()));
+                $project->removeHook($package->getHookExternalId());
+            }
+
+            $package->setHookExternalId('');
+            $config->setEnabled(false);
+
+            return true;
+
+        } catch (\Exception $e) {
+            // TODO: Log the exception
+            $package->setHookExternalId('');
+            $config->setEnabled(false);
+            return false;
         }
-
-        $package->setHookExternalId('');
-        $config->setEnabled(false);
-
-        return true;
     }
 
     private function getConfig(Package $package)
