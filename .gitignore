@@ -12,3 +12,8 @@
 /logs/*
 /config/deploy.rb
 /.idea
+/database.sqlite
+/components
+/.composer
+/.php_cs.cache
+/auth.json

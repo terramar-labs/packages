@@ -18,10 +18,17 @@ class UpdateAndBuildJob extends ContainerAwareJob
     public function run($args)
     {
         $finder = new PhpExecutableFinder();
-        $builder = new ProcessBuilder(array('bin/console', 'satis:update', '--build', '--skip-errors'));
+        $builder = new ProcessBuilder([
+            'bin/console',
+            'satis:build',
+            '--repository-url',
+            $args['url'],
+        ]);
         $builder->setEnv('HOME', $this->getContainer()->getParameter('app.root_dir'));
+        $builder->setEnv('COMPOSER_HOME', $this->getContainer()->getParameter('app.root_dir'));
         $builder->setPrefix($finder->find());
         $builder->setTimeout(null);
+        echo $builder->getProcess()->getCommandLine();
 
         $process = $builder->getProcess();
         $process->run(function ($type, $message) {

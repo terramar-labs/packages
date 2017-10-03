@@ -47,13 +47,15 @@ class EventSubscriber implements EventSubscriberInterface
     {
         $package = $event->getPackage();
         $config = $this->entityManager->getRepository('Terramar\Packages\Plugin\Satis\PackageConfiguration')
-            ->findOneBy(array('package' => $package));
+            ->findOneBy(['package' => $package]);
 
-        if (!$config || !$config->isEnabled() || !$package->isEnabled()) {
+        if ( ! $config || ! $config->isEnabled() || ! $package->isEnabled()) {
             return;
         }
 
-        $this->resqueHelper->enqueueOnce('default', 'Terramar\Packages\Plugin\Satis\UpdateAndBuildJob');
+        $this->resqueHelper->enqueueOnce('default', 'Terramar\Packages\Plugin\Satis\UpdateAndBuildJob', [
+            'url' => $package->getSshUrl(),
+        ]);
     }
 
     /**
@@ -63,9 +65,9 @@ class EventSubscriber implements EventSubscriberInterface
     {
         $package = $event->getPackage();
         $config = $this->entityManager->getRepository('Terramar\Packages\Plugin\Satis\PackageConfiguration')
-            ->findOneBy(array('package' => $package));
+            ->findOneBy(['package' => $package]);
 
-        if (!$config) {
+        if ( ! $config) {
             $config = new PackageConfiguration();
             $config->setPackage($package);
         }
@@ -78,9 +80,15 @@ class EventSubscriber implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
-            Events::PACKAGE_UPDATE => array('onUpdatePackage', 0),
-            Events::PACKAGE_CREATE => array('onCreatePackage', 0),
-        );
+        return [
+            Events::PACKAGE_UPDATE => [
+                'onUpdatePackage',
+                0,
+            ],
+            Events::PACKAGE_CREATE => [
+                'onCreatePackage',
+                0,
+            ],
+        ];
     }
 }
