@@ -21,7 +21,7 @@
     "composer/satis": "dev-master",
     "composer/composer": "1.4.3",
     "sami/sami": "~1.4",
-    "m4tthumphrey/php-gitlab-api": "~7.13",
+    "m4tthumphrey/php-gitlab-api": "^9.4",
     "knplabs/github-api": "~1.4"
   },
   "require-dev": {
