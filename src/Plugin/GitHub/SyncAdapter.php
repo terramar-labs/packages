@@ -103,23 +103,29 @@ class SyncAdapter implements SyncAdapterInterface
             return true;
         }
 
-        $client = $this->getClient($package->getRemote());
-        $url = 'repos/'.$package->getFqn().'/hooks';
-        $response = $client->getHttpClient()->post($url, json_encode(array(
-            'name' => 'web',
-            'config' => array(
-                'url' => $this->urlGenerator->generate('webhook_receive', array('id' => $package->getId()), true),
-                'content_type' => 'json',
-            ),
-            'events' => array('push', 'create'),
-        )));
+        try {
+            $client = $this->getClient($package->getRemote());
+            $url = 'repos/' . $package->getFqn() . '/hooks';
+            $response = $client->getHttpClient()->post($url, json_encode(array(
+                'name' => 'web',
+                'config' => array(
+                    'url' => $this->urlGenerator->generate('webhook_receive', array('id' => $package->getId()), true),
+                    'content_type' => 'json',
+                ),
+                'events' => array('push', 'create'),
+            )));
 
-        $hook = ResponseMediator::getContent($response);
+            $hook = ResponseMediator::getContent($response);
 
-        $package->setHookExternalId($hook['id']);
-        $config->setEnabled(true);
+            $package->setHookExternalId($hook['id']);
+            $config->setEnabled(true);
 
-        return true;
+            return true;
+
+        } catch (\Exception $e) {
+            // TODO: Log the exception
+            return false;
+        }
     }
 
     /**
@@ -136,16 +142,24 @@ class SyncAdapter implements SyncAdapterInterface
             return true;
         }
 
-        if ($package->getHookExternalId()) {
-            $client = $this->getClient($package->getRemote());
-            $url = 'repos/'.$package->getFqn().'/hooks/'.$package->getHookExternalId();
-            $client->getHttpClient()->delete($url);
+        try {
+            if ($package->getHookExternalId()) {
+                $client = $this->getClient($package->getRemote());
+                $url = 'repos/' . $package->getFqn() . '/hooks/' . $package->getHookExternalId();
+                $client->getHttpClient()->delete($url);
+            }
+
+            $package->setHookExternalId('');
+            $config->setEnabled(false);
+            return true;
+
+        } catch (\Exception $e) {
+            // TODO: Log the exception
+            $package->setHookExternalId('');
+            $config->setEnabled(false);
+
+            return false;
         }
-
-        $package->setHookExternalId('');
-        $config->setEnabled(false);
-
-        return true;
     }
 
     private function getConfig(Package $package)

@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Terramar\Packages\Entity\Package;
 use Terramar\Packages\Event\PackageEvent;
 use Terramar\Packages\Events;
 use Terramar\Packages\Plugin\Actions;
@@ -38,8 +39,9 @@ class PackageController
 
     public function editAction(Application $app, $id)
     {
-        /** @var \Doctrine\ORM\EntityManager $entityManager */
+        /** @var EntityManager $entityManager */
         $entityManager = $app->get('doctrine.orm.entity_manager');
+        /** @var Package $package */
         $package = $entityManager->getRepository('Terramar\Packages\Entity\Package')->find($id);
         if (!$package) {
             throw new NotFoundHttpException('Unable to locate Package');
@@ -47,14 +49,15 @@ class PackageController
 
         return new Response($app->get('templating')->render('Package/edit.html.twig', array(
                 'package' => $package,
-                'remotes' => $this->getRemotes($app->get('doctrine.orm.entity_manager')),
+                'remotes' => $this->getRemotes($entityManager),
             )));
     }
 
     public function updateAction(Application $app, Request $request, $id)
     {
-        /** @var \Doctrine\ORM\EntityManager $entityManager */
+        /** @var EntityManager $entityManager */
         $entityManager = $app->get('doctrine.orm.entity_manager');
+        /** @var Package $package */
         $package = $entityManager->getRepository('Terramar\Packages\Entity\Package')->find($id);
         if (!$package) {
             throw new NotFoundHttpException('Unable to locate Package');
