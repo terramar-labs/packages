@@ -20,12 +20,12 @@ class PackagesExtension extends Extension
     /**
      * @var array
      */
-    private $options = array();
+    private $options = [];
 
     /**
      * @var array|PluginInterface[]
      */
-    private $plugins = array();
+    private $plugins = [];
 
     /**
      * Constructor.
@@ -33,7 +33,7 @@ class PackagesExtension extends Extension
      * @param array $plugins
      * @param array $options
      */
-    public function __construct(array $plugins = array(), array $options = array())
+    public function __construct(array $plugins = [], array $options = [])
     {
         $this->plugins = $plugins;
         $this->options = $options;
@@ -75,12 +75,14 @@ class PackagesExtension extends Extension
         $container->register('packages.helper.sync', 'Terramar\Packages\Helper\SyncHelper')
             ->addArgument(new Reference('event_dispatcher'));
 
-        $container->setParameter('packages.configuration', array(
+        $container->setParameter('packages.configuration', [
             'name'          => empty($config['name']) ? $config['site_name'] : $config['name'],
             'homepage'      => $config['homepage'],
+            'base_path'     => $config['base_path'],
+            'archive'       => $config['archive'],
             'output_dir'    => $container->getParameterBag()->resolveValue($config['output_dir']),
             'contact_email' => $config['contact_email'],
-        ));
+        ]);
 
         $container->register('packages.helper.resque', 'Terramar\Packages\Helper\ResqueHelper');
 
@@ -94,15 +96,17 @@ class PackagesExtension extends Extension
             ->addArgument(new Reference('http_kernel'))
             ->addArgument(new Reference('event_dispatcher'));
         $container->register('packages.fragment_handler', 'Symfony\Component\HttpKernel\Fragment\FragmentHandler')
-            ->addArgument(array(
-                    new Reference('packages.fragment_handler.inline_renderer'),
-                ))
+            ->addArgument([
+                new Reference('packages.fragment_handler.inline_renderer'),
+            ])
             ->addArgument(false)
-            ->addMethodCall('setRequest', array(new Reference(
+            ->addMethodCall('setRequest', [
+                new Reference(
                     'request',
                     ContainerInterface::NULL_ON_INVALID_REFERENCE,
                     false
-                )));
+                ),
+            ]);
 
         $container->register('packages.twig_extension.packages_conf', 'Terramar\Packages\Twig\PackagesConfigExtension')
             ->addArgument('%packages.configuration%')
@@ -111,11 +115,13 @@ class PackagesExtension extends Extension
         $container->register('packages.twig_extension.plugin', 'Terramar\Packages\Twig\PluginControllerExtension')
             ->addArgument(new Reference('packages.controller_manager'))
             ->addArgument(new Reference('packages.fragment_handler'))
-            ->addMethodCall('setRequest', array(new Reference(
+            ->addMethodCall('setRequest', [
+                new Reference(
                     'request',
                     ContainerInterface::NULL_ON_INVALID_REFERENCE,
                     false
-                )))
+                ),
+            ])
             ->addTag('twig.extension');
 
         $container->register('packages.fragment_handler.uri_signer', 'Symfony\Component\HttpKernel\UriSigner')
@@ -128,13 +134,15 @@ class PackagesExtension extends Extension
         $container->register('packages.helper.plugin', 'Terramar\Packages\Helper\PluginHelper')
             ->addArgument(new Reference('packages.controller_manager'))
             ->addArgument(new Reference('packages.fragment_handler'))
-            ->addMethodCall('setRequest', array(new Reference(
+            ->addMethodCall('setRequest', [
+                new Reference(
                     'request',
                     ContainerInterface::NULL_ON_INVALID_REFERENCE,
                     false
-                )));
+                ),
+            ]);
 
-        $plugins = array();
+        $plugins = [];
         foreach ($this->plugins as $plugin) {
             $plugin->configure($container);
             $plugins[$plugin->getName()] = $plugin->getVersion();

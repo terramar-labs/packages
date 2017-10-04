@@ -87,7 +87,8 @@ class UpdateAndBuildJob extends ContainerAwareJob
         $builder->setEnv('COMPOSER_HOME', dirname($filename));
         $builder->setPrefix($finder->find());
         $builder->setTimeout(null);
-        echo $builder->getProcess()->getCommandLine();
+
+        echo $builder->getProcess()->getCommandLine() . "\n";
 
         $process = $builder->getProcess();
         $process->run(function ($type, $message) {

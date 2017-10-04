@@ -17,3 +17,4 @@
 /.composer
 /.php_cs.cache
 /auth.json
+/web/dist
