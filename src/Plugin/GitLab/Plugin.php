@@ -31,7 +31,7 @@ class Plugin implements PluginInterface
             ->addArgument(new Reference('router.url_generator'));
 
         $container->getDefinition('packages.helper.sync')
-            ->addMethodCall('registerAdapter', array(new Reference('packages.plugin.gitlab.adapter')));
+            ->addMethodCall('registerAdapter', [new Reference('packages.plugin.gitlab.adapter')]);
 
         $container->register('packages.plugin.gitlab.package_subscriber', 'Terramar\Packages\Plugin\GitLab\PackageSubscriber')
             ->addArgument(new Reference('packages.plugin.gitlab.adapter'))
@@ -44,10 +44,22 @@ class Plugin implements PluginInterface
             ->addTag('kernel.event_subscriber');
 
         $container->getDefinition('packages.controller_manager')
-            ->addMethodCall('registerController', array(Actions::REMOTE_NEW, 'Terramar\Packages\Plugin\GitLab\Controller::newAction'))
-            ->addMethodCall('registerController', array(Actions::REMOTE_CREATE, 'Terramar\Packages\Plugin\GitLab\Controller::createAction'))
-            ->addMethodCall('registerController', array(Actions::REMOTE_EDIT, 'Terramar\Packages\Plugin\GitLab\Controller::editAction'))
-            ->addMethodCall('registerController', array(Actions::REMOTE_UPDATE, 'Terramar\Packages\Plugin\GitLab\Controller::updateAction'));
+            ->addMethodCall('registerController', [
+                Actions::REMOTE_NEW,
+                'Terramar\Packages\Plugin\GitLab\Controller::newAction',
+            ])
+            ->addMethodCall('registerController', [
+                Actions::REMOTE_CREATE,
+                'Terramar\Packages\Plugin\GitLab\Controller::createAction',
+            ])
+            ->addMethodCall('registerController', [
+                Actions::REMOTE_EDIT,
+                'Terramar\Packages\Plugin\GitLab\Controller::editAction',
+            ])
+            ->addMethodCall('registerController', [
+                Actions::REMOTE_UPDATE,
+                'Terramar\Packages\Plugin\GitLab\Controller::updateAction',
+            ]);
     }
 
     /**
@@ -60,10 +72,8 @@ class Plugin implements PluginInterface
         return 'GitLab';
     }
 
-    /**
-     */
     public function getVersion()
     {
-        return;
+        return 'v4';
     }
 }

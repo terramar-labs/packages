@@ -34,17 +34,24 @@ class Plugin implements PluginInterface
 
         $container->register('packages.plugin.satis.config_helper', 'Terramar\Packages\Plugin\Satis\ConfigurationHelper')
             ->addArgument(new Reference('doctrine.orm.entity_manager'))
+            ->addArgument(new Reference('router.url_generator'))
             ->addArgument('%app.root_dir%')
             ->addArgument('%app.cache_dir%')
             ->addArgument('%packages.configuration%');
 
         $container->getDefinition('packages.controller_manager')
-            ->addMethodCall('registerController', array(Actions::PACKAGE_EDIT, 'Terramar\Packages\Plugin\Satis\Controller::editAction'))
-            ->addMethodCall('registerController', array(Actions::PACKAGE_UPDATE, 'Terramar\Packages\Plugin\Satis\Controller::updateAction'));
+            ->addMethodCall('registerController', [
+                Actions::PACKAGE_EDIT,
+                'Terramar\Packages\Plugin\Satis\Controller::editAction',
+            ])
+            ->addMethodCall('registerController', [
+                Actions::PACKAGE_UPDATE,
+                'Terramar\Packages\Plugin\Satis\Controller::updateAction',
+            ]);
 
         $container->getDefinition('packages.command_registry')
-            ->addMethodCall('addCommand', array('Terramar\Packages\Plugin\Satis\Command\BuildCommand'))
-            ->addMethodCall('addCommand', array('Terramar\Packages\Plugin\Satis\Command\UpdateCommand'));
+            ->addMethodCall('addCommand', ['Terramar\Packages\Plugin\Satis\Command\BuildCommand'])
+            ->addMethodCall('addCommand', ['Terramar\Packages\Plugin\Satis\Command\UpdateCommand']);
     }
 
     /**
