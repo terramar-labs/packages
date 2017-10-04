@@ -24,6 +24,16 @@ packages:
   site_name:  'Private Composer Repository'
   homepage:   'https://github.com/terramar-labs/packages'
   resque:
+    # Redis server host.
     host:     'unix:///tmp/redis.sock'
+    # Format as either unix:///path/to/socket (note the 3 slashes) or redis://host
+    #host:     'redis://127.0.0.1'
+    # If Redis is configured to require a password, you can pass it in the host:
+    #host:     'redis://ignored:password@host'
+    # Note that the username portion of the hostname is ignored and can be any value.
+
+    # Redis TCP port. If using a unix socket, this is ignored.
     port:     ~
+
+    # Redis database index where jobs will be stored.
     database: 4
