@@ -12,14 +12,14 @@ doctrine:
   database:
     # Any Doctrine driver
     driver: pdo_sqlite
-    
+
     # Options
     path: %app.root_dir%/database.sqlite
     # host: 127.0.0.1
     # user: root
     # password:
     # dbname: packages
-   
+
 packages:
   # Defines the name used in the page titles and landing page.
   name:     'Terramar Labs'
@@ -32,9 +32,15 @@ packages:
 
   resque:
     # Redis server host.
-    # Format as either unix:///path/to/socket (note the 3 slashes) or tcp://host
     host:     'unix:///tmp/redis.sock'
-    # Redis TCP port.
+    # Format as either unix:///path/to/socket (note the 3 slashes) or redis://host
+    #host:     'redis://127.0.0.1'
+    # If Redis is configured to require a password, you can pass it in the host:
+    #host:     'redis://ignored:password@host'
+    # Note that the username portion of the hostname is ignored and can be any value.
+
+    # Redis TCP port. If using a unix socket, this is ignored.
     port:     ~
+
     # Redis database index where jobs will be stored.
     database: 4
