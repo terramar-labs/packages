@@ -1,0 +1,32 @@
+version: '2'
+services:
+    web:
+        image: webdevops/php-nginx:7.1
+        volumes:
+            - .:/app
+            - ./docker/nginx/vhost.common.d/vhost.common.conf:/opt/docker/etc/nginx/vhost.common.d/10-location-root.conf
+        links:
+            - redis-sentinel
+            - redis-master
+            - redis-slave
+        environment:
+            - WEB_DOCUMENT_ROOT=/app/web
+        ports:
+          - "127.0.0.1:80:80"
+    redis-master:
+      image: redis:3.2
+    redis-slave:
+      image: redis:3.2
+      command: redis-server --slaveof redis-master 6379
+      links:
+        - redis-master
+    redis-sentinel:
+      image: erichsu/redis-sentinel
+      environment:
+        - SENTINEL_DOWN_AFTER=5000
+        - SENTINEL_FAILOVER=5000
+      links:
+        - redis-master
+        - redis-slave:slave
+    mailhog:
+        image: mailhog/mailhog
