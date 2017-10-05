@@ -77,7 +77,7 @@ class ConfigurationHelper
             'output-html'              => false,
             'require-dependencies'     => true,
             'require-dev-dependencies' => true,
-            'config'                   => [],
+            'config'                   => ['gitlab-domains' => []],
         ]);
 
         if (isset($this->config['archive']) && $this->config['archive'] === true) {
@@ -97,9 +97,8 @@ class ConfigurationHelper
             ->getQuery()
             ->getResult();
 
-        $gitlabDomains = [];
 
-        $data['repositories'] = array_map(function (PackageConfiguration $config) use (&$gitlabDomains) {
+        $data['repositories'] = array_map(function (PackageConfiguration $config) use (&$data) {
             $options = [
                 'type' => 'vcs',
                 'url'  => $config->getPackage()->getSshUrl(),
@@ -127,19 +126,21 @@ class ConfigurationHelper
                     }
 
                     $url = parse_url($remoteConfig->getUrl(), PHP_URL_HOST);
-                    if (!in_array($url, $gitlabDomains)) {
-                        $gitlabDomains[] = $url;
+                    if (!in_array($url, $data['config']['gitlab-domains'])) {
+                        $data['config']['gitlab-domains'][] = $url;
                     }
 
                     $options['gitlab-token'] = $remoteConfig->getToken();
+                    if (parse_url($remoteConfig->getUrl(), PHP_URL_SCHEME) === "http") {
+                        $options['secure-http'] = false;
+                        $data['config']['secure-http'] = false;
+                    }
 
                     break;
             }
 
             return $options;
         }, $packages);
-
-        $data['config']['gitlab-domains'] = $gitlabDomains;
 
         $this->filesystem->mkdir($this->cacheDir . '/satis');
 

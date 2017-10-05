@@ -331,7 +331,7 @@ class GitLabDriver extends VcsDriver
 
     protected function generatePublicUrl()
     {
-        return 'https://' . $this->originUrl . '/'.$this->owner.'/'.$this->repository.'.git';
+        return $this->scheme . $this->originUrl . '/'.$this->owner.'/'.$this->repository.'.git';
     }
 
     protected function setupGitDriver($url)
