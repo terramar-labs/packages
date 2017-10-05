@@ -32,7 +32,7 @@ class EventSubscriber implements EventSubscriberInterface
     /**
      * Constructor.
      *
-     * @param ResqueHelper  $resqueHelper
+     * @param ResqueHelper $resqueHelper
      * @param EntityManager $entityManager
      */
     public function __construct(ResqueHelper $resqueHelper, EntityManager $entityManager)
@@ -42,13 +42,24 @@ class EventSubscriber implements EventSubscriberInterface
     }
 
     /**
+     * @return array
+     */
+    public static function getSubscribedEvents()
+    {
+        return [
+            Events::PACKAGE_CREATE             => ['onCreatePackage', 0],
+            CloneProjectEvents::PACKAGE_CLONED => ['onClonePackage', 0],
+        ];
+    }
+
+    /**
      * @param PackageCloneEvent $event
      */
     public function onClonePackage(PackageCloneEvent $event)
     {
         $package = $event->getPackage();
         $config = $this->entityManager->getRepository('Terramar\Packages\Plugin\Sami\PackageConfiguration')
-            ->findOneBy(array('package' => $package));
+            ->findOneBy(['package' => $package]);
 
         if (!$config || !$config->isEnabled() || !$package->isEnabled()) {
             return;
@@ -59,7 +70,7 @@ class EventSubscriber implements EventSubscriberInterface
         $this->entityManager->persist($config);
         $this->entityManager->flush($config);
 
-        $this->resqueHelper->enqueue('default', 'Terramar\Packages\Plugin\Sami\UpdateJob', array('id' => $package->getId()));
+        $this->resqueHelper->enqueue('default', 'Terramar\Packages\Plugin\Sami\UpdateJob', ['id' => $package->getId()]);
     }
 
     /**
@@ -69,7 +80,7 @@ class EventSubscriber implements EventSubscriberInterface
     {
         $package = $event->getPackage();
         $config = $this->entityManager->getRepository('Terramar\Packages\Plugin\Sami\PackageConfiguration')
-            ->findOneBy(array('package' => $package));
+            ->findOneBy(['package' => $package]);
 
         if (!$config) {
             $config = new PackageConfiguration();
@@ -77,16 +88,5 @@ class EventSubscriber implements EventSubscriberInterface
         }
 
         $this->entityManager->persist($config);
-    }
-
-    /**
-     * @return array
-     */
-    public static function getSubscribedEvents()
-    {
-        return array(
-            Events::PACKAGE_CREATE => array('onCreatePackage', 0),
-            CloneProjectEvents::PACKAGE_CLONED => array('onClonePackage', 0),
-        );
     }
 }

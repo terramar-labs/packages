@@ -20,9 +20,9 @@ class PackageUpdateEvent extends PackageEvent
 
     /**
      * Constructor.
-     * 
+     *
      * @param Package $package The updated package
-     * @param mixed   $payload Any data received from the remote host
+     * @param mixed $payload Any data received from the remote host
      */
     public function __construct(Package $package, $payload)
     {

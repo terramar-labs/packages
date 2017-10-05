@@ -41,7 +41,7 @@ class PackageConfiguration
      */
     public function setEnabled($enabled)
     {
-        $this->enabled = (bool) $enabled;
+        $this->enabled = (bool)$enabled;
     }
 
     /**

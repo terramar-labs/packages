@@ -28,19 +28,19 @@ class RemoteController
 
         $remotes = $entityManager->getRepository('Terramar\Packages\Entity\Remote')->findAll();
 
-        return new Response($app->get('templating')->render('Remote/index.html.twig', array(
-                'remotes' => $remotes,
-            )));
+        return new Response($app->get('templating')->render('Remote/index.html.twig', [
+            'remotes' => $remotes,
+        ]));
     }
 
     public function newAction(Application $app)
     {
         $adapters = $app->get('packages.helper.sync')->getAdapters();
 
-        return new Response($app->get('templating')->render('Remote/new.html.twig', array(
-                'adapters' => $adapters,
-                'remote' => new Remote(),
-            )));
+        return new Response($app->get('templating')->render('Remote/new.html.twig', [
+            'adapters' => $adapters,
+            'remote'   => new Remote(),
+        ]));
     }
 
     public function createAction(Application $app, Request $request)
@@ -72,9 +72,9 @@ class RemoteController
             throw new NotFoundHttpException('Unable to locate Remote');
         }
 
-        return new Response($app->get('templating')->render('Remote/edit.html.twig', array(
-                'remote' => $remote,
-            )));
+        return new Response($app->get('templating')->render('Remote/edit.html.twig', [
+            'remote' => $remote,
+        ]));
     }
 
     public function updateAction(Application $app, Request $request, $id)
@@ -89,7 +89,7 @@ class RemoteController
         $remote->setName($request->get('name'));
 
         $enabledBefore = $remote->isEnabled();
-        $enabledAfter = (bool) $request->get('enabled', false);
+        $enabledAfter = (bool)$request->get('enabled', false);
 
         $remote->setEnabled($enabledAfter);
 
@@ -104,9 +104,9 @@ class RemoteController
 
         /** @var \Terramar\Packages\Helper\PluginHelper $helper */
         $helper = $app->get('packages.helper.plugin');
-        $helper->invokeAction($request, Actions::REMOTE_UPDATE, array_merge($request->request->all(), array(
-                'id' => $id,
-            )));
+        $helper->invokeAction($request, Actions::REMOTE_UPDATE, array_merge($request->request->all(), [
+            'id' => $id,
+        ]));
 
         $entityManager->persist($remote);
         $entityManager->flush();

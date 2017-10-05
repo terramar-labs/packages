@@ -11,12 +11,12 @@ namespace Terramar\Packages\Plugin;
 
 class ControllerManager implements ControllerManagerInterface
 {
-    private $controllers = array();
+    private $controllers = [];
 
     public function registerController($action, $controller)
     {
         if (!isset($this->controllers[$action])) {
-            $this->controllers[$action] = array();
+            $this->controllers[$action] = [];
         }
 
         $this->controllers[$action][] = $controller;
@@ -24,6 +24,6 @@ class ControllerManager implements ControllerManagerInterface
 
     public function getControllers($action)
     {
-        return isset($this->controllers[$action]) ? $this->controllers[$action] : array();
+        return isset($this->controllers[$action]) ? $this->controllers[$action] : [];
     }
 }

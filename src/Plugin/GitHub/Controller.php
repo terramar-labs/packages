@@ -44,22 +44,22 @@ class Controller
     {
         /** @var \Doctrine\ORM\EntityManager $entityManager */
         $entityManager = $app->get('doctrine.orm.entity_manager');
-        $config = $entityManager->getRepository('Terramar\Packages\Plugin\GitHub\RemoteConfiguration')->findOneBy(array(
+        $config = $entityManager->getRepository('Terramar\Packages\Plugin\GitHub\RemoteConfiguration')->findOneBy([
             'remote' => $id,
-        ));
+        ]);
 
-        return new Response($app->get('twig')->render('Plugin/GitHub/edit.html.twig', array(
+        return new Response($app->get('twig')->render('Plugin/GitHub/edit.html.twig', [
             'config' => $config ?: new RemoteConfiguration(),
-        )));
+        ]));
     }
 
     public function updateAction(Application $app, Request $request, $id)
     {
         /** @var \Doctrine\ORM\EntityManager $entityManager */
         $entityManager = $app->get('doctrine.orm.entity_manager');
-        $config = $entityManager->getRepository('Terramar\Packages\Plugin\GitHub\RemoteConfiguration')->findOneBy(array(
+        $config = $entityManager->getRepository('Terramar\Packages\Plugin\GitHub\RemoteConfiguration')->findOneBy([
             'remote' => $id,
-        ));
+        ]);
 
         if (!$config) {
             return new Response();

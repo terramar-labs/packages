@@ -52,7 +52,7 @@ class Remote
      */
     public function setEnabled($enabled)
     {
-        $this->enabled = (bool) $enabled;
+        $this->enabled = (bool)$enabled;
     }
 
     /**
@@ -76,7 +76,7 @@ class Remote
      */
     public function setName($name)
     {
-        $this->name = (string) $name;
+        $this->name = (string)$name;
     }
 
     /**
@@ -92,6 +92,6 @@ class Remote
      */
     public function setAdapter($adapter)
     {
-        $this->adapter = (string) $adapter;
+        $this->adapter = (string)$adapter;
     }
 }

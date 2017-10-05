@@ -27,6 +27,16 @@ class BuildCommand extends BaseCommand implements ContainerAwareInterface
      */
     protected $container;
 
+    /**
+     * Sets the container.
+     *
+     * @param ContainerInterface|null $container A ContainerInterface instance or null
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
     protected function configure()
     {
         parent::configure();
@@ -34,7 +44,8 @@ class BuildCommand extends BaseCommand implements ContainerAwareInterface
         $this->setName('satis:build');
         $def = $this->getDefinition();
         $args = $def->getArguments();
-        $args['file'] = new InputArgument('file', InputArgument::OPTIONAL, 'Satis configuration file. If left blank, one will be generated.');
+        $args['file'] = new InputArgument('file', InputArgument::OPTIONAL,
+            'Satis configuration file. If left blank, one will be generated.');
         $def->setArguments($args);
     }
 
@@ -56,15 +67,5 @@ class BuildCommand extends BaseCommand implements ContainerAwareInterface
         }
 
         parent::execute($input, $output);
-    }
-
-    /**
-     * Sets the container.
-     *
-     * @param ContainerInterface|null $container A ContainerInterface instance or null
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
     }
 }

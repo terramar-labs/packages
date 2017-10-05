@@ -32,9 +32,9 @@ class PackageController
             ->join('p.remote', 'r', 'WITH', 'r.enabled = true')
             ->getQuery()->getResult();
 
-        return new Response($app->get('templating')->render('Package/index.html.twig', array(
-                'packages' => $packages,
-            )));
+        return new Response($app->get('templating')->render('Package/index.html.twig', [
+            'packages' => $packages,
+        ]));
     }
 
     public function editAction(Application $app, $id)
@@ -47,10 +47,15 @@ class PackageController
             throw new NotFoundHttpException('Unable to locate Package');
         }
 
-        return new Response($app->get('templating')->render('Package/edit.html.twig', array(
-                'package' => $package,
-                'remotes' => $this->getRemotes($entityManager),
-            )));
+        return new Response($app->get('templating')->render('Package/edit.html.twig', [
+            'package' => $package,
+            'remotes' => $this->getRemotes($entityManager),
+        ]));
+    }
+
+    protected function getRemotes(EntityManager $entityManager)
+    {
+        return $entityManager->getRepository('Terramar\Packages\Entity\Remote')->findBy(['enabled' => true]);
     }
 
     public function updateAction(Application $app, Request $request, $id)
@@ -64,7 +69,7 @@ class PackageController
         }
 
         $enabledBefore = $package->isEnabled();
-        $enabledAfter = (bool) $request->get('enabled', false);
+        $enabledAfter = (bool)$request->get('enabled', false);
 
         $package->setName($request->request->get('name'));
         $package->setDescription($request->request->get('description'));
@@ -81,9 +86,9 @@ class PackageController
 
         /** @var \Terramar\Packages\Helper\PluginHelper $helper */
         $helper = $app->get('packages.helper.plugin');
-        $helper->invokeAction($request, Actions::PACKAGE_UPDATE, array_merge($request->request->all(), array(
-                'id' => $id,
-            )));
+        $helper->invokeAction($request, Actions::PACKAGE_UPDATE, array_merge($request->request->all(), [
+            'id' => $id,
+        ]));
 
         $entityManager->persist($package);
         $entityManager->flush();
@@ -114,10 +119,5 @@ class PackageController
         $entityManager->flush();
 
         return new RedirectResponse($app->get('router.url_generator')->generate('manage_packages'));
-    }
-
-    protected function getRemotes(EntityManager $entityManager)
-    {
-        return $entityManager->getRepository('Terramar\Packages\Entity\Remote')->findBy(array('enabled' => true));
     }
 }

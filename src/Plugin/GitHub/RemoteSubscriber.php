@@ -29,13 +29,23 @@ class RemoteSubscriber implements EventSubscriberInterface
     /**
      * Constructor.
      *
-     * @param SyncAdapter   $adapter
+     * @param SyncAdapter $adapter
      * @param EntityManager $entityManager
      */
     public function __construct(SyncAdapter $adapter, EntityManager $entityManager)
     {
         $this->adapter = $adapter;
         $this->entityManager = $entityManager;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getSubscribedEvents()
+    {
+        return [
+            Events::REMOTE_DISABLE => ['onDisableRemote', 255],
+        ];
     }
 
     /**
@@ -49,21 +59,11 @@ class RemoteSubscriber implements EventSubscriberInterface
         }
 
         $packages = $this->entityManager->getRepository('Terramar\Packages\Entity\Package')
-            ->findBy(array('remote' => $remote));
+            ->findBy(['remote' => $remote]);
 
         foreach ($packages as $package) {
             $this->adapter->disableHook($package);
             $package->setEnabled(false);
         }
-    }
-
-    /**
-     * @return array
-     */
-    public static function getSubscribedEvents()
-    {
-        return array(
-            Events::REMOTE_DISABLE => array('onDisableRemote', 255),
-        );
     }
 }

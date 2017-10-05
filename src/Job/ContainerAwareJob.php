@@ -27,12 +27,22 @@ abstract class ContainerAwareJob
     /**
      * @var array The job args
      */
-    public $args = array();
+    public $args = [];
 
     /**
      * @var Application
      */
     private $app = null;
+
+    /**
+     * Perform the work.
+     */
+    public function perform()
+    {
+        $this->run($this->args);
+    }
+
+    abstract protected function run($args);
 
     /**
      * @return ContainerInterface
@@ -58,14 +68,4 @@ abstract class ContainerAwareJob
             isset($this->args['app.cache']) ? $this->args['app.cache'] : true
         );
     }
-
-    /**
-     * Perform the work.
-     */
-    public function perform()
-    {
-        $this->run($this->args);
-    }
-
-    abstract protected function run($args);
 }

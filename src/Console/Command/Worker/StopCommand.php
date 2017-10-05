@@ -9,11 +9,11 @@
 
 namespace Terramar\Packages\Console\Command\Worker;
 
-use Terramar\Packages\Console\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Terramar\Packages\Console\Command\ContainerAwareCommand;
 use Terramar\Packages\Helper\ResqueHelper;
 
 class StopCommand extends ContainerAwareCommand
@@ -43,14 +43,14 @@ class StopCommand extends ContainerAwareCommand
                 }
             }
 
-            $workers = $worker ? array($worker) : array();
+            $workers = $worker ? [$worker] : [];
         }
 
         if (count($workers) <= 0) {
-            $output->writeln(array(
-                    'No workers running',
-                    '',
-                ));
+            $output->writeln([
+                'No workers running',
+                '',
+            ]);
 
             return;
         }
@@ -58,7 +58,7 @@ class StopCommand extends ContainerAwareCommand
         $signal = $input->getOption('force') ? SIGTERM : SIGQUIT;
         foreach ($workers as $worker) {
             $output->writeln(sprintf('%s %s...', $signal === SIGTERM ? 'Force stopping' : 'Stopping', $worker));
-            list(, $pid) = explode(':', (string) $worker);
+            list(, $pid) = explode(':', (string)$worker);
 
             posix_kill($pid, $signal);
         }

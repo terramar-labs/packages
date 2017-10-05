@@ -35,7 +35,7 @@ class PluginHelper
      * Constructor.
      *
      * @param ControllerManagerInterface $manager
-     * @param FragmentHandler            $handler
+     * @param FragmentHandler $handler
      */
     public function __construct(ControllerManagerInterface $manager, FragmentHandler $handler)
     {
@@ -53,13 +53,14 @@ class PluginHelper
 
     /**
      * Invoke the given action using the given Request.
-     * 
+     *
      * @param Request $request
-     * @param string  $action
+     * @param string $action
      */
-    public function invokeAction(Request $request, $action, $params = array())
+    public function invokeAction(Request $request, $action, $params = [])
     {
-        $controllers = $this->getControllers($action, $params, array_merge($request->query->all(), $request->request->all()));
+        $controllers = $this->getControllers($action, $params,
+            array_merge($request->query->all(), $request->request->all()));
 
         foreach ($controllers as $controller) {
             $this->handler->render($controller);
@@ -71,12 +72,12 @@ class PluginHelper
      *
      * @return array|ControllerReference[]
      */
-    private function getControllers($action, $params = array(), $query = array())
+    private function getControllers($action, $params = [], $query = [])
     {
         $params['app'] = $this->request->get('app');
 
         return array_map(function ($controller) use ($params, $query) {
-                return new ControllerReference($controller, $params, $query);
-            }, $this->manager->getControllers($action));
+            return new ControllerReference($controller, $params, $query);
+        }, $this->manager->getControllers($action));
     }
 }

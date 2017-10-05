@@ -31,10 +31,10 @@ class ListCommand extends ContainerAwareCommand
         $workers = \Resque_Worker::all();
 
         if (count($workers) <= 0) {
-            $output->writeln(array(
+            $output->writeln([
                 'No workers running',
                 '',
-            ));
+            ]);
 
             return 0;
         }
@@ -44,34 +44,34 @@ class ListCommand extends ContainerAwareCommand
             $queueFilter = false;
         }
 
-        $workerOutput = array();
+        $workerOutput = [];
         $longestName = 0;
         foreach ($workers as $worker) {
-            $queues = ($worker->queues(true) ?: array('*'));
+            $queues = ($worker->queues(true) ?: ['*']);
             if ($queueFilter) {
                 if (!in_array('*', $queues) && !in_array($queueFilter, $queues)) {
                     continue;
                 }
             }
 
-            $name = (string) $worker;
+            $name = (string)$worker;
             $job = ($job = $worker->job())
-                ? 'Processing '.json_encode($job)
+                ? 'Processing ' . json_encode($job)
                 : 'Waiting for job';
 
             if (strlen($job) > 20) {
-                $job = substr($job, 0, 20).'...';
+                $job = substr($job, 0, 20) . '...';
             }
 
-            $workerOutput[] = array($name, $job);
+            $workerOutput[] = [$name, $job];
 
             if (($thisLength = strlen($name)) > $longestName) {
                 $longestName = $thisLength;
             }
         }
 
-        $output->writeln(sprintf('%-'.$longestName."s\t%s", 'Worker ID', 'Current Job'));
-        $loopFormat = '%-'.$longestName."s\t<info>%s</info>";
+        $output->writeln(sprintf('%-' . $longestName . "s\t%s", 'Worker ID', 'Current Job'));
+        $loopFormat = '%-' . $longestName . "s\t<info>%s</info>";
         foreach ($workerOutput as $worker) {
             $output->writeln(sprintf($loopFormat, $worker[0], $worker[1]));
         }

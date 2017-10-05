@@ -10,19 +10,19 @@
 namespace Terramar\Packages\Console;
 
 use Composer\Composer;
+use Composer\Factory;
+use Composer\IO\ConsoleIO;
 use Composer\IO\IOInterface;
+use Composer\Util\ErrorHandler;
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Helper\QuestionHelper;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Terramar\Packages\Application as AppKernel;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Composer\IO\ConsoleIO;
-use Composer\Factory;
-use Composer\Util\ErrorHandler;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Terramar\Packages\Application as AppKernel;
 use Terramar\Packages\Version;
 
 /**
@@ -63,36 +63,11 @@ class Application extends BaseApplication
     }
 
     /**
-     * @return Composer
-     */
-    public function getComposer($required = true, $config = null)
-    {
-        if (null === $this->composer) {
-            try {
-                $this->composer = Factory::create($this->io, $config);
-            } catch (\InvalidArgumentException $e) {
-                $this->io->write($e->getMessage());
-                exit(1);
-            }
-        }
-
-        return $this->composer;
-    }
-
-    /**
-     * @return IOInterface
-     */
-    public function getIO()
-    {
-        return $this->io;
-    }
-
-    /**
      * Initializes all the composer commands.
      */
     protected function registerCommands()
     {
-        $this->addCommands(array(
+        $this->addCommands([
             // Resque Commands
             new \Terramar\Packages\Console\Command\Worker\StartCommand(),
             new \Terramar\Packages\Console\Command\Worker\ListCommand(),
@@ -129,7 +104,7 @@ class Application extends BaseApplication
             new \Doctrine\DBAL\Migrations\Tools\Console\Command\MigrateCommand(),
             new \Doctrine\DBAL\Migrations\Tools\Console\Command\StatusCommand(),
             new \Doctrine\DBAL\Migrations\Tools\Console\Command\VersionCommand(),
-        ));
+        ]);
         $registry = $this->app->get('packages.command_registry');
         foreach ($registry->getCommands() as $commandClass) {
             $this->add(new $commandClass());
@@ -154,6 +129,31 @@ class Application extends BaseApplication
         }
 
         return parent::add($command);
+    }
+
+    /**
+     * @return Composer
+     */
+    public function getComposer($required = true, $config = null)
+    {
+        if (null === $this->composer) {
+            try {
+                $this->composer = Factory::create($this->io, $config);
+            } catch (\InvalidArgumentException $e) {
+                $this->io->write($e->getMessage());
+                exit(1);
+            }
+        }
+
+        return $this->composer;
+    }
+
+    /**
+     * @return IOInterface
+     */
+    public function getIO()
+    {
+        return $this->io;
     }
 
     /**

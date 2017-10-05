@@ -17,14 +17,6 @@ use Terramar\Packages\Job\ContainerAwareJob;
 
 class UpdateAndBuildJob extends ContainerAwareJob
 {
-    /**
-     * @return EntityManager
-     */
-    private function getEntityManager()
-    {
-        return $this->getContainer()->get('doctrine.orm.entity_manager');
-    }
-
     public function run($args)
     {
         /** @var Package $package */
@@ -48,5 +40,13 @@ class UpdateAndBuildJob extends ContainerAwareJob
         $process->run(function ($type, $message) {
             echo $message;
         });
+    }
+
+    /**
+     * @return EntityManager
+     */
+    private function getEntityManager()
+    {
+        return $this->getContainer()->get('doctrine.orm.entity_manager');
     }
 }

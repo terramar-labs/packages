@@ -10,8 +10,8 @@
 namespace Terramar\Packages\Twig;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
+use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
 use Terramar\Packages\Plugin\ControllerManagerInterface;
 
 /**
@@ -38,7 +38,7 @@ class PluginControllerExtension extends \Twig_Extension
      * Constructor.
      *
      * @param ControllerManagerInterface $manager
-     * @param FragmentHandler            $handler
+     * @param FragmentHandler $handler
      */
     public function __construct(ControllerManagerInterface $manager, FragmentHandler $handler)
     {
@@ -59,10 +59,10 @@ class PluginControllerExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
-            new \Twig_SimpleFunction('render', array($this, 'render'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('plugin_controllers', array($this, 'getControllers')),
-        );
+        return [
+            new \Twig_SimpleFunction('render', [$this, 'render'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('plugin_controllers', [$this, 'getControllers']),
+        ];
     }
 
     /**
@@ -83,13 +83,13 @@ class PluginControllerExtension extends \Twig_Extension
      * @param array $params
      * @return array|ControllerReference
      */
-    public function getControllers($action, $params = array())
+    public function getControllers($action, $params = [])
     {
         $params['app'] = $this->request->get('app');
 
         return array_map(function ($controller) use ($params) {
-                return new ControllerReference($controller, $params);
-            }, $this->manager->getControllers($action));
+            return new ControllerReference($controller, $params);
+        }, $this->manager->getControllers($action));
     }
 
     /**

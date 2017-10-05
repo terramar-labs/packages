@@ -35,13 +35,13 @@ class PackagesConfigExtension extends \Twig_Extension
      */
     public function getGlobals()
     {
-        return array(
-            'packages_conf' => array(
-                'name' => $this->config['name'],
-                'homepage' => $this->config['homepage'],
+        return [
+            'packages_conf' => [
+                'name'          => $this->config['name'],
+                'homepage'      => $this->config['homepage'],
                 'contact_email' => $this->config['contact_email'],
-            )
-        );
+            ],
+        ];
     }
 
     /**

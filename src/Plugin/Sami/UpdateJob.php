@@ -17,22 +17,6 @@ use Terramar\Packages\Job\ContainerAwareJob;
 
 class UpdateJob extends ContainerAwareJob
 {
-    /**
-     * @return string
-     */
-    private function getCacheDir(Package $package)
-    {
-        return $this->getContainer()->getParameter('app.cache_dir').'/sami/'.$package->getFqn();
-    }
-
-    /**
-     * @return EntityManager
-     */
-    private function getEntityManager()
-    {
-        return $this->getContainer()->get('doctrine.orm.entity_manager');
-    }
-
     public function run($args)
     {
         $package = $this->getEntityManager()->find('Terramar\Packages\Entity\Package', $args['id']);
@@ -41,7 +25,7 @@ class UpdateJob extends ContainerAwareJob
         }
 
         $config = $this->getEntityManager()->getRepository('Terramar\Packages\Plugin\Sami\PackageConfiguration')
-            ->findOneBy(array('package' => $package));
+            ->findOneBy(['package' => $package]);
 
         if (!$config) {
             throw new \RuntimeException('Invalid project configuration');
@@ -53,12 +37,12 @@ class UpdateJob extends ContainerAwareJob
             mkdir($cachePath, 0777, true);
         }
 
-        $configFilePath = $cachePath.'/config.php';
+        $configFilePath = $cachePath . '/config.php';
         $this->writeConfig($configFilePath, $package, $config);
         echo "Wrote config file to: $configFilePath\n";
 
         $finder = new PhpExecutableFinder();
-        $builder = new ProcessBuilder(array('vendor/bin/sami.php', 'update', $configFilePath));
+        $builder = new ProcessBuilder(['vendor/bin/sami.php', 'update', $configFilePath]);
         $builder->setEnv('HOME', $this->getContainer()->getParameter('app.root_dir'));
         $builder->setPrefix($finder->find());
 
@@ -73,15 +57,15 @@ class UpdateJob extends ContainerAwareJob
 
         if ($config->getRemoteRepoPath()) {
             echo "Updating configured remote with doc changes...\n";
-            $localRepoPath = $cachePath.'/remote';
+            $localRepoPath = $cachePath . '/remote';
             $this->emptyAndRemoveDirectory($localRepoPath);
-            $buildPath = $cachePath.'/build';
+            $buildPath = $cachePath . '/build';
 
-            $builder = new ProcessBuilder(array(
+            $builder = new ProcessBuilder([
                 'clone',
                 $config->getRemoteRepoPath(),
                 $localRepoPath,
-            ));
+            ]);
             $builder->setPrefix('git');
             $process = $builder->getProcess();
             $process->run(function ($type, $message) {
@@ -89,15 +73,15 @@ class UpdateJob extends ContainerAwareJob
             });
 
             if (!$process->isSuccessful()) {
-                throw new \RuntimeException('Unable to clone remote repository "'.$config->getRemoteRepoPath()."\"\n");
+                throw new \RuntimeException('Unable to clone remote repository "' . $config->getRemoteRepoPath() . "\"\n");
             }
 
             echo "Copying generated files into repository...\n";
-            $builder = new ProcessBuilder(array(
+            $builder = new ProcessBuilder([
                 '-R',
-                $buildPath.'/',
+                $buildPath . '/',
                 '.',
-            ));
+            ]);
             $builder->setPrefix('cp');
             $process = $builder->getProcess();
             $process->setWorkingDirectory($localRepoPath);
@@ -106,10 +90,10 @@ class UpdateJob extends ContainerAwareJob
             });
 
             echo "Adding all files...\n";
-            $builder = new ProcessBuilder(array(
+            $builder = new ProcessBuilder([
                 'add',
                 '.',
-            ));
+            ]);
             $builder->setPrefix('git');
             $process = $builder->getProcess();
             $process->setWorkingDirectory($localRepoPath);
@@ -118,11 +102,11 @@ class UpdateJob extends ContainerAwareJob
             });
 
             echo "Committing...\n";
-            $builder = new ProcessBuilder(array(
+            $builder = new ProcessBuilder([
                 'commit',
                 '-m',
                 'Automated commit',
-            ));
+            ]);
             $builder->setPrefix('git');
             $process = $builder->getProcess();
             $process->setWorkingDirectory($localRepoPath);
@@ -131,10 +115,10 @@ class UpdateJob extends ContainerAwareJob
             });
 
             echo "Pushing...\n";
-            $builder = new ProcessBuilder(array(
+            $builder = new ProcessBuilder([
                 'push',
                 'origin',
-            ));
+            ]);
             $builder->setPrefix('git');
             $process = $builder->getProcess();
             $process->setWorkingDirectory($localRepoPath);
@@ -144,25 +128,35 @@ class UpdateJob extends ContainerAwareJob
         }
     }
 
-    private function getRefs(PackageConfiguration $config)
+    /**
+     * @return EntityManager
+     */
+    private function getEntityManager()
     {
-        return array_map(function ($value) {
-            return explode(':', $value);
-        }, explode(',', $config->getRefs()));
+        return $this->getContainer()->get('doctrine.orm.entity_manager');
+    }
+
+    /**
+     * @return string
+     */
+    private function getCacheDir(Package $package)
+    {
+        return $this->getContainer()->getParameter('app.cache_dir') . '/sami/' . $package->getFqn();
     }
 
     private function writeConfig($configFilePath, Package $package, PackageConfiguration $config)
     {
         $cachePath = $this->getCacheDir($package);
-        $tagsCode = $config->getTags() ? '    ->addFromTags(\''.implode('\',\'', explode(',', $config->getTags())).'\)'.PHP_EOL : '';
+        $tagsCode = $config->getTags() ? '    ->addFromTags(\'' . implode('\',\'',
+                explode(',', $config->getTags())) . '\)' . PHP_EOL : '';
         $refsCode = '';
         foreach ($this->getRefs($config) as $ref) {
-            $refsCode .= '    ->add(\''.$ref[0].'\', \''.$ref[1].'\')'.PHP_EOL;
+            $refsCode .= '    ->add(\'' . $ref[0] . '\', \'' . $ref[1] . '\')' . PHP_EOL;
         }
 
         $templatesCode = '';
         if ($templatesDir = $config->getTemplatesDir()) {
-            $templatesCode = '    \'templates_dir\' => array(\''.$templatesDir.'\'),'."\n";
+            $templatesCode = '    \'templates_dir\' => array(\'' . $templatesDir . '\'),' . "\n";
         }
 
         $code = <<<END
@@ -191,9 +185,16 @@ END;
         file_put_contents($configFilePath, $code);
     }
 
+    private function getRefs(PackageConfiguration $config)
+    {
+        return array_map(function ($value) {
+            return explode(':', $value);
+        }, explode(',', $config->getRefs()));
+    }
+
     private function emptyAndRemoveDirectory($directory)
     {
-        $files = array_diff(scandir($directory), array('.', '..'));
+        $files = array_diff(scandir($directory), ['.', '..']);
         foreach ($files as $file) {
             (is_dir("$directory/$file")) ? $this->emptyAndRemoveDirectory("$directory/$file") : unlink("$directory/$file");
         }

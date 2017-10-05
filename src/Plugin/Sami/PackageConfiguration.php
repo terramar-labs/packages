@@ -81,7 +81,7 @@ class PackageConfiguration
      */
     public function setEnabled($enabled)
     {
-        $this->enabled = (bool) $enabled;
+        $this->enabled = (bool)$enabled;
     }
 
     /**
@@ -129,7 +129,7 @@ class PackageConfiguration
      */
     public function setRepositoryPath($repositoryPath)
     {
-        $this->repositoryPath = (string) $repositoryPath;
+        $this->repositoryPath = (string)$repositoryPath;
     }
 
     /**
@@ -145,7 +145,7 @@ class PackageConfiguration
      */
     public function setRemoteRepoPath($remoteRepoPath)
     {
-        $this->remoteRepoPath = (string) $remoteRepoPath;
+        $this->remoteRepoPath = (string)$remoteRepoPath;
     }
 
     /**
@@ -161,7 +161,7 @@ class PackageConfiguration
      */
     public function setTitle($title)
     {
-        $this->title = (string) $title;
+        $this->title = (string)$title;
     }
 
     /**
@@ -177,7 +177,7 @@ class PackageConfiguration
      */
     public function setTheme($theme)
     {
-        $this->theme = (string) $theme;
+        $this->theme = (string)$theme;
     }
 
     /**
@@ -193,7 +193,7 @@ class PackageConfiguration
      */
     public function setTags($tags)
     {
-        $this->tags = (string) $tags;
+        $this->tags = (string)$tags;
     }
 
     /**
@@ -209,7 +209,7 @@ class PackageConfiguration
      */
     public function setRefs($refs)
     {
-        $this->refs = (string) $refs;
+        $this->refs = (string)$refs;
     }
 
     /**
@@ -225,7 +225,7 @@ class PackageConfiguration
      */
     public function setDocsPath($docsPath)
     {
-        $this->docsPath = (string) $docsPath;
+        $this->docsPath = (string)$docsPath;
     }
 
     /**
@@ -241,6 +241,6 @@ class PackageConfiguration
      */
     public function setTemplatesDir($templatesDir)
     {
-        $this->templatesDir = (string) $templatesDir;
+        $this->templatesDir = (string)$templatesDir;
     }
 }

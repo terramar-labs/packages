@@ -12,8 +12,6 @@ namespace Terramar\Packages\Plugin\Satis;
 use Doctrine\ORM\EntityManager;
 use Nice\Router\UrlGeneratorInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use Terramar\Packages\Entity\Package;
-use Terramar\Packages\Plugin\GitHub\RemoteConfiguration;
 
 class ConfigurationHelper
 {
@@ -112,7 +110,7 @@ class ConfigurationHelper
                     /** @var \Terramar\Packages\Plugin\GitHub\RemoteConfiguration $remoteConfig */
                     $remoteConfig = $this->entityManager->getRepository('Terramar\Packages\Plugin\GitHub\RemoteConfiguration')
                         ->findOneBy(['remote' => $remote]);
-                    if ( ! $remoteConfig) {
+                    if (!$remoteConfig) {
                         throw new \RuntimeException('Unable to find RemoteConfiguration for ' . $remote->getAdapter() . ' ' . $remote->getName());
                     }
 
@@ -124,12 +122,12 @@ class ConfigurationHelper
                     /** @var \Terramar\Packages\Plugin\GitLab\RemoteConfiguration $remoteConfig */
                     $remoteConfig = $this->entityManager->getRepository('Terramar\Packages\Plugin\GitLab\RemoteConfiguration')
                         ->findOneBy(['remote' => $remote]);
-                    if ( ! $remoteConfig) {
+                    if (!$remoteConfig) {
                         throw new \RuntimeException('Unable to find RemoteConfiguration for ' . $remote->getAdapter() . ' ' . $remote->getName());
                     }
 
                     $url = parse_url($remoteConfig->getUrl(), PHP_URL_HOST);
-                    if ( ! in_array($url, $gitlabDomains)) {
+                    if (!in_array($url, $gitlabDomains)) {
                         $gitlabDomains[] = $url;
                     }
 

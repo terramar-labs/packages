@@ -22,8 +22,8 @@ class PackageCloneEvent extends PackageEvent
     /**
      * Constructor.
      *
-     * @param Package $package        The updated package
-     * @param string  $repositoryPath The path to the cloned repository
+     * @param Package $package The updated package
+     * @param string $repositoryPath The path to the cloned repository
      */
     public function __construct(Package $package, $repositoryPath)
     {

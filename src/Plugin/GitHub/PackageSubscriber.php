@@ -29,7 +29,7 @@ class PackageSubscriber implements EventSubscriberInterface
     /**
      * Constructor.
      *
-     * @param SyncAdapter   $adapter
+     * @param SyncAdapter $adapter
      * @param EntityManager $entityManager
      */
     public function __construct(SyncAdapter $adapter, EntityManager $entityManager)
@@ -39,13 +39,25 @@ class PackageSubscriber implements EventSubscriberInterface
     }
 
     /**
+     * @return array
+     */
+    public static function getSubscribedEvents()
+    {
+        return [
+            Events::PACKAGE_CREATE  => ['onCreatePackage', 255],
+            Events::PACKAGE_ENABLE  => ['onEnablePackage', 255],
+            Events::PACKAGE_DISABLE => ['onDisablePackage', 255],
+        ];
+    }
+
+    /**
      * @param PackageEvent $event
      */
     public function onCreatePackage(PackageEvent $event)
     {
         $package = $event->getPackage();
         $config = $this->entityManager->getRepository('Terramar\Packages\Plugin\GitHub\PackageConfiguration')
-            ->findOneBy(array('package' => $package));
+            ->findOneBy(['package' => $package]);
 
         if (!$config) {
             $config = new PackageConfiguration();
@@ -79,17 +91,5 @@ class PackageSubscriber implements EventSubscriberInterface
         }
 
         $this->adapter->disableHook($package);
-    }
-
-    /**
-     * @return array
-     */
-    public static function getSubscribedEvents()
-    {
-        return array(
-            Events::PACKAGE_CREATE => array('onCreatePackage', 255),
-            Events::PACKAGE_ENABLE => array('onEnablePackage', 255),
-            Events::PACKAGE_DISABLE => array('onDisablePackage', 255),
-        );
     }
 }
