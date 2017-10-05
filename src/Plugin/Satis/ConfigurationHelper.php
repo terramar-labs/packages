@@ -80,7 +80,7 @@ class ConfigurationHelper
             'config'                   => [],
         ]);
 
-        if (isset($this->config['archive'])) {
+        if (isset($this->config['archive']) && $this->config['archive'] === true) {
             $data['archive'] = [
                 'directory'  => 'dist',
                 'format'     => 'tar',
@@ -147,7 +147,7 @@ class ConfigurationHelper
 
         $this->filesystem->dumpFile($filename, json_encode($data, JSON_PRETTY_PRINT));
 
-        echo json_encode($data, JSON_PRETTY_PRINT);
+        echo json_encode($data, JSON_PRETTY_PRINT) . "\n";
 
         return $filename;
     }
