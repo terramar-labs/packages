@@ -40,9 +40,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Terramar\\Packages\\": "src/"
-    },
-    "psr-0": {
+      "Terramar\\Packages\\": "src/",
       "Composer\\": "lib/Composer/"
     }
   },
