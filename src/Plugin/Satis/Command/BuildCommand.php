@@ -12,6 +12,7 @@ namespace Terramar\Packages\Plugin\Satis\Command;
 use Composer\Satis\Console\Command\BuildCommand as BaseCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -60,6 +61,8 @@ class BuildCommand extends BaseCommand implements ContainerAwareInterface
             $configFile = $configHelper->generateConfiguration();
             $input->setArgument('file', $configFile);
         }
+
+        $input->setOption('skip-errors', true);
 
         $app = $this->getApplication();
         if ($app instanceof Application) {
