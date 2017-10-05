@@ -53,7 +53,9 @@ class EventSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $this->resqueHelper->enqueueOnce('default', 'Terramar\Packages\Plugin\Satis\UpdateAndBuildJob');
+        $this->resqueHelper->enqueueOnce('default', 'Terramar\Packages\Plugin\Satis\UpdateAndBuildJob', [
+            'package_id' => $package->getId(),
+        ]);
     }
 
     /**
