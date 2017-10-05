@@ -72,18 +72,23 @@ class SyncAdapter implements SyncAdapterInterface
 
         $packages = [];
         foreach ($projects as $project) {
-            if (!$this->packageExists($existingPackages, $project['id'])) {
+            $package = $this->getExistingPackage($existingPackages, $project['id']);
+            if ($package === null) {
                 $package = new Package();
                 $package->setExternalId($project['id']);
-                $package->setName($project['name']);
-                $package->setDescription($project['description']);
-                $package->setFqn($project['full_name']);
-                $package->setWebUrl($project['clone_url']);
-                $package->setSshUrl($project['ssh_url']);
-                $package->setHookExternalId('');
                 $package->setRemote($remote);
-                $packages[] = $package;
             }
+            $package->setName($project['name']);
+            $package->setDescription($project['description']);
+            $package->setFqn($project['full_name']);
+            $package->setWebUrl($project['clone_url']);
+            $package->setSshUrl($project['ssh_url']);
+            $packages[] = $package;
+        }
+
+        $removed = array_diff($existingPackages, $packages);
+        foreach ($removed as $package) {
+            $this->entityManager->remove($package);
         }
 
         return $packages;
@@ -132,12 +137,22 @@ class SyncAdapter implements SyncAdapterInterface
         return $this->entityManager->getRepository('Terramar\Packages\Plugin\GitHub\RemoteConfiguration')->findOneBy(['remote' => $remote]);
     }
 
-    private function packageExists($existingPackages, $githubId)
+    /**
+     * @param $existingPackages []Package
+     * @param $gitlabId
+     * @return Package|null
+     */
+    private function getExistingPackage($existingPackages, $gitlabId)
     {
-        return count(array_filter($existingPackages, function (Package $package) use ($githubId) {
-                return (string)$package->getExternalId() === (string)$githubId;
-            })) > 0;
+        $res = array_filter($existingPackages, function (Package $package) use ($gitlabId) {
+            return (string)$package->getExternalId() === (string)$gitlabId;
+        });
+        if (count($res) === 0) {
+            return null;
+        }
+        return array_shift($res);
     }
+
 
     /**
      * Enable a GitHub webhook for the given Package.

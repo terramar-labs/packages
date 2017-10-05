@@ -66,24 +66,30 @@ class SyncAdapter implements SyncAdapterInterface
      */
     public function synchronizePackages(Remote $remote)
     {
+        /** @var []Package $existingPackages */
         $existingPackages = $this->entityManager->getRepository('Terramar\Packages\Entity\Package')->findBy(['remote' => $remote]);
 
         $projects = $this->getAllProjects($remote);
 
         $packages = [];
         foreach ($projects as $project) {
-            if (!$this->packageExists($existingPackages, $project['id'])) {
+            $package = $this->getExistingPackage($existingPackages, $project['id']);
+            if ($package === null) {
                 $package = new Package();
                 $package->setExternalId($project['id']);
-                $package->setName($project['name']);
-                $package->setDescription($project['description']);
-                $package->setFqn($project['path_with_namespace']);
-                $package->setWebUrl($project['web_url']);
-                $package->setSshUrl($project['ssh_url_to_repo']);
-                $package->setHookExternalId('');
                 $package->setRemote($remote);
-                $packages[] = $package;
             }
+            $package->setName($project['name']);
+            $package->setDescription($project['description']);
+            $package->setFqn($project['path_with_namespace']);
+            $package->setWebUrl($project['web_url']);
+            $package->setSshUrl($project['ssh_url_to_repo']);
+            $packages[] = $package;
+        }
+
+        $removed = array_diff($existingPackages, $packages);
+        foreach ($removed as $package) {
+            $this->entityManager->remove($package);
         }
 
         return $packages;
@@ -140,11 +146,20 @@ class SyncAdapter implements SyncAdapterInterface
         return $this->entityManager->getRepository('Terramar\Packages\Plugin\GitLab\RemoteConfiguration')->findOneBy(['remote' => $remote]);
     }
 
-    private function packageExists($existingPackages, $gitlabId)
+    /**
+     * @param $existingPackages
+     * @param $gitlabId
+     * @return Package|null
+     */
+    private function getExistingPackage($existingPackages, $gitlabId)
     {
-        return count(array_filter($existingPackages, function (Package $package) use ($gitlabId) {
-                return (string)$package->getExternalId() === (string)$gitlabId;
-            })) > 0;
+        $res = array_filter($existingPackages, function (Package $package) use ($gitlabId) {
+            return (string)$package->getExternalId() === (string)$gitlabId;
+        });
+        if (count($res) === 0) {
+            return null;
+        }
+        return array_shift($res);
     }
 
     /**

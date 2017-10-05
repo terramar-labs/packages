@@ -221,4 +221,12 @@ class Package
     {
         $this->webUrl = (string)$webUrl;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return sprintf("%d:%d", $this->remote->getId(), $this->externalId);
+    }
 }
