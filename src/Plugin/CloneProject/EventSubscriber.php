@@ -46,6 +46,7 @@ class EventSubscriber implements EventSubscriberInterface
     public function onUpdatePackage(PackageUpdateEvent $event)
     {
         $package = $event->getPackage();
+        /** @var \Terramar\Packages\Plugin\CloneProject\PackageConfiguration $config */
         $config = $this->entityManager->getRepository('Terramar\Packages\Plugin\CloneProject\PackageConfiguration')
             ->findOneBy(array('package' => $package));
 

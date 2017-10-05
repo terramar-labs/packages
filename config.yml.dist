@@ -30,9 +30,15 @@ packages:
   # If set, the contact email is displayed on the landing page.
   contact_email: 'contact@terramarlabs.com'
 
+  # Needs to be set to generate a dist archive
+  base_path:   'https://localhost'
+
+  # If set, will place a copy of every tagged package version in the web/dist folder
+  archive:    true
+
   resque:
     # Redis server host.
-    host:     'unix:///tmp/redis.sock'
+    host:     'redis://redis-master'
     # Format as either unix:///path/to/socket (note the 3 slashes) or redis://host
     #host:     'redis://127.0.0.1'
     # If Redis is configured to require a password, you can pass it in the host:

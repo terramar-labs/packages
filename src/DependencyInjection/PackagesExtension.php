@@ -78,6 +78,8 @@ class PackagesExtension extends Extension
         $container->setParameter('packages.configuration', array(
             'name'          => empty($config['name']) ? $config['site_name'] : $config['name'],
             'homepage'      => $config['homepage'],
+            'base_path'     => $config['base_path'],
+            'archive'       => $config['archive'],
             'output_dir'    => $container->getParameterBag()->resolveValue($config['output_dir']),
             'contact_email' => $config['contact_email'],
         ));

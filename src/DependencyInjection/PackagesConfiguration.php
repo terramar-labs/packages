@@ -29,6 +29,8 @@ class PackagesConfiguration implements ConfigurationInterface
                 ->scalarNode('site_name')->defaultValue('Private Composer Repository')->end()
                 ->scalarNode('name')->defaultNull()->end()
                 ->scalarNode('homepage')->defaultValue('')->end()
+                ->scalarNode('base_path')->defaultValue('')->end()
+                ->scalarNode('archive')->defaultValue(false)->end()
                 ->scalarNode('contact_email')->defaultValue('')->end()
                 ->scalarNode('output_dir')->defaultValue('%app.root_dir%/web')->end()
                 ->arrayNode('resque')
