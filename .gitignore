@@ -11,3 +11,4 @@
 /cache/*
 /logs/*
 /config/deploy.rb
+/database.sqlite
