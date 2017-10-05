@@ -11,3 +11,8 @@
 /cache/*
 /logs/*
 /config/deploy.rb
+/database.sqlite
+/.idea
+/.composer
+/web/dist
+composer.lock
