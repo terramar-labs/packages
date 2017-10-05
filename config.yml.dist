@@ -40,7 +40,7 @@ packages:
     # Redis server host.
     host:     'redis://redis-master'
     # Format as either unix:///path/to/socket (note the 3 slashes) or redis://host
-    #host:     'redis://127.0.0.1'
+    #host:     'unix:///var/run/redis.sock'
     # If Redis is configured to require a password, you can pass it in the host:
     #host:     'redis://ignored:password@host'
     # Note that the username portion of the hostname is ignored and can be any value.
