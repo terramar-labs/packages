@@ -1,0 +1,117 @@
+{% extends 'Default/base.html.twig' %}
+
+{% block body %}
+    <div><a href="{{ path('packages_index') }}"><i class="fa fa-angle-up"></i> Back to root</a></div>
+    <h2>{{ package.name }}</h2>
+    <div class="row">
+        <div class="col-md-9">
+            <hr />
+            <code><i class="fa fa-download"></i> composer require {{ package.name }}</code>
+            <div class="lead" style="margin-top:15px;">
+                {{ package.description }}
+            </div>
+        </div>
+        <div class="col-md-3">
+            <p class="maintainers">
+                {% for author in package.authors %}
+                    <a href="mailto:{{ author.email }}" style="margin:5px;"><img width="48" height="48" title="{{ author.name }}" src="//www.gravatar.com/avatar/{{ md5(author.email) }}?s=48&amp;d=identicon" srcset="//www.gravatar.com/avatar/{{ md5(author.email) }}?s=96&amp;d=identicon 2x"></a>
+                {% endfor %}
+            </p>
+            {% set url = 'https://' ~ package.sourceUrl|replace({ '.git': '', 'git@': '', ':': '/' }) %}
+            <div>
+                <a href="{{ url }}">
+                    {{ url }}
+                </a>
+            </div>
+            {% if package.homepage %}
+            <div><a href="{{ package.homepage }}">Homepage</a></div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="bg-info" style="padding:10px;">
+                <div class="pull-right">{{ package.release_date|date('Y-m-d H:i:s') }}</div>
+                {{ package.prettyVersion }}
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>Requires</h3>
+                    {% if package.requires|length > 0 %}
+                        <!-- Need to find some way to make this detect whether to try to open this on packagist or elsewhere -->
+                        <ul>{% for item in package.requires %}<li><a href="https://packagist.org/packages/{{ item.target }}">{{ item.target }}</a>: {{ item.prettyConstraint }}</li>{% endfor %}</ul>
+                    {% else %}
+                        <div class="text-muted">None</div>
+                    {% endif %}
+                </div>
+                <div class="col-md-4">
+                    <h3>Requires (dev)</h3>
+                    {% if package.devRequires|length > 0 %}
+                        <ul>{% for item in package.devRequires %}<li><a href="https://packagist.org/packages/{{ item.target }}">{{ item.target }}</a>: {{ item.prettyConstraint }}</li>{% endfor %}</ul>
+                    {% else %}
+                        <div class="text-muted">None</div>
+                    {% endif %}
+                </div>
+                <div class="col-md-4">
+                    <h3>Suggests</h3>
+                    {% if package.suggests|length > 0 %}
+                        <ul>{% for item in package.suggests %}<li><a href="https://packagist.org/packages/{{ item.target }}">{{ item.target }}</a>: {{ item.prettyConstraint }}</li>{% endfor %}</ul>
+                    {% else %}
+                        <div class="text-muted">None</div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>Provides</h3>
+                    {% if package.provides|length > 0 %}
+                        <ul>{% for item in package.provides %}<li><a href="https://packagist.org/packages/{{ item.target }}">{{ item.target }}</a>: {{ item.prettyConstraint }}</li>{% endfor %}</ul>
+                    {% else %}
+                        <div class="text-muted">None</div>
+                    {% endif %}
+                </div>
+                <div class="col-md-4">
+                    <h3>Conflicts</h3>
+                    {% if package.conflicts|length > 0 %}
+                        <ul>{% for item in package.conflicts %}<li><a href="https://packagist.org/packages/{{ item.target }}">{{ item.target }}</a>: {{ item.prettyConstraint }}</li>{% endfor %}</ul>
+                    {% else %}
+                        <div class="text-muted">None</div>
+                    {% endif %}
+                </div>
+                <div class="col-md-4">
+                    <h3>Replaces</h3>
+                    {% if package.replaces|length > 0 %}
+                        <ul>{% for item in package.replaces %}<li><a href="https://packagist.org/packages/{{ item.target }}">{{ item.target }}</a>: {{ item.prettyConstraint }}</li>{% endfor %}</ul>
+                    {% else %}
+                        <div class="text-muted">None</div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <hr />
+                    <span class="label label-info">{{ package.license|join }}</span>
+                    <br />
+                    <span class="label label-primary"> <i class="fa fa-flag"></i> {{ package.sourceReference }}</span>
+                    <br />
+                    {% for author in package.authors %}
+                        <span class="label label-success">{{ author.name }} <{{ author.email }}></span>
+                    {% endfor %}
+                    <br />
+                    {% for tag in package.tags %}
+                        <span class="label label-default">{{ tag }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <ul class="nav nav-pills nav-stacked">
+                {% for item in packages %}
+                    <li class="{{ item.prettyVersion == package.prettyVersion ? 'active' : '' }}">
+                        <a href="{{ path('packages_view_version', { id: item.name|replace('/', '+'), version: item.prettyVersion|replace('/', '+') }) }}">{{ item.prettyVersion }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

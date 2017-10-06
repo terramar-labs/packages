@@ -1,0 +1,19 @@
+{% extends 'Default/base.html.twig' %}
+
+{% block body %}
+    <p>To add the following packages, you'll have to add the following code to the <code>repositories</code> key in <code>composer.json</code>. For more information see <a href="https://getcomposer.org/doc/05-repositories.md">composer repositories</a>:</p>
+    <pre>{
+    "type": "composer",
+    "url": "{{ url('home') }}"
+},</pre>
+    <h2>Available Packages</h2>
+    <table class="table table-striped">
+        <tr>
+            <th width="20%">Name</th>
+            <th>Version</th>
+        </tr>
+    {% for package in contents %}
+        <tr><td><a href="{{ path('packages_view', { id: package.name|replace('/', '+') }) }}">{{ package.name }}</a></td><td><span class="label label-info">{{ package.versions|join('</span> <span class="label label-info">')|raw }}</span></td></tr>
+    {% endfor %}
+    </table>
+{% endblock %}
