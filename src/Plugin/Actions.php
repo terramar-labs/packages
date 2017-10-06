@@ -12,7 +12,7 @@ namespace Terramar\Packages\Plugin;
 /**
  * Actions defines constants for the various actions available to plugins.
  *
- * @see http://docs.terramarlabs.com/packages/3.1/plugins/action-reference
+ * @see http://docs.terramarlabs.com/packages/3.2/plugins/action-reference
  */
 final class Actions
 {

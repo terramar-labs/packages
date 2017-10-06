@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 /**
  * PluginInterface defines the implementation of a Packages plugin.
  *
- * @see http://docs.terramarlabs.com/packages/3.1/plugins/creating-a-plugin
+ * @see http://docs.terramarlabs.com/packages/3.2/plugins/creating-a-plugin
  */
 interface PluginInterface
 {
