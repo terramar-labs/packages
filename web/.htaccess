@@ -4,6 +4,7 @@ DirectoryIndex index.php
     RewriteEngine On
 
     RewriteCond %{HTTPS} off
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https
     RewriteCond %{REMOTE_ADDR} !=127.0.0.1
     RewriteCond %{REMOTE_ADDR} !=::1
     RewriteCond %{REMOTE_ADDR} !=fe80::1
