@@ -31,10 +31,14 @@ packages:
   contact_email: 'contact@terramarlabs.com'
 
   # Needs to be set to generate a dist archive
-  base_path:   'https://localhost'
+  base_path:     'https://localhost'
 
   # If set, will place a copy of every tagged package version in the web/dist folder
-  archive:    true
+  archive:       true
+
+  # If set, username and password will be required when attempting to access
+  # Satis-generated files.
+  secure_satis:  false
 
   resque:
     # Redis server host.
