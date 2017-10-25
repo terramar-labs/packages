@@ -14,8 +14,10 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Terramar\Packages\Plugin\Actions;
 use Terramar\Packages\Plugin\PluginInterface;
+use Terramar\Packages\Plugin\RouterPluginInterface;
+use Terramar\Packages\Router\RouteCollector;
 
-class Plugin implements PluginInterface
+class Plugin implements PluginInterface, RouterPluginInterface
 {
     /**
      * Configure the given ContainerBuilder.
@@ -40,6 +42,10 @@ class Plugin implements PluginInterface
             ->addArgument('%app.cache_dir%')
             ->addArgument('%packages.configuration%');
 
+        $container->register('packages.plugin.satis.frontend_controller', 'Terramar\Packages\Plugin\Satis\FrontendController')
+            ->addArgument('%packages.configuration%')
+            ->addArgument(new Reference('security.authenticator'));
+
         $container->getDefinition('packages.controller_manager')
             ->addMethodCall('registerController',
                 [Actions::PACKAGE_EDIT, 'Terramar\Packages\Plugin\Satis\Controller::editAction'])
@@ -49,6 +55,21 @@ class Plugin implements PluginInterface
         $container->getDefinition('packages.command_registry')
             ->addMethodCall('addCommand', ['Terramar\Packages\Plugin\Satis\Command\BuildCommand'])
             ->addMethodCall('addCommand', ['Terramar\Packages\Plugin\Satis\Command\UpdateCommand']);
+    }
+
+    /**
+     * Configure the given RouteCollector.
+     *
+     * This method allows a plugin to register additional HTTP routes with the
+     * RouteCollector.
+     *
+     * @param RouteCollector $collector
+     * @return void
+     */
+    public function collect(RouteCollector $collector)
+    {
+        $collector->map('/packages.json', 'satis_packages', 'packages.plugin.satis.frontend_controller:outputAction');
+        $collector->map('/include/{file}', null, 'packages.plugin.satis.frontend_controller:outputAction');
     }
 
     /**

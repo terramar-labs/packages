@@ -14,6 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Reference;
 use Terramar\Packages\Plugin\PluginInterface;
+use Terramar\Packages\Plugin\RouterPluginInterface;
 
 class PackagesExtension extends Extension
 {
@@ -53,15 +54,6 @@ class PackagesExtension extends Extension
         $configuration = $this->getConfiguration($configs, $container);
         $config = $this->processConfiguration($configuration, $configs);
 
-        $container->register('router.collector', 'Terramar\Packages\Router\RouteCollector')
-            ->addArgument(new Reference('router.parser'))
-            ->addArgument(new Reference('router.data_generator'));
-
-        $container->register('packages.command_registry', 'Terramar\Packages\Console\CommandRegistry');
-
-        $container->register('packages.helper.sync', 'Terramar\Packages\Helper\SyncHelper')
-            ->addArgument(new Reference('event_dispatcher'));
-
         $container->setParameter('packages.configuration', [
             'name'          => empty($config['name']) ? $config['site_name'] : $config['name'],
             'homepage'      => $config['homepage'],
@@ -69,7 +61,17 @@ class PackagesExtension extends Extension
             'archive'       => $config['archive'],
             'output_dir'    => $container->getParameterBag()->resolveValue($config['output_dir']),
             'contact_email' => $config['contact_email'],
+            'secure_satis'  => $config['secure_satis'],
         ]);
+
+        $collector = $container->register('router.collector', 'Terramar\Packages\Router\RouteCollector')
+            ->addArgument(new Reference('router.parser'))
+            ->addArgument(new Reference('router.data_generator'));
+
+        $container->register('packages.command_registry', 'Terramar\Packages\Console\CommandRegistry');
+
+        $container->register('packages.helper.sync', 'Terramar\Packages\Helper\SyncHelper')
+            ->addArgument(new Reference('event_dispatcher'));
 
         $container->register('packages.helper.resque', 'Terramar\Packages\Helper\ResqueHelper');
 
@@ -133,8 +135,13 @@ class PackagesExtension extends Extension
 
         $plugins = [];
         foreach ($this->plugins as $plugin) {
+            $name = preg_replace('/[^a-z0-9]/', '', strtolower($plugin->getName()));
+            $container->register('packages.plugin.'.$name, get_class($plugin));
             $plugin->configure($container);
-            $plugins[$plugin->getName()] = $plugin->getVersion();
+            $plugins[$name] = $plugin->getVersion();
+            if ($plugin instanceof RouterPluginInterface) {
+                $collector->addMethodCall('registerPlugin', [new Reference('packages.plugin.'.$name)]);
+            }
         }
 
         $container->setParameter('packages.registered_plugins', $plugins);

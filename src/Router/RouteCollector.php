@@ -10,9 +10,24 @@
 namespace Terramar\Packages\Router;
 
 use Nice\Router\RouteCollector as BaseCollector;
+use Terramar\Packages\Plugin\RouterPluginInterface;
 
 class RouteCollector extends BaseCollector
 {
+    /**
+     * @var RouterPluginInterface[]
+     */
+    private $plugins = [];
+
+    /**
+     * Register a router plugin with the collector.
+     *
+     * @param RouterPluginInterface $plugin
+     */
+    public function registerPlugin(RouterPluginInterface $plugin) {
+        $this->plugins[$plugin->getName()] = $plugin;
+    }
+
     /**
      * Perform any collection.
      */
@@ -47,5 +62,9 @@ class RouteCollector extends BaseCollector
             'Terramar\Packages\Controller\RemoteController::updateAction', ['POST']);
         $this->map('/manage/remote/{id}/sync', 'manage_remote_sync',
             'Terramar\Packages\Controller\RemoteController::syncAction');
+
+        foreach ($this->plugins as $plugin) {
+            $plugin->collect($this);
+        }
     }
 }

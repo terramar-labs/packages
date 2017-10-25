@@ -10,5 +10,5 @@
 /config.yml
 /cache/*
 /logs/*
-/config/deploy.rb
+/satis/*
 /database.sqlite
