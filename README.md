@@ -102,7 +102,7 @@ Some tips:
 Docker support
 --------------
 
-Packages comes with an example `docker-compose.yml` that sets up the necessary web and Redis server, along with the option to create a self-hosted GitLab with a Highly-Available Redis configuration.
+Packages comes with an example `docker-compose.yml` that starts an nginx container and a Redis container, ready to get up and running quickly.
 
 Visit [the documentation](http://docs.terramarlabs.com/packages/3.2/getting-started/docker) to get started.
 

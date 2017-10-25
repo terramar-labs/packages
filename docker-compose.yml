@@ -6,44 +6,13 @@ services:
       - .:/app
       - ./docker/nginx/vhost.common.d/vhost.common.conf:/opt/docker/etc/nginx/vhost.common.d/10-location-root.conf
     links:
-      - redis-master
-#      - redis-slave      # Uncomment to start a slave Redis container
-#      - gitlab           # Uncomment to start a GitLab CE container (starts mailhog, too)
+      - redis
     environment:
       - WEB_DOCUMENT_ROOT=/app/web
     ports:
       - "127.0.0.1:80:80"   # Access Packages in your browser at http://127.0.0.1:80
       - "127.0.0.1:443:443" # Access Packages in your browser at https://127.0.0.1:443
-  redis-master:
+  redis:
     image: redis:3.2
-    volumes:
-      - ./docker/redis/sentinel.conf:/etc/redis/sentinel.conf.orig
-      - ./docker/redis/entrypoint_master.sh:/entrypoint.sh
-    command: /entrypoint.sh
     expose:
-      - "26379"
       - "6379"
-  redis-slave:
-    image: redis:3.2
-    volumes:
-      - ./docker/redis/sentinel.conf:/etc/redis/sentinel.conf.orig
-      - ./docker/redis/entrypoint_slave.sh:/entrypoint.sh
-    command: /entrypoint.sh
-    links:
-      - redis-master
-    expose:
-      - "26379"
-      - "6379"
-  gitlab:
-    image: gitlab/gitlab-ce:9.5.8-ce.0
-    volumes:
-      - ./docker/gitlab/gitlab.rb:/etc/gitlab/gitlab.rb
-    links:
-      - redis-master
-      - mailhog
-    ports:
-      - "127.0.0.1:8082:80" # Access GitLab in your browser at http://127.0.0.1:8082
-  mailhog:
-    image: mailhog/mailhog
-    ports:
-      - "127.0.0.1:8025:8025" # Access MailHog UI in your browser at http://127.0.0.1:8025
