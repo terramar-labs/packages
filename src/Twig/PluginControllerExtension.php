@@ -62,6 +62,7 @@ class PluginControllerExtension extends \Twig_Extension
         return [
             new \Twig_SimpleFunction('render', [$this, 'render'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('plugin_controllers', [$this, 'getControllers']),
+            new \Twig_SimpleFunction('md5', 'md5'),
         ];
     }
 

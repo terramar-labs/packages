@@ -46,6 +46,11 @@ class Plugin implements PluginInterface, RouterPluginInterface
             ->addArgument('%packages.configuration%')
             ->addArgument(new Reference('security.authenticator'));
 
+        $container->register('packages.plugin.satis.inventory_controller', 'Terramar\Packages\Plugin\Satis\InventoryController')
+            ->addArgument('%packages.configuration%')
+            ->addArgument(new Reference('service_container'))
+            ->addArgument(new Reference('security.authenticator'));
+
         $container->getDefinition('packages.controller_manager')
             ->addMethodCall('registerController',
                 [Actions::PACKAGE_EDIT, 'Terramar\Packages\Plugin\Satis\Controller::editAction'])
@@ -70,6 +75,13 @@ class Plugin implements PluginInterface, RouterPluginInterface
     {
         $collector->map('/packages.json', 'satis_packages', 'packages.plugin.satis.frontend_controller:outputAction');
         $collector->map('/include/{file}', null, 'packages.plugin.satis.frontend_controller:outputAction');
+
+        $collector->map('/packages', 'packages_index',
+            'packages.plugin.satis.inventory_controller:indexAction');
+        $collector->map('/packages/{id}', 'packages_view',
+            'packages.plugin.satis.inventory_controller:viewAction');
+        $collector->map('/packages/{id}/{version}', 'packages_view_version',
+            'packages.plugin.satis.inventory_controller:viewAction');
     }
 
     /**
