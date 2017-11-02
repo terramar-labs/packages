@@ -9,14 +9,18 @@
 
 namespace Terramar\Packages\DependencyInjection;
 
+use Nice\DependencyInjection\CompilerAwareExtensionInterface;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Reference;
+use Terramar\Packages\DependencyInjection\Compiler\OverrideServicesCompilerPass;
+use Terramar\Packages\Plugin\CompilerAwarePluginInterface;
 use Terramar\Packages\Plugin\PluginInterface;
 use Terramar\Packages\Plugin\RouterPluginInterface;
 
-class PackagesExtension extends Extension
+class PackagesExtension extends Extension implements CompilerAwareExtensionInterface
 {
     /**
      * @var array
@@ -114,6 +118,16 @@ class PackagesExtension extends Extension
             ])
             ->addTag('twig.extension');
 
+        $container->register('packages.twig_extension.security', 'Terramar\Packages\Twig\SecurityExtension')
+            ->addMethodCall('setRequest', [
+                new Reference(
+                    'request',
+                    ContainerInterface::NULL_ON_INVALID_REFERENCE,
+                    false
+                ),
+            ])
+            ->addTag('twig.extension');
+
         $container->register('packages.fragment_handler.uri_signer', 'Symfony\Component\HttpKernel\UriSigner')
             ->addArgument('');
 
@@ -158,5 +172,21 @@ class PackagesExtension extends Extension
     public function getConfiguration(array $config, ContainerBuilder $container)
     {
         return new PackagesConfiguration();
+    }
+
+    /**
+     * Gets the CompilerPasses this extension requires.
+     *
+     * @return array|CompilerPassInterface[]
+     */
+    public function getCompilerPasses()
+    {
+        $passes = [new OverrideServicesCompilerPass()];
+        foreach ($this->plugins as $plugin) {
+            if ($plugin instanceof CompilerAwarePluginInterface) {
+                $passes = array_merge($passes, $plugin->getCompilerPasses());
+            }
+        }
+        return $passes;
     }
 }

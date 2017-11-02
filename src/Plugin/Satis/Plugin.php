@@ -10,14 +10,17 @@
 namespace Terramar\Packages\Plugin\Satis;
 
 use Composer\Satis\Satis;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Terramar\Packages\Plugin\Actions;
+use Terramar\Packages\Plugin\CompilerAwarePluginInterface;
 use Terramar\Packages\Plugin\PluginInterface;
 use Terramar\Packages\Plugin\RouterPluginInterface;
 use Terramar\Packages\Router\RouteCollector;
 
-class Plugin implements PluginInterface, RouterPluginInterface
+class Plugin implements PluginInterface, RouterPluginInterface, CompilerAwarePluginInterface
 {
     /**
      * Configure the given ContainerBuilder.
@@ -47,9 +50,7 @@ class Plugin implements PluginInterface, RouterPluginInterface
             ->addArgument(new Reference('security.authenticator'));
 
         $container->register('packages.plugin.satis.inventory_controller', 'Terramar\Packages\Plugin\Satis\InventoryController')
-            ->addArgument('%packages.configuration%')
-            ->addArgument(new Reference('service_container'))
-            ->addArgument(new Reference('security.authenticator'));
+            ->addMethodCall('setContainer', [new Reference('service_container')]);
 
         $container->getDefinition('packages.controller_manager')
             ->addMethodCall('registerController',
@@ -101,5 +102,15 @@ class Plugin implements PluginInterface, RouterPluginInterface
     public function getVersion()
     {
         return Satis::VERSION;
+    }
+
+    /**
+     * Gets the CompilerPasses this plugin requires.
+     *
+     * @return array|CompilerPassInterface[]
+     */
+    public function getCompilerPasses()
+    {
+        return array(new FirewallCompilerPass());
     }
 }

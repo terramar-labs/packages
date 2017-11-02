@@ -13,11 +13,9 @@ use Composer\Config;
 use Composer\IO\ConsoleIO;
 use Composer\Repository\ComposerRepository;
 use Nice\Application;
-use Nice\Security\AuthenticatorInterface;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Terramar\Packages\Controller\ContainerAwareController;
@@ -25,51 +23,10 @@ use Terramar\Packages\Controller\ContainerAwareController;
 class InventoryController extends ContainerAwareController
 {
     /**
-     * @var bool If true, require HTTP Basic authentication
-     */
-    private $secure = true;
-    /**
-     * @var AuthenticatorInterface
-     */
-    private $authenticator;
-    /**
-     * @var string
-     */
-    private $basePath;
-
-    /**
-     * Constructor
-     *
-     * @param array $config
-     * @param ContainerInterface $container
-     * @param AuthenticatorInterface $authenticator
-     */
-    public function __construct(array $config, ContainerInterface $container, AuthenticatorInterface $authenticator)
-    {
-        $this->secure = isset($config['secure_satis']) ? (bool)$config['secure_satis'] : true;
-        $this->basePath = $config['base_path'];
-        $this->authenticator = $authenticator;
-        $this->container = $container;
-    }
-
-    /**
      * Displays a list of available packages and versions.
      */
-    public function indexAction(Application $app, Request $request)
+    public function indexAction(Application $app)
     {
-        if ($this->secure) {
-            $username = $request->getUser();
-            $password = $request->getPassword();
-            if (
-                $this->authenticator->authenticate(new Request([
-                    'username' => $username,
-                    'password' => $password,
-                ])) !== true
-            ) {
-                return new Response('', 401, ['WWW-Authenticate' => 'Basic realm="' . $this->basePath . '"']);
-            }
-        }
-
         $repository = $this->getRepository();
 
         $contents = [];
@@ -87,21 +44,8 @@ class InventoryController extends ContainerAwareController
     /**
      * Displays the details for a given package.
      */
-    public function viewAction(Application $app, Request $request, $id, $version = null)
+    public function viewAction(Application $app, $id, $version = null)
     {
-        if ($this->secure) {
-            $username = $request->getUser();
-            $password = $request->getPassword();
-            if (
-                $this->authenticator->authenticate(new Request([
-                    'username' => $username,
-                    'password' => $password,
-                ])) !== true
-            ) {
-                return new Response('', 401, ['WWW-Authenticate' => 'Basic realm="' . $this->basePath . '"']);
-            }
-        }
-
         $repository = $this->getRepository();
 
         $id = str_replace('+', '/', $id);
