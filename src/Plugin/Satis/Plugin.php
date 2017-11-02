@@ -75,6 +75,7 @@ class Plugin implements PluginInterface, RouterPluginInterface
     {
         $collector->map('/packages.json', 'satis_packages', 'packages.plugin.satis.frontend_controller:outputAction');
         $collector->map('/include/{file}', null, 'packages.plugin.satis.frontend_controller:outputAction');
+        $collector->map('/dist/{group}/{package}/{file}', null, 'packages.plugin.satis.frontend_controller:distAction');
 
         $collector->map('/packages', 'packages_index',
             'packages.plugin.satis.inventory_controller:indexAction');

@@ -67,9 +67,46 @@ class FrontendController
             }
         }
 
+        $path = $this->outputDir.urldecode($request->getPathInfo());
+        if (!file_exists($path)) {
+            return new Response('Not Found', Response::HTTP_NOT_FOUND);
+        }
+
         return new Response(
-            file_get_contents($this->outputDir.urldecode($request->getPathInfo())),
+            file_get_contents($path),
             Response::HTTP_OK,
             ['Content-type' => 'application/json']);
+    }
+
+    /**
+     * Handles dist/* requests when archive is enabled.
+     *
+     * If secure_satis is enabled, HTTP Basic authentication will be required.
+     * The username and password required are those defined in config.yml.
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function distAction(Request $request)
+    {
+        if ($this->secure) {
+            $username = $request->getUser();
+            $password = $request->getPassword();
+            if (
+                $this->authenticator->authenticate(new Request(['username' => $username, 'password' => $password])) !== true
+            ) {
+                return new Response('', 401, ['WWW-Authenticate' => 'Basic realm="'.$this->basePath.'"']);
+            }
+        }
+
+        $path = $this->outputDir.urldecode($request->getPathInfo());
+        if (!file_exists($path)) {
+            return new Response('Not Found', Response::HTTP_NOT_FOUND);
+        }
+
+        return new Response(
+            file_get_contents($path),
+            Response::HTTP_OK,
+            ['Content-type' => 'application/x-tar', 'Content-disposition' => 'attachment']);
     }
 }
