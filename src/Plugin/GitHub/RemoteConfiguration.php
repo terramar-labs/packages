@@ -51,7 +51,7 @@ class RemoteConfiguration
      */
     public function setEnabled($enabled)
     {
-        $this->enabled = (bool) $enabled;
+        $this->enabled = (bool)$enabled;
     }
 
     /**
@@ -99,7 +99,7 @@ class RemoteConfiguration
      */
     public function setUsername($username)
     {
-        $this->username = (string) $username;
+        $this->username = (string)$username;
     }
 
     /**
@@ -115,6 +115,6 @@ class RemoteConfiguration
      */
     public function setToken($token)
     {
-        $this->token = (string) $token;
+        $this->token = (string)$token;
     }
 }

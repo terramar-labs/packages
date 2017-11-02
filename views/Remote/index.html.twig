@@ -7,9 +7,32 @@
 {% block content %}
 <div class="row">
     <div class="col-xs-12">
+
+        {% if last_error %}
+        {#
+            <div class="box box-danger">
+                <div class="box-header">
+                    <div class="box-title">An error occurred while syncing.</div>
+                </div>
+                <div class="box-body">
+                    <p style="font-size: 1.1em">Packages was unable to load information from the remote code host. Please try again.</p>
+                    <a id="last_error" href="#">Details</a>
+                    <pre id="last_error_msg" style="display: none">{{ last_error }}</pre>
+                </div>
+            </div>#}
+            <div class="callout callout-danger">
+                <h4>An error occurred while syncing.</h4>
+                <p style="font-size: 1.1em">Packages was unable to load information from the remote code host. Please try again.</p>
+                <a id="last_error" href="#">Details</a>
+                <div id="last_error_msg" style="display: none">
+                    <strong>Details</strong>
+                    <pre>{{ last_error }}</pre>
+                </div>
+            </div>
+        {% endif %}
         <div class="box box-warning">
             <div class="box-header">
-                <h3 class="box-title">Showing all configured remote hosts</h3>
+                <h3 class="box-title">Showing all configured remote code hosts</h3>
                 <div class="box-controls">
                     <a class="btn btn-default" href="{{ path('manage_remote_new') }}"><i class="fa fa-plus"></i> New Remote</a>
                 </div>
@@ -42,7 +65,7 @@
                     </tbody>
                 </table>
                 {% else %}
-                <h4>No remotes configured. <a href="{{ path('manage_remote_new') }}">Add a new remote</a>.</h4>
+                <h4>No remote code hosts configured. <a href="{{ path('manage_remote_new') }}">Add a new remote</a>.</h4>
                 {% endif %}
             </div>
         </div>
@@ -61,5 +84,14 @@
             "order": [[1, 'desc'], [0, 'asc']]
         });
     });
+
+    {% if last_error %}
+    $('#last_error').on('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $('#last_error_msg').show();
+        $(this).hide();
+    });
+    {% endif %}
 </script>
 {% endblock %}

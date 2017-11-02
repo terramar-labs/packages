@@ -9,12 +9,12 @@
 
 namespace Terramar\Packages\Console\Command\Worker;
 
-use Symfony\Component\Process\PhpExecutableFinder;
-use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\PhpExecutableFinder;
+use Symfony\Component\Process\Process;
 use Terramar\Packages\Console\Command\ContainerAwareCommand;
 use Terramar\Packages\Helper\ResqueHelper;
 
@@ -27,42 +27,43 @@ class StartCommand extends ContainerAwareCommand
             ->setDescription('Start a resque worker')
             ->addArgument('queues', InputArgument::OPTIONAL, 'Queue names (separate using comma)', '*')
             ->addOption('count', 'c', InputOption::VALUE_REQUIRED, 'How many workers to fork', 1)
-            ->addOption('interval', 'i', InputOption::VALUE_REQUIRED, 'How often to check for new jobs across the queues', 5)
+            ->addOption('interval', 'i', InputOption::VALUE_REQUIRED,
+                'How often to check for new jobs across the queues', 5)
             ->addOption('foreground', 'f', InputOption::VALUE_NONE, 'Should the worker run in foreground')
-            ->addOption('memory-limit', 'm', InputOption::VALUE_REQUIRED, 'Force cli memory_limit (expressed in Mbytes)')
-        ;
+            ->addOption('memory-limit', 'm', InputOption::VALUE_REQUIRED,
+                'Force cli memory_limit (expressed in Mbytes)');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $env = array(
-            'QUEUE' => $input->getArgument('queues'),
-            'VERBOSE' => $input->getOption('verbose'),
-            'COUNT' => $input->getOption('count'),
+        $env = [
+            'QUEUE'    => $input->getArgument('queues'),
+            'VERBOSE'  => $input->getOption('verbose'),
+            'COUNT'    => $input->getOption('count'),
             'INTERVAL' => $input->getOption('interval'),
-            'PREFIX' => 'resque:',
-        );
+            'PREFIX'   => 'resque:',
+        ];
 
         $resqueConfig = ResqueHelper::autoConfigure($this->container);
         $env['REDIS_BACKEND'] = $resqueConfig['backend'];
         $env['REDIS_BACKEND_DB'] = $resqueConfig['database'];
 
         $opt = '';
-        if (0 !== $m = (int) $input->getOption('memory-limit')) {
+        if (0 !== $m = (int)$input->getOption('memory-limit')) {
             $opt = sprintf('-d memory_limit=%dM', $m);
         }
 
-        $workerCommand = strtr('%bin% %opt% %dir%/bin/resque', array(
+        $workerCommand = strtr('%bin% %opt% %dir%/bin/resque', [
             '%bin%' => $this->getPhpBinary(),
             '%opt%' => $opt,
             '%dir%' => $this->container->getParameter('app.root_dir'),
-        ));
+        ]);
 
         if (!$input->getOption('foreground')) {
-            $workerCommand = strtr('nohup %cmd% > %logs_dir%/resque.log 2>&1 & echo $!', array(
-                '%cmd%' => $workerCommand,
+            $workerCommand = strtr('nohup %cmd% > %logs_dir%/resque.log 2>&1 & echo $!', [
+                '%cmd%'      => $workerCommand,
                 '%logs_dir%' => $this->container->getParameter('app.log_dir'),
-            ));
+            ]);
         }
 
         // In windows: When you pass an environment to CMD it replaces the old environment
@@ -70,7 +71,7 @@ class StartCommand extends ContainerAwareCommand
         // this is a workaround where we add the vars to the existing environment.
         if (defined('PHP_WINDOWS_VERSION_BUILD')) {
             foreach ($env as $key => $value) {
-                putenv($key.'='.$value);
+                putenv($key . '=' . $value);
             }
             $env = null;
         }

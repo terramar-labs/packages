@@ -3,7 +3,7 @@ Contributing Guidelines
 
 This document outlines the recommended way to contribute to Packages.
 
-> More information can be found in the [project documentation](http://docs.terramarlabs.com/packages/3.1).
+> More information can be found in the [project documentation](http://docs.terramarlabs.com/packages/3.2).
 
 Getting started
 ---------------
@@ -29,7 +29,7 @@ Other considerations
 
 * The master branch contains active development.
 * Create or a feature branch or don't-- whatever you prefer!
-* The project follows PSR-4 and, somewhat loosely, PSR-2.
+* The project follows PSR-1, -2, and -4.
 * Consider writing unit tests for your change.
 
 ### And don't be afraid to ask for help!

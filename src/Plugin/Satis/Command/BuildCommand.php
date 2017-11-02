@@ -11,11 +11,12 @@ namespace Terramar\Packages\Plugin\Satis\Command;
 
 use Composer\Satis\Console\Command\BuildCommand as BaseCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Terramar\Packages\Console\Application;
 
 /**
  * Wraps Satis build command.
@@ -27,6 +28,16 @@ class BuildCommand extends BaseCommand implements ContainerAwareInterface
      */
     protected $container;
 
+    /**
+     * Sets the container.
+     *
+     * @param ContainerInterface|null $container A ContainerInterface instance or null
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
     protected function configure()
     {
         parent::configure();
@@ -34,7 +45,8 @@ class BuildCommand extends BaseCommand implements ContainerAwareInterface
         $this->setName('satis:build');
         $def = $this->getDefinition();
         $args = $def->getArguments();
-        $args['file'] = new InputArgument('file', InputArgument::OPTIONAL, 'Satis configuration file. If left blank, one will be generated.');
+        $args['file'] = new InputArgument('file', InputArgument::OPTIONAL,
+            'Satis configuration file. If left blank, one will be generated.');
         $def->setArguments($args);
     }
 
@@ -50,16 +62,13 @@ class BuildCommand extends BaseCommand implements ContainerAwareInterface
             $input->setArgument('file', $configFile);
         }
 
-        parent::execute($input, $output);
-    }
+        $input->setOption('skip-errors', true);
 
-    /**
-     * Sets the container.
-     *
-     * @param ContainerInterface|null $container A ContainerInterface instance or null
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
+        $app = $this->getApplication();
+        if ($app instanceof Application) {
+            $this->setIO($app->getIO());
+        }
+
+        parent::execute($input, $output);
     }
 }

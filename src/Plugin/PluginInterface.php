@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 /**
  * PluginInterface defines the implementation of a Packages plugin.
  *
- * @see http://docs.terramarlabs.com/packages/3.1/plugins/creating-a-plugin
+ * @see http://docs.terramarlabs.com/packages/3.2/plugins/creating-a-plugin
  */
 interface PluginInterface
 {
@@ -30,14 +30,14 @@ interface PluginInterface
 
     /**
      * Get the plugin name.
-     * 
+     *
      * @return string
      */
     public function getName();
 
     /**
      * Get a string identifying the plugin's (or underlying tool's) version.
-     * 
+     *
      * @return string|null
      */
     public function getVersion();

@@ -31,14 +31,17 @@ class Plugin implements PluginInterface
      */
     public function configure(ContainerBuilder $container)
     {
-        $container->register('packages.plugin.clone_project.subscriber', 'Terramar\Packages\Plugin\CloneProject\EventSubscriber')
+        $container->register('packages.plugin.clone_project.subscriber',
+            'Terramar\Packages\Plugin\CloneProject\EventSubscriber')
             ->addArgument(new Reference('packages.helper.resque'))
             ->addArgument(new Reference('doctrine.orm.entity_manager'))
             ->addTag('kernel.event_subscriber');
 
         $container->getDefinition('packages.controller_manager')
-            ->addMethodCall('registerController', array(Actions::PACKAGE_EDIT, 'Terramar\Packages\Plugin\CloneProject\Controller::editAction'))
-            ->addMethodCall('registerController', array(Actions::PACKAGE_UPDATE, 'Terramar\Packages\Plugin\CloneProject\Controller::updateAction'));
+            ->addMethodCall('registerController',
+                [Actions::PACKAGE_EDIT, 'Terramar\Packages\Plugin\CloneProject\Controller::editAction'])
+            ->addMethodCall('registerController',
+                [Actions::PACKAGE_UPDATE, 'Terramar\Packages\Plugin\CloneProject\Controller::updateAction']);
     }
 
     /**
@@ -57,7 +60,7 @@ class Plugin implements PluginInterface
     public function getVersion()
     {
         if (!$this->version) {
-            $matches = array();
+            $matches = [];
             preg_match('/version (\d\.\d{1,2}\.\d{1,2})/', exec('git --version'), $matches);
             $this->version = $matches[1];
         }

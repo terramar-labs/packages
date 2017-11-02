@@ -25,7 +25,7 @@ class Version3100 extends AbstractMigration
     {
         $table = $schema->createTable('packages_sami_configurations');
         $table->addColumn('id', 'integer');
-        $table->setPrimaryKey(array('id'));
+        $table->setPrimaryKey(['id']);
         $table->addColumn('enabled', 'boolean');
         $table->addColumn('package_id', 'integer');
         $table->addColumn('docs_path', 'string');
@@ -36,14 +36,14 @@ class Version3100 extends AbstractMigration
         $table->addColumn('tags', 'string');
         $table->addColumn('refs', 'string');
         $table->addColumn('templates_dir', 'string');
-        $table->addForeignKeyConstraint('packages', array('package_id'), array('id'));
+        $table->addForeignKeyConstraint('packages', ['package_id'], ['id']);
 
         $table = $schema->createTable('packages_cloneproject_configurations');
         $table->addColumn('id', 'integer');
-        $table->setPrimaryKey(array('id'));
+        $table->setPrimaryKey(['id']);
         $table->addColumn('enabled', 'boolean');
         $table->addColumn('package_id', 'integer');
-        $table->addForeignKeyConstraint('packages', array('package_id'), array('id'));
+        $table->addForeignKeyConstraint('packages', ['package_id'], ['id']);
     }
 
     public function postUp(Schema $schema)

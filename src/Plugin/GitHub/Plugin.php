@@ -31,23 +31,29 @@ class Plugin implements PluginInterface
             ->addArgument(new Reference('router.url_generator'));
 
         $container->getDefinition('packages.helper.sync')
-            ->addMethodCall('registerAdapter', array(new Reference('packages.plugin.github.adapter')));
+            ->addMethodCall('registerAdapter', [new Reference('packages.plugin.github.adapter')]);
 
-        $container->register('packages.plugin.github.package_subscriber', 'Terramar\Packages\Plugin\GitHub\PackageSubscriber')
+        $container->register('packages.plugin.github.package_subscriber',
+            'Terramar\Packages\Plugin\GitHub\PackageSubscriber')
             ->addArgument(new Reference('packages.plugin.github.adapter'))
             ->addArgument(new Reference('doctrine.orm.entity_manager'))
             ->addTag('kernel.event_subscriber');
 
-        $container->register('packages.plugin.github.remote_subscriber', 'Terramar\Packages\Plugin\GitHub\RemoteSubscriber')
+        $container->register('packages.plugin.github.remote_subscriber',
+            'Terramar\Packages\Plugin\GitHub\RemoteSubscriber')
             ->addArgument(new Reference('packages.plugin.github.adapter'))
             ->addArgument(new Reference('doctrine.orm.entity_manager'))
             ->addTag('kernel.event_subscriber');
 
         $container->getDefinition('packages.controller_manager')
-            ->addMethodCall('registerController', array(Actions::REMOTE_NEW, 'Terramar\Packages\Plugin\GitHub\Controller::newAction'))
-            ->addMethodCall('registerController', array(Actions::REMOTE_CREATE, 'Terramar\Packages\Plugin\GitHub\Controller::createAction'))
-            ->addMethodCall('registerController', array(Actions::REMOTE_EDIT, 'Terramar\Packages\Plugin\GitHub\Controller::editAction'))
-            ->addMethodCall('registerController', array(Actions::REMOTE_UPDATE, 'Terramar\Packages\Plugin\GitHub\Controller::updateAction'));
+            ->addMethodCall('registerController',
+                [Actions::REMOTE_NEW, 'Terramar\Packages\Plugin\GitHub\Controller::newAction'])
+            ->addMethodCall('registerController',
+                [Actions::REMOTE_CREATE, 'Terramar\Packages\Plugin\GitHub\Controller::createAction'])
+            ->addMethodCall('registerController',
+                [Actions::REMOTE_EDIT, 'Terramar\Packages\Plugin\GitHub\Controller::editAction'])
+            ->addMethodCall('registerController',
+                [Actions::REMOTE_UPDATE, 'Terramar\Packages\Plugin\GitHub\Controller::updateAction']);
     }
 
     /**

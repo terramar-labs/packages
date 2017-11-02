@@ -16,7 +16,7 @@ interface ControllerManagerInterface
 {
     /**
      * Register a controller for the given action.
-     * 
+     *
      * @param string $action
      * @param string $controller
      */

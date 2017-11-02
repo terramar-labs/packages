@@ -11,7 +11,7 @@ namespace Terramar\Packages\Console;
 
 class CommandRegistry
 {
-    private $commands = array();
+    private $commands = [];
 
     public function addCommand($className)
     {

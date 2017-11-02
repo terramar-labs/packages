@@ -55,18 +55,18 @@ h1 {
 
 .contact {
   color: #777;
-}
-
-.contact span:before {
-  content: "contact@";
-}
-
-.contact span:after {
-  content: "terramarlabs.com"
+  user-select: none;
+  cursor: default;
 }
 
 .last-update, .contact {
   display: block;
+}
+
+.powered-by {
+  margin-top: 5px;
+  text-align: center;
+  color: #777;
 }
 
 @media only screen and (min-width: 480px) {
@@ -85,4 +85,12 @@ h1 {
     margin: 15px;
     padding: 20px;
   }
+}
+
+ul {
+  padding-left:20px;
+}
+
+.label {
+  margin-right:3px;
 }

@@ -1,13 +1,16 @@
 /.settings
 /.project
 /.buildpath
+/.composer
 /satis.phar
 /vendor
 /satis.json
 /web/packages.json
 /web/include
+/web/dist
 !/web/robots.txt
 /config.yml
 /cache/*
 /logs/*
-/config/deploy.rb
+/satis/*
+/database.sqlite

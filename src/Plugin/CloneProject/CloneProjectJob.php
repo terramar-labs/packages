@@ -17,30 +17,6 @@ use Terramar\Packages\Job\ContainerAwareJob;
 
 class CloneProjectJob extends ContainerAwareJob
 {
-    /**
-     * @return string
-     */
-    private function getCacheDir(Package $package)
-    {
-        return $this->getContainer()->getParameter('app.cache_dir').'/cloned_project/'.$package->getFqn();
-    }
-
-    /**
-     * @return EntityManager
-     */
-    private function getEntityManager()
-    {
-        return $this->getContainer()->get('doctrine.orm.entity_manager');
-    }
-
-    /**
-     * @return EventDispatcherInterface
-     */
-    private function getEventDispatcher()
-    {
-        return $this->getContainer()->get('event_dispatcher');
-    }
-
     public function run($args)
     {
         $package = $this->getEntityManager()->find('Terramar\Packages\Entity\Package', $args['id']);
@@ -56,7 +32,7 @@ class CloneProjectJob extends ContainerAwareJob
 
         mkdir($directory, 0777, true);
 
-        $builder = new ProcessBuilder(array('clone', $package->getSshUrl(), $directory));
+        $builder = new ProcessBuilder(['clone', $package->getSshUrl(), $directory]);
         $builder->setPrefix('git');
 
         $process = $builder->getProcess();
@@ -70,13 +46,37 @@ class CloneProjectJob extends ContainerAwareJob
         }
     }
 
+    /**
+     * @return EntityManager
+     */
+    private function getEntityManager()
+    {
+        return $this->getContainer()->get('doctrine.orm.entity_manager');
+    }
+
+    /**
+     * @return string
+     */
+    private function getCacheDir(Package $package)
+    {
+        return $this->getContainer()->getParameter('app.cache_dir') . '/cloned_project/' . $package->getFqn();
+    }
+
     private function emptyAndRemoveDirectory($directory)
     {
-        $files = array_diff(scandir($directory), array('.', '..'));
+        $files = array_diff(scandir($directory), ['.', '..']);
         foreach ($files as $file) {
             (is_dir("$directory/$file")) ? $this->emptyAndRemoveDirectory("$directory/$file") : unlink("$directory/$file");
         }
 
         return rmdir($directory);
+    }
+
+    /**
+     * @return EventDispatcherInterface
+     */
+    private function getEventDispatcher()
+    {
+        return $this->getContainer()->get('event_dispatcher');
     }
 }

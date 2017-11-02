@@ -2,12 +2,11 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Packages - Terramar Labs</title>
+        <title>Packages - {{ packages_conf.name }}</title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
         <link href="{{ asset('favicon.ico') }}" rel="shortcut icon">
-        <link href="//cdn.jsdelivr.net/bootstrap/3.1.1/css/bootstrap.min.css" type="text/css" rel="stylesheet">
-        <link href="//cdn.jsdelivr.net/fontawesome/4.0.3/css/font-awesome.min.css" type="text/css" rel="stylesheet">
-        <link href="//cdn.jsdelivr.net/ionicons/1.4.1/css/ionicons.min.css" type="text/css" rel="stylesheet">
+        <link href="{{ asset("css/bootstrap.min.css") }}" type="text/css" rel="stylesheet">
+        <link href="{{ asset("css/font-awesome.min.css") }}" type="text/css" rel="stylesheet">
         <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,300italic,400italic,600italic" type="text/css" rel="stylesheet">
         <link href="{{ asset('css/public.css') }}" type="text/css" rel="stylesheet">
 
@@ -22,12 +21,19 @@
             <section class="content-header">
                 <h1>
                     Composer Repository
-                    <small>for Terramar Labs</small>
+                    <small>for {{ packages_conf.name }}</small>
                 </h1>
                 {% block login_link %}
-                <div class="login-link">
-                    <a href="{{ path('login') }}" class="btn btn-default"><i class="ion ion-power"></i> Login</a>
-                </div>
+                    {% if logged_in() %}
+                        <div class="login-link btn-group">
+                            <a href="{{ path('manage') }}" class="btn btn-default">Manage</a>
+                            <a href="{{ path('logout') }}" class="btn btn-default"><i class="fa fa-power-off"></i> Logout</a>
+                        </div>
+                    {% else %}
+                        <div class="login-link">
+                            <a href="{{ path('login') }}" class="btn btn-default"><i class="fa fa-power-off"></i> Login</a>
+                        </div>
+                    {% endif %}
                 {% endblock %}
             </section>
 
@@ -35,14 +41,19 @@
                 {% block body %}
                 {% endblock %}
             </section>
-            
+            {% if packages_conf.homepage is not empty %}
             <section class="content-footer">
-                <p><small>Proudly powered by <a href="https://github.com/composer/satis">Satis</a> {{ constant('Composer\\Satis\\Satis::VERSION') }} 
-                        and <a href="https://github.com/terramar-labs/packages">Packages</a> {{ constant('Terramar\\Packages\\Version::VERSION') }}
-                        {% if updatedAt %}<span class="last-update">Last updated: {{ updatedAt|date('Y-m-d H:i:s') }}</span>{% endif %}
-                </small></p>
-                <p id="copy">&copy; {{ "now"|date('Y') }} Terramar Labs.</p>
+                <p id="copy">
+                    <a href="{{ packages_conf.homepage }}">{{ packages_conf.name }}</a>
+                </p>
             </section>
+            {% endif %}
+        </div>
+        <div class="text-center col-md-8 col-md-offset-2 powered-by">
+            <p><small>Proudly powered by <a href="https://github.com/composer/satis">Satis</a> {{ constant('Composer\\Satis\\Satis::VERSION') }}
+                    and <a href="https://github.com/terramar-labs/packages">Packages</a> {{ constant('Terramar\\Packages\\Version::VERSION') }}
+                    {% if updatedAt %}<span class="last-update">Last updated: {{ updatedAt|date('Y-m-d H:i:s') }}</span>{% endif %}
+            </small></p>
         </div>
 
 

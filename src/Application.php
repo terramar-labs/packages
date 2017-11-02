@@ -18,18 +18,18 @@ use Nice\Extension\TwigExtension;
 use Symfony\Component\Yaml\Yaml;
 use Terramar\Packages\DependencyInjection\PackagesExtension;
 use Terramar\Packages\Plugin\CloneProject\Plugin as CloneProjectPlugin;
+use Terramar\Packages\Plugin\GitHub\Plugin as GitHubPlugin;
 use Terramar\Packages\Plugin\GitLab\Plugin as GitLabPlugin;
+use Terramar\Packages\Plugin\PluginInterface;
 use Terramar\Packages\Plugin\Sami\Plugin as SamiPlugin;
 use Terramar\Packages\Plugin\Satis\Plugin as SatisPlugin;
-use Terramar\Packages\Plugin\GitHub\Plugin as GitHubPlugin;
-use Terramar\Packages\Plugin\PluginInterface;
 
 class Application extends BaseApplication
 {
     /**
      * @var array|PluginInterface[]
      */
-    private $plugins = array();
+    private $plugins = [];
 
     /**
      * Register default extensions.
@@ -40,32 +40,30 @@ class Application extends BaseApplication
 
         $this->registerDefaultPlugins();
 
-        $config = Yaml::parse(file_get_contents($this->getRootDir().'/config.yml'));
-        $security = isset($config['security']) ? $config['security'] : array();
-        $doctrine = isset($config['doctrine']) ? $config['doctrine'] : array();
-        $resque = isset($config['packages'])
-			? (isset($config['packages']['resque']) ? $config['packages']['resque'] : null)
-			: null;
+        $config = Yaml::parse(file_get_contents($this->getRootDir() . '/config.yml'));
+        $security = isset($config['security']) ? $config['security'] : [];
+        $doctrine = isset($config['doctrine']) ? $config['doctrine'] : [];
+        $packages = isset($config['packages']) ? $config['packages'] : [];
+        if (!isset($packages['resque'])) {
+            $packages['resque'] = [];
+        }
 
-        $this->appendExtension(new PackagesExtension($this->plugins, array(
-                'output_dir' => $this->getRootDir().'/web',
-                'resque' => $resque,
-            )));
+        $this->appendExtension(new PackagesExtension($this->plugins, $packages));
         $this->appendExtension(new DoctrineOrmExtension($doctrine));
         $this->appendExtension(new SessionExtension());
         $this->appendExtension(new TemplatingExtension());
         $this->appendExtension(new TwigExtension());
-        $this->appendExtension(new SecurityExtension(array(
-                'authenticator' => array(
-                    'type' => 'username',
-                    'username' => isset($security['username']) ? $security['username'] : null,
-                    'password' => isset($security['password'])
-                        ? password_hash($security['password'], PASSWORD_DEFAULT)
-                        : null,
-                ),
-                'firewall' => '^/manage',
-                'success_path' => '/manage',
-            )));
+        $this->appendExtension(new SecurityExtension([
+            'authenticator' => [
+                'type'     => 'username',
+                'username' => isset($security['username']) ? $security['username'] : null,
+                'password' => isset($security['password'])
+                    ? password_hash($security['password'], PASSWORD_DEFAULT)
+                    : null,
+            ],
+            'firewall'      => '^/manage',
+            'success_path'  => '/manage',
+        ]));
     }
 
     /**

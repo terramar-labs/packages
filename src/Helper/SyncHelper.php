@@ -24,11 +24,11 @@ class SyncHelper
     /**
      * @var array|SyncAdapterInterface[]
      */
-    private $adapters = array();
+    private $adapters = [];
 
     /**
      * Constructor.
-     * 
+     *
      * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(EventDispatcherInterface $eventDispatcher)
@@ -38,7 +38,7 @@ class SyncHelper
 
     /**
      * Register an adapter with the helper.
-     * 
+     *
      * @param SyncAdapterInterface $adapter
      */
     public function registerAdapter(SyncAdapterInterface $adapter)
@@ -48,7 +48,7 @@ class SyncHelper
 
     /**
      * Synchronize packages in the given configuration.
-     * 
+     *
      * @param Remote $configuration
      *
      * @return \Terramar\Packages\Entity\Package[]
@@ -67,14 +67,6 @@ class SyncHelper
         return $packages;
     }
 
-    /**
-     * @return array|SyncAdapterInterface[]
-     */
-    public function getAdapters()
-    {
-        return array_values($this->adapters);
-    }
-
     private function getAdapter(Remote $configuration)
     {
         foreach ($this->adapters as $adapter) {
@@ -84,5 +76,13 @@ class SyncHelper
         }
 
         throw new \RuntimeException('No adapter registered supports the given configuration');
+    }
+
+    /**
+     * @return array|SyncAdapterInterface[]
+     */
+    public function getAdapters()
+    {
+        return array_values($this->adapters);
     }
 }

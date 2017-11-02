@@ -19,22 +19,22 @@ class Controller
     {
         /** @var \Doctrine\ORM\EntityManager $entityManager */
         $entityManager = $app->get('doctrine.orm.entity_manager');
-        $config = $entityManager->getRepository('Terramar\Packages\Plugin\CloneProject\PackageConfiguration')->findOneBy(array(
-                'package' => $id,
-            ));
+        $config = $entityManager->getRepository('Terramar\Packages\Plugin\CloneProject\PackageConfiguration')->findOneBy([
+            'package' => $id,
+        ]);
 
-        return new Response($app->get('twig')->render('Plugin/CloneProject/edit.html.twig', array(
-                    'config' => $config,
-                )));
+        return new Response($app->get('twig')->render('Plugin/CloneProject/edit.html.twig', [
+            'config' => $config,
+        ]));
     }
 
     public function updateAction(Application $app, Request $request, $id)
     {
         /** @var \Doctrine\ORM\EntityManager $entityManager */
         $entityManager = $app->get('doctrine.orm.entity_manager');
-        $config = $entityManager->getRepository('Terramar\Packages\Plugin\CloneProject\PackageConfiguration')->findOneBy(array(
-                'package' => $id,
-            ));
+        $config = $entityManager->getRepository('Terramar\Packages\Plugin\CloneProject\PackageConfiguration')->findOneBy([
+            'package' => $id,
+        ]);
 
         $config->setEnabled($request->get('cloneproject_enabled') ? true : false);
         $entityManager->persist($config);

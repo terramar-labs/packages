@@ -19,16 +19,16 @@ class DefaultController
     public function indexAction(Application $app, Request $request)
     {
         $rootDir = $app->getRootDir();
-        $packagesJson = $rootDir.'/web/packages.json';
+        $packagesJson = $rootDir . '/web/packages.json';
         $mtime = null;
         if (file_exists($packagesJson)) {
-            $mtime = new \DateTime('@'.filemtime($packagesJson));
+            $mtime = new \DateTime('@' . filemtime($packagesJson));
         }
 
         return new Response(
-            $app->get('templating')->render('Default/index.html.twig', array(
-                    'updatedAt' => $mtime,
-                )));
+            $app->get('templating')->render('Default/index.html.twig', [
+                'updatedAt' => $mtime,
+            ]));
     }
 
     public function loginAction(Application $app, Request $request)
@@ -40,6 +40,6 @@ class DefaultController
             $session->remove(AuthenticationFailureSubscriber::AUTHENTICATION_ERROR);
         }
 
-        return new Response($app->get('templating')->render('Default/login.html.twig', array('error' => $error)));
+        return new Response($app->get('templating')->render('Default/login.html.twig', ['error' => $error]));
     }
 }

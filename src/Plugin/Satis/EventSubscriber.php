@@ -31,7 +31,7 @@ class EventSubscriber implements EventSubscriberInterface
     /**
      * Constructor.
      *
-     * @param ResqueHelper  $resqueHelper
+     * @param ResqueHelper $resqueHelper
      * @param EntityManager $entityManager
      */
     public function __construct(ResqueHelper $resqueHelper, EntityManager $entityManager)
@@ -41,19 +41,32 @@ class EventSubscriber implements EventSubscriberInterface
     }
 
     /**
+     * @return array
+     */
+    public static function getSubscribedEvents()
+    {
+        return [
+            Events::PACKAGE_UPDATE => ['onUpdatePackage', 0],
+            Events::PACKAGE_CREATE => ['onCreatePackage', 0],
+        ];
+    }
+
+    /**
      * @param PackageUpdateEvent $event
      */
     public function onUpdatePackage(PackageUpdateEvent $event)
     {
         $package = $event->getPackage();
         $config = $this->entityManager->getRepository('Terramar\Packages\Plugin\Satis\PackageConfiguration')
-            ->findOneBy(array('package' => $package));
+            ->findOneBy(['package' => $package]);
 
         if (!$config || !$config->isEnabled() || !$package->isEnabled()) {
             return;
         }
 
-        $this->resqueHelper->enqueueOnce('default', 'Terramar\Packages\Plugin\Satis\UpdateAndBuildJob');
+        $this->resqueHelper->enqueueOnce('default', 'Terramar\Packages\Plugin\Satis\UpdateAndBuildJob', [
+            'package_id' => $package->getId(),
+        ]);
     }
 
     /**
@@ -63,7 +76,7 @@ class EventSubscriber implements EventSubscriberInterface
     {
         $package = $event->getPackage();
         $config = $this->entityManager->getRepository('Terramar\Packages\Plugin\Satis\PackageConfiguration')
-            ->findOneBy(array('package' => $package));
+            ->findOneBy(['package' => $package]);
 
         if (!$config) {
             $config = new PackageConfiguration();
@@ -71,16 +84,5 @@ class EventSubscriber implements EventSubscriberInterface
         }
 
         $this->entityManager->persist($config);
-    }
-
-    /**
-     * @return array
-     */
-    public static function getSubscribedEvents()
-    {
-        return array(
-            Events::PACKAGE_UPDATE => array('onUpdatePackage', 0),
-            Events::PACKAGE_CREATE => array('onCreatePackage', 0),
-        );
     }
 }

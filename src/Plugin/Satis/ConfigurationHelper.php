@@ -10,8 +10,8 @@
 namespace Terramar\Packages\Plugin\Satis;
 
 use Doctrine\ORM\EntityManager;
+use Nice\Router\UrlGeneratorInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use Terramar\Packages\Entity\Package;
 
 class ConfigurationHelper
 {
@@ -24,6 +24,11 @@ class ConfigurationHelper
      * @var EntityManager
      */
     private $entityManager;
+
+    /**
+     * @var \Nice\Router\UrlGeneratorInterface
+     */
+    private $urlGenerator;
 
     /**
      * @var string
@@ -42,29 +47,47 @@ class ConfigurationHelper
 
     /**
      * @param EntityManager $entityManager
-     * @param string        $rootDir
-     * @param               $cacheDir
+     * @param UrlGeneratorInterface $urlGenerator
+     * @paramstring $rootDir
+     * @param string $cacheDir
+     * @param array $config
      */
-    public function __construct(EntityManager $entityManager, $rootDir, $cacheDir, array $config)
-    {
+    public function __construct(
+        EntityManager $entityManager,
+        UrlGeneratorInterface $urlGenerator,
+        $rootDir,
+        $cacheDir,
+        array $config
+    ) {
         $this->entityManager = $entityManager;
+        $this->urlGenerator = $urlGenerator;
         $this->filesystem = new Filesystem();
         $this->rootDir = $rootDir;
         $this->cacheDir = $cacheDir;
         $this->config = $config;
     }
 
-    public function generateConfiguration(array $options = array())
+    public function generateConfiguration(array $options = [])
     {
-        $data = array_merge($options, array(
-            'name' => $this->config['name'],
-            'homepage' => $this->config['homepage'],
-            'output-dir' => realpath($this->config['output_dir']),
-            'repositories' => array(),
-            'output-html' => false,
-            'require-dependencies' => true,
+        $data = array_merge($options, [
+            'name'                     => $this->config['name'],
+            'homepage'                 => $this->config['homepage'],
+            'output-dir'               => realpath($this->config['output_dir']),
+            'repositories'             => [],
+            'output-html'              => false,
+            'require-dependencies'     => true,
             'require-dev-dependencies' => true,
-        ));
+            'config'                   => ['gitlab-domains' => []],
+        ]);
+
+        if (isset($this->config['archive']) && $this->config['archive'] === true) {
+            $data['archive'] = [
+                'directory'  => 'dist',
+                'format'     => 'tar',
+                'prefix-url' => $this->config['base_path'],
+                'skip-dev'   => true,
+            ];
+        }
 
         $packages = $this->entityManager->getRepository('Terramar\Packages\Plugin\Satis\PackageConfiguration')
             ->createQueryBuilder('pc')
@@ -74,22 +97,58 @@ class ConfigurationHelper
             ->getQuery()
             ->getResult();
 
-        $repositories = array_map(function (PackageConfiguration $config) {
-                return $config->getPackage()->getSshUrl();
-            }, $packages);
 
-        foreach ($repositories as $repository) {
-            $data['repositories'][] = array(
+        $data['repositories'] = array_map(function (PackageConfiguration $config) use (&$data) {
+            $options = [
                 'type' => 'vcs',
-                'url' => $repository,
-            );
-        }
+                'url'  => $config->getPackage()->getSshUrl(),
+            ];
+            $remote = $config->getPackage()->getRemote();
+            switch ($remote->getAdapter()) {
+                case 'GitHub':
+                    /** @var \Terramar\Packages\Plugin\GitHub\RemoteConfiguration $remoteConfig */
+                    $remoteConfig = $this->entityManager->getRepository('Terramar\Packages\Plugin\GitHub\RemoteConfiguration')
+                        ->findOneBy(['remote' => $remote]);
+                    if (!$remoteConfig) {
+                        throw new \RuntimeException('Unable to find RemoteConfiguration for ' . $remote->getAdapter() . ' ' . $remote->getName());
+                    }
 
-        $this->filesystem->mkdir($this->cacheDir.'/satis');
+                    $options['github-token'] = $remoteConfig->getToken();
 
-        $filename = tempnam($this->cacheDir.'/satis', 'satis_');
+                    break;
+
+                case 'GitLab':
+                    /** @var \Terramar\Packages\Plugin\GitLab\RemoteConfiguration $remoteConfig */
+                    $remoteConfig = $this->entityManager->getRepository('Terramar\Packages\Plugin\GitLab\RemoteConfiguration')
+                        ->findOneBy(['remote' => $remote]);
+                    if (!$remoteConfig) {
+                        throw new \RuntimeException('Unable to find RemoteConfiguration for ' . $remote->getAdapter() . ' ' . $remote->getName());
+                    }
+
+                    $url = parse_url($remoteConfig->getUrl(), PHP_URL_HOST);
+                    if (!in_array($url, $data['config']['gitlab-domains'])) {
+                        $data['config']['gitlab-domains'][] = $url;
+                    }
+
+                    $options['gitlab-token'] = $remoteConfig->getToken();
+                    if (parse_url($remoteConfig->getUrl(), PHP_URL_SCHEME) === "http") {
+                        $options['secure-http'] = false;
+                        $data['config']['secure-http'] = false;
+                    }
+
+                    break;
+            }
+
+            return $options;
+        }, $packages);
+
+        $this->filesystem->mkdir($this->cacheDir . '/satis');
+
+        $filename = tempnam($this->cacheDir . '/satis', 'satis_');
 
         $this->filesystem->dumpFile($filename, json_encode($data, JSON_PRETTY_PRINT));
+
+        echo json_encode($data, JSON_PRETTY_PRINT) . "\n";
 
         return $filename;
     }

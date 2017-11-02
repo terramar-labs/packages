@@ -12,7 +12,7 @@ namespace Terramar\Packages\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity 
+ * @ORM\Entity
  * @ORM\Table(name="packages")
  */
 class Package
@@ -75,7 +75,7 @@ class Package
      */
     public function setEnabled($enabled)
     {
-        $this->enabled = (bool) $enabled;
+        $this->enabled = (bool)$enabled;
     }
 
     /**
@@ -107,7 +107,7 @@ class Package
      */
     public function setDescription($description)
     {
-        $this->description = (string) $description;
+        $this->description = (string)$description;
     }
 
     /**
@@ -123,7 +123,7 @@ class Package
      */
     public function setName($name)
     {
-        $this->name = (string) $name;
+        $this->name = (string)$name;
     }
 
     /**
@@ -155,7 +155,7 @@ class Package
      */
     public function setExternalId($externalId)
     {
-        $this->externalId = (string) $externalId;
+        $this->externalId = (string)$externalId;
     }
 
     /**
@@ -171,7 +171,7 @@ class Package
      */
     public function setHookExternalId($hookExternalId)
     {
-        $this->hookExternalId = (string) $hookExternalId;
+        $this->hookExternalId = (string)$hookExternalId;
     }
 
     /**
@@ -187,7 +187,7 @@ class Package
      */
     public function setFqn($fqn)
     {
-        $this->fqn = (string) $fqn;
+        $this->fqn = (string)$fqn;
     }
 
     /**
@@ -203,7 +203,7 @@ class Package
      */
     public function setSshUrl($sshUrl)
     {
-        $this->sshUrl = (string) $sshUrl;
+        $this->sshUrl = (string)$sshUrl;
     }
 
     /**
@@ -219,6 +219,14 @@ class Package
      */
     public function setWebUrl($webUrl)
     {
-        $this->webUrl = (string) $webUrl;
+        $this->webUrl = (string)$webUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return sprintf("%d:%d", $this->remote->getId(), $this->externalId);
     }
 }

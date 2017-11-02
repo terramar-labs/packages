@@ -33,8 +33,10 @@ class Plugin implements PluginInterface
             ->addTag('kernel.event_subscriber');
 
         $container->getDefinition('packages.controller_manager')
-            ->addMethodCall('registerController', array(Actions::PACKAGE_EDIT, 'Terramar\Packages\Plugin\Sami\Controller::editAction'))
-            ->addMethodCall('registerController', array(Actions::PACKAGE_UPDATE, 'Terramar\Packages\Plugin\Sami\Controller::updateAction'));
+            ->addMethodCall('registerController',
+                [Actions::PACKAGE_EDIT, 'Terramar\Packages\Plugin\Sami\Controller::editAction'])
+            ->addMethodCall('registerController',
+                [Actions::PACKAGE_UPDATE, 'Terramar\Packages\Plugin\Sami\Controller::updateAction']);
     }
 
     /**

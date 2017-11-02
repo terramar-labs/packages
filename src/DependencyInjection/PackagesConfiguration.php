@@ -27,8 +27,13 @@ class PackagesConfiguration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('site_name')->defaultValue('Private Composer Repository')->end()
-                ->scalarNode('homepage')->defaultValue('https://github.com/terramar-labs/packages')->end()
-                ->scalarNode('output_dir')->defaultValue('%app.root_dir%/web')->end()
+                ->scalarNode('name')->defaultNull()->end()
+                ->scalarNode('homepage')->defaultValue('')->end()
+                ->scalarNode('base_path')->defaultValue('')->end()
+                ->scalarNode('archive')->defaultValue(false)->end()
+                ->scalarNode('contact_email')->defaultValue('')->end()
+                ->scalarNode('secure_satis')->defaultFalse()->end()
+                ->scalarNode('output_dir')->defaultValue('%app.root_dir%/satis')->end()
                 ->arrayNode('resque')
                     ->addDefaultsIfNotSet()
                     ->children()
@@ -36,8 +41,7 @@ class PackagesConfiguration implements ConfigurationInterface
                         ->scalarNode('port')->defaultValue('6379')->end()
                         ->scalarNode('database')->defaultNull()->end()
                     ->end()
-                ->end()
-            ->end();
+                ->end();
 
         return $treeBuilder;
     }

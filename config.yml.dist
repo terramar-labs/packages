@@ -12,22 +12,39 @@ doctrine:
   database:
     # Any Doctrine driver
     driver: pdo_sqlite
-    
+
     # Options
     path: %app.root_dir%/database.sqlite
     # host: 127.0.0.1
     # user: root
     # password:
     # dbname: packages
-   
+
 packages:
-  site_name:  'Private Composer Repository'
-  homepage:   'https://github.com/terramar-labs/packages'
+  # Defines the name used in the page titles and landing page.
+  name:     'Terramar Labs'
+
+  # If set, the homepage will be linked to from the landing page.
+  homepage:      'https://github.com/terramar-labs/packages'
+
+  # If set, the contact email is displayed on the landing page.
+  contact_email: 'contact@terramarlabs.com'
+
+  # Needs to be set to generate a dist archive
+  base_path:     'https://localhost'
+
+  # If set, will place a copy of every tagged package version in the web/dist folder
+  archive:       true
+
+  # If set, username and password will be required when attempting to access
+  # Satis-generated files.
+  secure_satis:  false
+
   resque:
     # Redis server host.
-    host:     'unix:///tmp/redis.sock'
+    host:     'redis://redis-master'
     # Format as either unix:///path/to/socket (note the 3 slashes) or redis://host
-    #host:     'redis://127.0.0.1'
+    #host:     'unix:///var/run/redis.sock'
     # If Redis is configured to require a password, you can pass it in the host:
     #host:     'redis://ignored:password@host'
     # Note that the username portion of the hostname is ignored and can be any value.

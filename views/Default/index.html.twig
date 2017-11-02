@@ -2,7 +2,10 @@
 
 {% block body %}
     <h2>This is a private repository.</h2>
+    {% if packages_conf.contact_email is not empty %}
     <p>If you should have access, contact us.
-      <span class="contact"><span></span></span>
+      <span class="contact">{{ packages_conf.contact_email }}</span>
     </p>
+    {% endif %}
+    <a href="{{ path('packages_index') }}" class="btn btn-primary">Available Packages</a>
 {% endblock %}
