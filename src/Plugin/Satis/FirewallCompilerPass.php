@@ -24,7 +24,7 @@ class FirewallCompilerPass implements CompilerPassInterface
         $config = $container->getParameterBag()->resolveValue('%packages.configuration%');
         if (isset($config['secure_satis']) && $config['secure_satis'] === true) {
             $container->getDefinition('security.firewall_matcher')
-                ->addMethodCall('matchPath', ['^/manage|^/packages']);
+                ->addMethodCall('matchPath', ['^/manage|^/packages(?!\.)']);
         }
     }
 }
