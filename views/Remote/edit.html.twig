@@ -11,8 +11,16 @@
         <div class="box box-warning">
             <div class="box-header">
                 <h3 class="box-title">Configure Remote</h3>
+                <a href="#" id="whats-this-link" class="pull-right btn-link btn whats-this-link">What's this? &nbsp; <i class="fa fa-question-circle"></i></a>
             </div>
             <div class="box-body">
+                <div class="form-group" id="whats-this-text" style="display: none">
+                    <div class="callout callout-info">
+                        <p>A Remote is a source code repository host, like GitLab or GitHub.</p>
+                        <p>Packages uses the host's respective API to fetch information on the repositories it contains. Limit the number of projects imported by disallowing the given token's access to groups (in GitLab) or organizations (in GitHub).</p>
+                        <p><a href="http://docs.terramarlabs.com/packages/3.2" target="_blank">Take me to the docs!</a></p>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" name="name" value="{{ remote.name }}" placeholder="Enter name" id="name" class="form-control" required>
@@ -42,4 +50,17 @@
     {% endfor %}
 </div>
 </form>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(function() {
+            $(document.getElementById('whats-this-link')).on('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                $(document.getElementById('whats-this-text')).slideDown('fast');
+                $(this).hide();
+            })
+        })
+    </script>
 {% endblock %}

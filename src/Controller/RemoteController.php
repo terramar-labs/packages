@@ -13,6 +13,8 @@ use Nice\Application;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Terramar\Packages\Entity\Remote;
 use Terramar\Packages\Event\RemoteEvent;
@@ -28,8 +30,18 @@ class RemoteController
 
         $remotes = $entityManager->getRepository('Terramar\Packages\Entity\Remote')->findAll();
 
+        $error = null;
+        $flashBag = $request->getSession()->getBag('flashes');
+        if ($flashBag instanceof FlashBagInterface) {
+            $errors = $flashBag->get('error');
+            if (count($errors) > 0) {
+                $error = $errors[0];
+            }
+        }
+
         return new Response($app->get('templating')->render('Remote/index.html.twig', [
             'remotes' => $remotes,
+            'last_error' => $error,
         ]));
     }
 
@@ -114,7 +126,7 @@ class RemoteController
         return new RedirectResponse($app->get('router.url_generator')->generate('manage_remotes'));
     }
 
-    public function syncAction(Application $app, $id)
+    public function syncAction(Application $app, Request $request, $id)
     {
         /** @var \Doctrine\ORM\EntityManager $entityManager */
         $entityManager = $app->get('doctrine.orm.entity_manager');
@@ -125,7 +137,15 @@ class RemoteController
 
         /** @var \Terramar\Packages\Helper\SyncHelper $helper */
         $helper = $app->get('packages.helper.sync');
-        $packages = $helper->synchronizePackages($remote);
+        try {
+            $packages = $helper->synchronizePackages($remote);
+        } catch (\RuntimeException $e) {
+            $flashBag = $request->getSession()->getBag('flashes');
+            if ($flashBag instanceof FlashBagInterface) {
+                $flashBag->add('error', $e->getMessage());
+            }
+            return new RedirectResponse($app->get('router.url_generator')->generate('manage_remotes'));
+        }
         foreach ($packages as $package) {
             $entityManager->persist($package);
         }

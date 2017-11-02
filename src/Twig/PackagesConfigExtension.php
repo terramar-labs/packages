@@ -10,7 +10,7 @@
 namespace Terramar\Packages\Twig;
 
 /**
- * The PluginControllerExtension provides helper functions for getting
+ * The PackagesConfigExtension provides helper functions for getting
  * Packages configuration values.
  */
 class PackagesConfigExtension extends \Twig_Extension

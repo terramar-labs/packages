@@ -2977,3 +2977,10 @@ Component: timeline
 .plugin-list dt {
   font-weight: normal;
 }
+
+
+.whats-this-link {
+  line-height: 24px;
+  margin-right: 10px;
+  margin-top: 5px;
+}
