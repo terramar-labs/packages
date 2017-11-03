@@ -96,7 +96,7 @@ Some tips:
   * All pages inherit from `views/base.html.twig`, except for
   * Public landing page views inherit from `views/Default/base.html.twig`.
 * [Composer Components](http://robloach.github.io/component-installer/) are used to manage front-end dependencies. The respective `web/images/`, `web/js/bootstrap.min.js`, and such are symlinks pointing to the real files installed by Composer in `vendor/`.
-* Check [the documentation](http://docs.terramarlabs.com/packages/3.2/getting-started/customizing) for additional information.
+* Check [the documentation](http://docs.terramarlabs.com/packages/3.2/managing-packages/customizing) for additional information.
 
 
 Docker support
