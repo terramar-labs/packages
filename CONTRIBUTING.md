@@ -35,3 +35,7 @@ Other considerations
 ### And don't be afraid to ask for help!
 
 Open an issue if you're not sure about something. We're happy to discuss feature ideas and answer questions.
+
+> The project maintainers welcome any and all questions and feedback. 
+>
+> Open an [Issue](https://github.com/terramar-labs/packages/issues/new) or email contact@terramarlabs.com to get in touch.
