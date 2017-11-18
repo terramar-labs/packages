@@ -16,7 +16,7 @@ Packages version 3 works on a plugin based system based around source code repos
 Installation
 ------------
 
-Pre-requisites:
+Requirements:
  * PHP 5.6 or later
  * [Composer](https://getcomposer.org)
  * Some database platform supported by [Doctrine 2](http://doctrine-project.org) (sqlite works great!)
