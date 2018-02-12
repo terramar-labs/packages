@@ -23,7 +23,7 @@ WORKDIR /app
 COPY --from=0 /usr/bin/composer /usr/bin/composer
 
 RUN apt-get update \
-    && apt-get install -y gettext-base \
+    && apt-get install -y gettext-base procps \
     && rm -r /var/lib/apt/lists/*
 
 COPY . /app
