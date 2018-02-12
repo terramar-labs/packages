@@ -1,0 +1,56 @@
+security:
+  # Username and password to access the web management interface
+  username: '$PACKAGES_USER'
+  password: '$PACKAGES_PASSWORD'
+
+doctrine:
+  mapping: 
+    default:
+      paths: [ '%app.root_dir%/src/Entity', '%app.root_dir%/src/Plugin' ]
+      namespace: Terramar
+    
+  database:
+    # Any Doctrine driver
+    driver: $PACKAGES_PDO_DRIVER
+
+    # Options
+    path: '$PACKAGES_PDO_PATH'
+    host: '$PACKAGES_PDO_HOST'
+    user: '$PACKAGES_PDO_USER'
+    password: '$PACKAGES_PDO_PASSWORD'
+    dbname: '$PACKAGES_PDO_DBNAME'
+
+packages:
+  # Defines the name used in the page titles and landing page.
+  name:     '$PACKAGES_NAME'
+
+  # If set, the homepage will be linked to from the landing page.
+  homepage:      '$PACKAGES_HOMEPAGE'
+
+  # If set, the contact email is displayed on the landing page.
+  contact_email: '$PACKAGES_CONTACT'
+
+  # Needs to be set to generate a dist archive
+  base_path:     '$PACKAGES_BASEPATH'
+
+  # If set, will place a copy of every tagged package version in the web/dist folder
+  archive:       true
+
+  # If set, username and password will be required when attempting to access
+  # Satis-generated files.
+  secure_satis:  $PACKAGES_SECURE
+
+  resque:
+    # Redis server host.
+    host:     '$PACKAGES_REDIS_HOST'
+    # Format as either unix:///path/to/socket (note the 3 slashes) or redis://host
+    #host:     'unix:///var/run/redis.sock'
+    # If Redis is configured to require a password, you can pass it in the host:
+    #host:     'redis://ignored:password@host'
+    # Note that the username portion of the hostname is ignored and can be any value.
+
+    # Redis TCP port. If using a unix socket, this is ignored.
+    port:     $PACKAGES_REDIS_PORT
+
+    # Redis database index where jobs will be stored.
+    database: 4
