@@ -32,5 +32,6 @@ RUN chown -R 1000:1000 /app
 RUN composer install
 
 ENTRYPOINT envsubst < config.yml.tmpl > config.yml \
+            && bin/console resque:worker:start \
             && /entrypoint supervisord
 CMD []
