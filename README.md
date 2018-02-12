@@ -102,9 +102,66 @@ Some tips:
 Docker support
 --------------
 
-Packages comes with an example `docker-compose.yml` that starts an nginx container and a Redis container, ready to get up and running quickly.
+You can find a fully configured instance of Packages on [Docker Hub](https://hub.docker.com/r/mkerix/packages/).
 
-Visit [the documentation](http://docs.terramarlabs.com/packages/3.2/getting-started/docker) to get started.
+### Installation
+
+After booting up the container you still need to create the database schema by running in the container `bin/console orm:schema-tool:create`.
+This container does not apply migrations automatically, you'll have to run the migrations manually in the same fashion when updating the version.
+
+The docker-compose file in this repository is great for local development use, but in production you should consider the following setup:
+
+```yml
+version: '2'
+services:
+  packages:
+    image: mkerix/packages
+    environment:
+      PACKAGES_NAME: Name
+      PACKAGES_HOMEPAGE: Homepage
+      PACKAGES_CONTACT: contact@example.com
+      PACKAGES_BASEPATH: https://satis.example.com
+      PACKAGES_USER: user
+      PACKAGES_PASSWORD: password
+      PACKAGES_PDO_PATH: '%app.root_dir%/database/database.sqlite'
+    volumes:
+    - /host/packages/database:/app/database
+    - /host/packages/satis:/app/satis
+    - /host/packages/ssh:/home/application/.ssh
+  redis:
+    image: redis
+```
+
+Adjust the environment variables as well as the volume links on the host to your liking and then generate a new SSH key and known_hosts file in the ssh folder.
+The generated public key needs to be added to a user with access to your composer repositories.
+This is needed so that Satis can pull the repositories successfully.
+
+### Configuration
+
+The following environment variables can optionally be used to configure your instance.
+
+#### Customization
+- `PACKAGES_NAME` - instance name
+- `PACKAGES_HOMEPAGE` - instance homepage link
+- `PACKAGES_CONTACT` - contact mail
+- `PACKAGES_BASEPATH` - full base URL to the instance
+
+#### Security
+- `PACKAGES_SECURE` - whether Satis should be secured too or not
+- `PACKAGES_USER` - username
+- `PACKAGES_PASSWORD` - password
+
+#### Database
+- `PACKAGES_PDO_DRIVER` - pdo driver
+- `PACKAGES_PDO_PATH` - path to the database file, e.g. for sqlite
+- `PACKAGES_PDO_HOST` - database host
+- `PACKAGES_PDO_USER` - database user
+- `PACKAGES_PDO_PASSWORD` - database password
+- `PACKAGES_PDO_DBNAME` - database name
+- `PACKAGES_REDIS_HOST` - Redis host
+- `PACKAGES_REDIS_PORT` - Redis port
+
+Visit [the documentation](http://docs.terramarlabs.com/packages/3.2/getting-started/docker) to learn more.
 
 Troubleshooting
 ---------------
@@ -130,5 +187,9 @@ Troubleshooting
 3. Check the Resque logs to see if Resque is working properly.
   ```bash
   tail -f logs/resque.log
+  ```
+4. If running in Docker make sure that all files belong to the application user. Change the ownership from within the container:
+  ```bash
+  chown -R application:application /app
   ```
   
