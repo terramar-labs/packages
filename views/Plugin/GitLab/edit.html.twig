@@ -16,6 +16,11 @@
     <label for="token">Token</label>
     <input type="text" name="gitlab_token" value="{{ config.token }}" placeholder="Enter Auth Token" id="gitlab_token" class="form-control" required>
   </div>
+  <div class="form-group">
+    <label for="token">Allowed paths</label>
+    <small>Enter a comma list of allowed pathes to sync, empty field disable this feature</small>
+    <input type="text" name="gitlab_allowedPaths" value="{{ config.allowedPaths }}" placeholder="Enter a comma list of allowed pathes to sync" id="gitlab_allowed_paths" class="form-control">
+  </div>
 {% endblock %}
 
 {% block javascripts %}

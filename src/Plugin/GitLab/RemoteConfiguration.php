@@ -47,6 +47,11 @@ class RemoteConfiguration
     private $remote;
 
     /**
+     * @ORM\Column(name="allowed_paths", type="text", nullable=true)
+     */
+    private $allowedPaths;
+
+    /**
      * @param mixed $enabled
      */
     public function setEnabled($enabled)
@@ -116,5 +121,21 @@ class RemoteConfiguration
     public function setToken($token)
     {
         $this->token = (string)$token;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAllowedPaths()
+    {
+        return $this->allowedPaths;
+    }
+
+    /**
+     * @param mixed $allowedPaths
+     */
+    public function setAllowedPaths($allowedPaths)
+    {
+        $this->allowedPaths = $allowedPaths;
     }
 }
