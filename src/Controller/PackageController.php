@@ -47,9 +47,12 @@ class PackageController
             throw new NotFoundHttpException('Unable to locate Package');
         }
 
+        $urlGenerator = $app->get('router.url_generator');
+
         return new Response($app->get('templating')->render('Package/edit.html.twig', [
             'package' => $package,
             'remotes' => $this->getRemotes($entityManager),
+            'webhookUrl' => $urlGenerator->generate('webhook_receive', ['id' => $package->getId()], true)
         ]));
     }
 

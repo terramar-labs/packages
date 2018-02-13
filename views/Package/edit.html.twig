@@ -35,12 +35,6 @@
                         <input type="checkbox" name="enabled" value="1" {% if package.enabled %}checked="checked" {% endif %}id="enabled"> &nbsp; Enabled
                     </label>
                 </div>
-                {% if package.enabled and package.hookExternalId is empty %}
-                <div id="package_error" class="callout callout-danger">
-                    The Package is enabled, but no webhook is installed on the Remote.<br>
-                    <strong>Pushing code will not trigger updates within this application.</strong>
-                </div>
-                {% endif %}
                 <div class="form-group">
                     <label for="fqn">Fully-qualified Name</label>
                     <input type="text" name="fqn" value="{{ package.fqn }}" id="fqn" class="form-control" disabled>
@@ -53,6 +47,23 @@
                         <option value="{{ config.id }}"{% if package.remote is sameas(config) %} selected="selected"{% endif %}>{{ config.name }}</option>
                       {% endfor %}
                     </select>
+                </div>
+
+                <div>
+                    <h4>Webhook</h4>
+                    <div>
+                        {% if package.enabled and package.hookExternalId is empty %}
+                            <div id="package_error" class="callout callout-danger">
+                                The Package is enabled, but no webhook is installed on the Remote.<br>
+                                <strong>Pushing code will not trigger updates within this application.</strong>
+                            </div>
+                       {% else %}
+                            <div id="package_success" class="callout callout-success">
+                                The Package is enabled, and the webhook is installed on the Remote.
+                            </div>
+                       {% endif %}
+                        <p>The webhook URL is: {{ webhookUrl }}</p>
+                    </div>
                 </div>
             </div>
 
