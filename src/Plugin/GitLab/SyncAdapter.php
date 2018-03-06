@@ -66,6 +66,9 @@ class SyncAdapter implements SyncAdapterInterface
      */
     public function synchronizePackages(Remote $remote)
     {
+        $config = $this->getRemoteConfig($remote);
+        $allowedPathes = $config->getAllowedPaths() ? array_map('trim', explode(',', $config->getAllowedPaths())) : [];
+
         /** @var []Package $existingPackages */
         $existingPackages = $this->entityManager->getRepository('Terramar\Packages\Entity\Package')->findBy(['remote' => $remote]);
 
@@ -73,6 +76,9 @@ class SyncAdapter implements SyncAdapterInterface
 
         $packages = [];
         foreach ($projects as $project) {
+            if (!empty($allowedPathes) && !\in_array($project['namespace']['path'], $allowedPathes, true)) {
+                continue;
+            }
             $package = $this->getExistingPackage($existingPackages, $project['id']);
             if ($package === null) {
                 $package = new Package();
