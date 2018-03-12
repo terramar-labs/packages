@@ -105,7 +105,7 @@ class SyncAdapter implements SyncAdapterInterface
     {
         $client = $this->getClient($remote);
 
-        $isAdmin = $client->api('users')->me()['is_admin'];
+        $isAdmin = $client->api('users')->me()['is_admin'] ?? null;
         $projects = [];
         $page = 1;
         while (true) {
