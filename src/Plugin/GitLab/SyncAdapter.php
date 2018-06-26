@@ -18,6 +18,7 @@ use Nice\Router\UrlGeneratorInterface;
 use Terramar\Packages\Entity\Package;
 use Terramar\Packages\Entity\Remote;
 use Terramar\Packages\Helper\SyncAdapterInterface;
+use Doctrine\DBAL\Exception\DatabaseObjectNotFoundException;
 
 class SyncAdapter implements SyncAdapterInterface
 {
@@ -81,11 +82,12 @@ class SyncAdapter implements SyncAdapterInterface
             if (!empty($allowedPathes) && !\in_array($project['namespace']['path'], $allowedPathes, true)) {
                 continue;
             }
-            $package = $this->getExistingPackage($existingPackages, $project['id']);
             if ( ! $this->packageExists($existingPackages, $project['id'])) {
                 $package = new Package();
                 $package->setExternalId($project['id']);
                 $package->setRemote($remote);
+            } else {
+                $package = $this->getExistingPackage($existingPackages, $project['id']);
             }
             $package->setName($project['name']);
             $package->setDescription($project['description']);
@@ -235,6 +237,16 @@ class SyncAdapter implements SyncAdapterInterface
         $client->authenticate($config->getToken(), Client::AUTH_HTTP_TOKEN);
 
         return $client;
+    }
+
+    private function getExistingPackage($existingPackages, $gitlabId)
+    {
+        foreach ($existingPackages as $package) {
+            if ($package->getExternalId() === (string)$gitlabId) {
+                return $package;
+            }
+        }
+        throw new DatabaseObjectNotFoundException("Package is not an existing package in the database. Id: ".$gitlabId);
     }
 
     private function packageExists($existingPackages, $gitlabId)
