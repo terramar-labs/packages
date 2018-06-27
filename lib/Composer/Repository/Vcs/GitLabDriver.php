@@ -119,8 +119,8 @@ class GitLabDriver extends VcsDriver
             }
         }
 
-        $resource = $this->getApiUrl().'/repository/blobs/'.$identifier.'?filepath=' . $file;
-
+        $resource = $this->getApiUrl() . '/repository/files/' . $file . '/raw?ref=' . $identifier;
+        
         try {
             $content = $this->getContents($resource);
         } catch (TransportException $e) {
