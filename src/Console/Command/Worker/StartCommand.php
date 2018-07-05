@@ -48,6 +48,12 @@ class StartCommand extends ContainerAwareCommand
         $env['REDIS_BACKEND'] = $resqueConfig['backend'];
         $env['REDIS_BACKEND_DB'] = $resqueConfig['database'];
 
+        foreach(['HTTPS_PROXY', 'HTTP_PROXY'] as $key) {
+            if($value = getenv($key)) {
+                $env[$key] = $value;
+            }
+        }
+
         $opt = '';
         if (0 !== $m = (int)$input->getOption('memory-limit')) {
             $opt = sprintf('-d memory_limit=%dM', $m);
