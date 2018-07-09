@@ -3,7 +3,7 @@ Packages
 
 > Source code repository management made simple.
 
-[![Build Status](https://img.shields.io/travis/terramar-labs/packages/master.svg?style=flat-square)](https://travis-ci.org/terramar-labs/packages)
+[![Build Status](https://travis-ci.org/terramar-labs/packages.svg?branch=master)](https://travis-ci.org/terramar-labs/packages)
 
 Packages is a PHP 5.6 and 7.x application providing an interface and tools for maintaining a private [Composer](https://getcomposer.org) repository. Packages extends [Satis](https://github.com/composer/satis), adding a web frontend and useful management functionality like GitHub and GitLab integration.
 
