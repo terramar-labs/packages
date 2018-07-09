@@ -29,7 +29,7 @@ use Composer\Util\GitLab;
 class GitLabDriver extends VcsDriver
 {
     private $scheme;
-    private $owner;
+    private $parts;
     private $repository;
 
     /**
@@ -66,7 +66,7 @@ class GitLabDriver extends VcsDriver
      */
     private $isPrivate = true;
 
-    const URL_REGEX = '#^(?:(?P<scheme>https?)://(?P<domain>.+?)/|git@(?P<domain2>[^:]+):)(?P<owner>[^/]+)/(?P<repo>[^/]+?)(?:\.git|/)?$#';
+    const URL_REGEX = '#^(?:(?P<scheme>https?)://(?P<domain>.+?)/|git@(?P<domain2>[^:]+):)(?P<parts>.+)/(?P<repo>[^/]+?)(?:\.git|/)?$#';
 
     /**
      * Extracts information from the repository url.
@@ -83,10 +83,10 @@ class GitLabDriver extends VcsDriver
 
         $this->scheme = !empty($match['scheme']) ? $match['scheme'] : (isset($this->repoConfig['secure-http']) && $this->repoConfig['secure-http'] === false ? 'http' : 'https');
         $this->originUrl = !empty($match['domain']) ? $match['domain'] : $match['domain2'];
-        $this->owner = $match['owner'];
+        $this->parts = $match['parts'];
         $this->repository = preg_replace('#(\.git)$#', '', $match['repo']);
 
-        $this->cache = new Cache($this->io, $this->config->get('cache-repo-dir').'/'.$this->originUrl.'/'.$this->owner.'/'.$this->repository);
+        $this->cache = new Cache($this->io, $this->config->get('cache-repo-dir').'/'.$this->originUrl.'/'.$this->parts.'/'.$this->repository);
 
         $this->fetchProject();
     }
@@ -241,7 +241,7 @@ class GitLabDriver extends VcsDriver
      */
     public function getApiUrl()
     {
-        return $this->scheme.'://'.$this->originUrl.'/api/v4/projects/'.$this->urlEncodeAll($this->owner).'%2F'.$this->urlEncodeAll($this->repository);
+        return $this->scheme.'://'.$this->originUrl.'/api/v4/projects/'.$this->urlEncodeAll($this->parts).'%2F'.$this->urlEncodeAll($this->repository);
     }
 
     /**
@@ -326,12 +326,12 @@ class GitLabDriver extends VcsDriver
      */
     protected function generateSshUrl()
     {
-        return 'git@' . $this->originUrl . ':'.$this->owner.'/'.$this->repository.'.git';
+        return 'git@' . $this->originUrl . ':'.$this->parts.'/'.$this->repository.'.git';
     }
 
     protected function generatePublicUrl()
     {
-        return $this->scheme . $this->originUrl . '/'.$this->owner.'/'.$this->repository.'.git';
+        return $this->scheme . $this->originUrl . '/'.$this->parts.'/'.$this->repository.'.git';
     }
 
     protected function setupGitDriver($url)
@@ -390,7 +390,7 @@ class GitLabDriver extends VcsDriver
                     if (!$this->io->isInteractive()) {
                         return $this->attemptCloneFallback();
                     }
-                    $this->io->writeError('<warning>Failed to download ' . $this->owner . '/' . $this->repository . ':' . $e->getMessage() . '</warning>');
+                    $this->io->writeError('<warning>Failed to download ' . $this->parts . '/' . $this->repository . ':' . $e->getMessage() . '</warning>');
                     $gitLabUtil->authorizeOAuthInteractively($this->scheme, $this->originUrl, 'Your credentials are required to fetch private repository metadata (<info>'.$this->url.'</info>)');
 
                     return parent::getContents($url);
