@@ -166,11 +166,13 @@ class SyncAdapter implements SyncAdapterInterface
                 }
             } catch (\Exception $e) {
 	            // TODO: Log the exception
-	            $package->setHookExternalId('');
-	            $config->setEnabled(false);
 
 	            return false;
-	        }
+	    } finally {
+	            $package->setHookExternalId('');
+	            $config->setEnabled(false);
+	    	
+	    }
         }
 
         return true;
