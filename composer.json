@@ -18,7 +18,7 @@
     "symfony/console": "~2.7",
     "symfony/process": "~2.7",
     "symfony/yaml": "~2.7",
-    "composer/satis": "1.x-dev",
+    "composer/satis": "^1.0",
     "composer/composer": "1.4.3",
     "sami/sami": "~1.4",
     "m4tthumphrey/php-gitlab-api": "^9.4",
