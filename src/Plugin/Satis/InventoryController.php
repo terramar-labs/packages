@@ -88,7 +88,7 @@ class InventoryController extends ContainerAwareController
     {
         $configuration = $this->container->getParameter('packages.configuration');
 
-        $io = new ConsoleIO(new ArgvInput(), new ConsoleOutput(), new HelperSet([]));
+        $io = new ConsoleIO(new ArgvInput([]), new ConsoleOutput(), new HelperSet([]));
         $config = new Config();
         $config->merge([
             'config' => [
