@@ -1,0 +1,43 @@
+{% extends 'Plugin/_box.html.twig' %}
+
+{% set box_type = 'box-warning' %}
+
+{% block title %}Bitbucket{% endblock %}
+
+{% block body %}
+  <div class="form-group" id="bitbucket_plugin">
+    Configure Bitbucket settings for this remote
+  </div>
+  <div class="form-group">
+    <label for="url">Username</label>
+    <input type="text" name="bitbucket_username" placeholder="Enter User or Organization" id="bitbucket_username" class="form-control" required>
+  </div>
+  <div class="form-group">
+    <label for="token">Token</label>
+    <input type="text" name="bitbucket_token" placeholder="Enter Auth Token" id="bitbucket_token" class="form-control" required>
+  </div>
+  <div class="form-group">
+    <label for="account">Account</label>
+    <input type="text" name="bitbucket_account" placeholder="Enter account (container for repositories)" id="bitbucket_account" class="form-control">
+  </div>
+{% endblock %}
+
+{% block javascripts %}
+  <script type="text/javascript">
+    $(function() {
+      var $adapter = $(document.getElementById('adapter'));
+      var $pluginBox = $(document.getElementById('bitbucket_plugin')).closest('.plugin-box');
+      var $required = $('[required]', $pluginBox);
+
+      $adapter.change(function() {
+        if ($(this).val() === 'Bitbucket') {
+          $pluginBox.fadeIn();
+          $required.prop('required', true);
+        } else {
+          $pluginBox.hide();
+          $required.prop('required', false);
+        }
+      }).change();
+    });
+  </script>
+{% endblock %}

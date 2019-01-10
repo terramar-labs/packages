@@ -7,6 +7,7 @@
     "php": ">=5.6.0",
     "ext-pcntl": "*",
     "ext-posix": "*",
+    "ext-json": "*",
     "nice/framework": "~1.1",
     "nice/security": "~1.0",
     "nice/doctrine-orm": "~1.0",
@@ -27,7 +28,8 @@
     "datatables/datatables": "^1.10",
     "twbs/bootstrap": "3.3.7",
     "fortawesome/font-awesome": "^4.7",
-    "components/jquery": "^3.2"
+    "components/jquery": "^3.2",
+    "gentle/bitbucket-api": "^1.1"
   },
   "config": {
     "platform": {
