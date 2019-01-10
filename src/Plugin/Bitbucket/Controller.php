@@ -68,8 +68,8 @@ class Controller
 
         $config->setToken($request->get('bitbucket_token'));
         $config->setUsername($request->get('bitbucket_username'));
-	    $config->setAccount($request->get('bitbucket_account'));
-	    $config->setEnabled($config->getRemote()->isEnabled());
+        $config->setAccount($request->get('bitbucket_account'));
+        $config->setEnabled($config->getRemote()->isEnabled());
 
         $entityManager->persist($config);
 

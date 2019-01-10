@@ -14,52 +14,56 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Terramar\Packages\Event\RemoteEvent;
 use Terramar\Packages\Events;
 
-class RemoteSubscriber implements EventSubscriberInterface {
-	/**
-	 * @var SyncAdapter
-	 */
-	private $adapter;
+class RemoteSubscriber implements EventSubscriberInterface
+{
+    /**
+     * @var SyncAdapter
+     */
+    private $adapter;
 
-	/**
-	 * @var EntityManager
-	 */
-	private $entityManager;
+    /**
+     * @var EntityManager
+     */
+    private $entityManager;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param SyncAdapter $adapter
-	 * @param EntityManager $entityManager
-	 */
-	public function __construct( SyncAdapter $adapter, EntityManager $entityManager ) {
-		$this->adapter       = $adapter;
-		$this->entityManager = $entityManager;
-	}
+    /**
+     * Constructor.
+     *
+     * @param SyncAdapter $adapter
+     * @param EntityManager $entityManager
+     */
+    public function __construct(SyncAdapter $adapter, EntityManager $entityManager)
+    {
+        $this->adapter = $adapter;
+        $this->entityManager = $entityManager;
+    }
 
-	/**
-	 * @return array
-	 */
-	public static function getSubscribedEvents() {
-		return [
-			Events::REMOTE_DISABLE => [ 'onDisableRemote', 255 ],
-		];
-	}
+    /**
+     * @return array
+     */
+    public static function getSubscribedEvents()
+    {
+        return [
+            Events::REMOTE_DISABLE => ['onDisableRemote', 255],
+        ];
+    }
 
-	/**
-	 * @param RemoteEvent $event
-	 */
-	public function onDisableRemote( RemoteEvent $event ) {
-		$remote = $event->getRemote();
-		if ( $remote->getAdapter() !== 'Bitbucket' ) {
-			return;
-		}
+    /**
+     * @param RemoteEvent $event
+     */
+    public function onDisableRemote(RemoteEvent $event)
+    {
+        $remote = $event->getRemote();
+        if ($remote->getAdapter() !== 'Bitbucket') {
+            return;
+        }
 
-		$packages = $this->entityManager->getRepository( 'Terramar\Packages\Entity\Package' )
-		                                ->findBy( [ 'remote' => $remote ] );
+        $packages = $this->entityManager->getRepository('Terramar\Packages\Entity\Package')
+            ->findBy(['remote' => $remote]);
 
-		foreach ( $packages as $package ) {
-			$this->adapter->disableHook( $package );
-			$package->setEnabled( false );
-		}
-	}
+        foreach ($packages as $package) {
+            $this->adapter->disableHook($package);
+            $package->setEnabled(false);
+        }
+    }
 }
