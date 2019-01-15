@@ -31,6 +31,11 @@ COPY ./docker/nginx/vhost.common.d/vhost.common.conf /opt/docker/etc/nginx/vhost
 RUN chown -R 1000:1000 /app
 RUN composer install
 
+RUN mkdir /root/.ssh \
+    && ssh-keyscan -t rsa github.com >> /root/.ssh/known_hosts \
+    && ssh-keyscan -t rsa bitbucket.org >> /root/.ssh/known_hosts \
+    && ssh-keyscan -t rsa gitlab.com >> /root/.ssh/known_hosts
+
 ENTRYPOINT envsubst < config.yml.tmpl > config.yml \
             && bin/console resque:worker:start \
             && /entrypoint supervisord
