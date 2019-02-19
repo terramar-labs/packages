@@ -79,7 +79,7 @@ class SyncAdapter implements SyncAdapterInterface
 
         $packages = [];
         foreach ($projects as $project) {
-            if (!empty($allowedPathes) && !\in_array($project['namespace']['path'], $allowedPathes, true)) {
+            if (!empty($allowedPathes) && !\in_array($project['namespace']['full_path'], $allowedPathes, true)) {
                 continue;
             }
             if ( ! $this->packageExists($existingPackages, $project['id'])) {
