@@ -34,6 +34,7 @@ class Controller
         $config->setToken($request->get('gitlab_token'));
         $config->setUrl($request->get('gitlab_url'));
         $config->setEnabled($remote->isEnabled());
+        $config->setAllowedPaths($request->get('gitlab_allowedPaths'));
 
         $entityManager->persist($config);
 
